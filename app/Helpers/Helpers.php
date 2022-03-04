@@ -10,3 +10,5 @@ enum StatutLivraison: string
 
 
 const DEFAULT_PASSWORD = 'password';
+
+const DEFAULT_TEAM_ID = 1;

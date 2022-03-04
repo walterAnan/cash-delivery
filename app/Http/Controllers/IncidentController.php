@@ -6,6 +6,7 @@ use App\Models\DemandeLivraison;
 use App\Models\Incident;
 use App\Models\Livraison;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class IncidentController extends Controller
@@ -54,7 +55,7 @@ class IncidentController extends Controller
       $incident->demande_livraison_id = $request->demande_livraison_id;
 
        $incident->save();
-        return redirect()->route('incidents.index')->with('success','incident créer successfully!');
+        return redirect()->route('incidents.index')->with('success','incident créé avec succès!');
 
     }
 
@@ -66,7 +67,8 @@ class IncidentController extends Controller
      */
     public function show($id)
     {
-        //
+        $incident = Incident::find($id);
+        return view('incidents.show', compact('incident'));
     }
 
     /**
@@ -77,7 +79,8 @@ class IncidentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $incident= Incident::findOrFail($id);
+        return view('incidents.edit', compact('incident'));
     }
 
     /**
@@ -87,9 +90,16 @@ class IncidentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $incident)
     {
-        //
+        $validatedData = $request->validate([
+            'codeIncident' => 'required',
+            'descriptionIncident' => 'required',
+        ]);
+
+        Incident::where('id', $incident)->update($validatedData);
+
+        return redirect()->route('incidents.index');
     }
 
     /**
@@ -100,7 +110,9 @@ class IncidentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Incident::whereId($id)->delete();
+
+        return redirect()->route('incidents.index')->withSuccess(__('Archivé supprimée avec succès.'));
     }
 
     public function getAllLivraison()

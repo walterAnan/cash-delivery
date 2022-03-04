@@ -9,6 +9,7 @@ use App\Models\Livraison;
 use App\Models\Livreur;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Type\Integer;
 use StatutLivraison;
@@ -20,11 +21,69 @@ class DemandeController extends Controller
      *
      */
     public function index()
+
     {
         $demande_livraisons = DemandeLivraison::all();
-        return view('demandes.index', compact('demande_livraisons'));
+        return view('demandes.index', compact('demande_livraisons',));
     }
 
+
+    public static function nombre_nouvelle_demande(){
+        $nombre_nouvelle_demande = DemandeLivraison::where('statut_livraison', 'INITIEE')->count();
+        return $nombre_nouvelle_demande;
+
+    }
+
+
+    public static function nombreT_nouvelle_demande(){
+        $nombre_nouvelle_demande = DB::table('demande_livraisons')->count();
+        return $nombre_nouvelle_demande;
+
+    }
+
+
+    public static function chiffreAffaires(){
+        $chiffre_affaires = 0;
+        $demandes = DemandeLivraison::withTrashed()->get();
+        foreach ($demandes as $demande){
+           $montant = $demande->montant_livraison;
+           $chiffre_affaires +=$montant;
+
+        }
+
+        return $chiffre_affaires;
+
+    }
+
+
+
+    public static function commission(){
+        $commission = 0;
+        $demandes = DemandeLivraison::withTrashed()->get();
+        foreach ($demandes as $demande){
+            $montant = $demande->commission;
+            $commission +=$montant;
+
+        }
+
+        return $commission;
+
+    }
+
+
+    public static function montantMax(){
+        $montant = [];
+        $i = 0;
+        $demandes = DemandeLivraison::withTrashed()->get();
+        foreach ($demandes as $demande){
+            $i++;
+            $montant = [$demande->montant_livraison];
+
+        }
+        $montant_max = max($montant);
+        return $montant_max;
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -52,9 +111,12 @@ class DemandeController extends Controller
      *
      * @param  int  $id
      */
-    public function show($id)
+    public function show(int $id)
     {
-        $demande_livraisons = DemandeLivraison::findOrFail($id);
+//        dd($id);
+//        $demande_livraisons = DB::table('demande_livraisons')->whereId($id)->first();
+        $demande_livraisons = DemandeLivraison::whereId($id)->first();
+
         return view('demandes.show', compact('demande_livraisons'));
     }
 
@@ -78,10 +140,10 @@ class DemandeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $demandeLivraison)
+    public function update(Request $request, int $id)
     {
 
-        $validatedData = $request->validate([
+         $request->validate([
           'livreur_id' => 'required|exists:livreurs,id',
           'agent_id' => 'required|exists:agent_livreurs,id',
         ]);
@@ -91,14 +153,15 @@ class DemandeController extends Controller
 
 //        dd($demande);
 
-        $livraison = new DemandeLivraison();
-        $livraison->agence_id = $agence->id;
-        $livraison->agent_id = $request->agent_id;
+        $demande_livraison = DemandeLivraison::findOrfail($id);
+        $demande_livraison->livreur_id = $request->livreur_id;
+        $demande_livraison->agent_livreur_id = $request->agent_id;
 
 //        $livraison->user_id = 2;
+        $demande_livraison->statut_livraison = 'EN COURS';
+        $demande_livraison->save();
 
-        $livraison->save();
-        return redirect()->route('livraisons.index')->with('success','Livraison Assignée avec succès!');
+        return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
     }
 
     /**
@@ -108,8 +171,34 @@ class DemandeController extends Controller
      */
     public function destroy($id)
     {
-        Demande::whereId($id)->delete();
+        DemandeLivraison::whereId($id)->delete();
 
         return redirect()->route('demandes.index');
+    }
+
+
+    public function getLivraisonEnCoursLivreur(){
+            global $montantLivreur;
+        $livraisons = DemandeLivraison::where('statut_livraison','En Cours' );
+        foreach ($livraisons as $livraison){
+            $montant = $livraison->montant_livraison;
+            $livreur = $livraisons->livreur_id->livra;
+        }
+    }
+
+
+    public function montantLivraisonEnCours(){
+        $tab = [1,2,3];
+        $col = collect($tab)->sum(function ($t){
+            return $t;
+        });
+        dd($this->montantLivraisonEnCours());
+    }
+
+
+    public function  recherche(){
+        $recherche = $_GET['recherche'];
+        $demandes = DemandeLivraison::where('ref_opreration', 'like', '%'.$recherche.'%')->get();
+        return view('demandes.recherche', compact('demandes'));
     }
 }

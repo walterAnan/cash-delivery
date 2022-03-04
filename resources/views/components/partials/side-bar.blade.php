@@ -18,7 +18,7 @@
             <li class="nav-label" style="font-family: 'Times New Roman'; font-size: large; color:#4a9e04">Les Tables</li>
             <li class="nav-item">
                 <x-nav-link href="{{ route('demandes.index') }}" libelle="Demandes de Livraison" icon="fe-bell">
-                    <span class="badge badge-danger side-badge">2</span>
+                    <span class="badge badge-danger side-badge">{{\App\Http\Controllers\DemandeController::nombre_nouvelle_demande()}}</span>
                 </x-nav-link>
             </li>
 
@@ -32,10 +32,12 @@
                 <x-nav-link href="{{ route('agents.index') }}" libelle="Agents Livreurs" icon="fe-users" >
                 </x-nav-link>
             </li>
+            @admin
             <li class="nav-item">
-                <x-nav-link href="{{route('livraisons.index')}}" libelle="Livraisons" icon="fe-shopping-bag">
+                <x-nav-link href="{{route('admin.users.index')}}" libelle="Utilisateurs" icon="fe-users">
                 </x-nav-link>
             </li>
+            @endadmin
 
             <li class="nav-item">
                 <x-nav-link href="{{route('agences.index') }}" libelle="Agences" icon="fe-home">

@@ -26,31 +26,41 @@
         <div class="col-lg-12">
             <div class="card custom-card">
                 <div class="card-body">
-                    <form action="{{ route('demandes.update', $demandeLivraison) }}" method="POST">
+                    <form action="{{ route('demandes.update', $demande_livraisons) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="">
                             <div class="row">
                                 <div class="col-lg-6 form-group">
+                                    <label class="form-label">Référence de la Livraison: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="montantDemande" placeholder="{{$demande_livraisons->ref_operation}}" readonly="readonly" required type="text">
+                                </div>
+
+                                <div class="col-lg-6 form-group">
+                                    <label class="form-label">Nom du client: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="fraisDemande" placeholder="{{$demande_livraisons->nom_client}}" readonly="readonly" required type="text">
+                                </div>
+
+                                <div class="col-lg-6 form-group">
+                                    <label class="form-label">Nom du Bénéficiaire: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->nom_beneficiaire}}" readonly="readonly" required type="text">
+                                </div>
+
+                                <div class="col-lg-6 form-group">
+                                    <label class="form-label">Adresse de la Livraison: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->adresse_livraison}}" readonly="readonly" required type="text">
+                                </div>
+
+                                <div class="col-lg-6 form-group">
                                     <label class="form-label">Montant de leDemande: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="montantDemande" placeholder="{{$demandeLivraison->montant_livraison}}" readonly="readonly" required type="text">
-                                </div>
-
-                                <div class="col-lg-6 form-group">
-                                    <label class="form-label">Frais de la Demande: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="fraisDemande" placeholder="{{$demandeLivraison->frais_livraison}}" readonly="readonly" required type="text">
-                                </div>
-
-                                <div class="col-lg-6 form-group">
-                                    <label class="form-label">Nombre de Billets de 10000: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demandeLivraison->nombreBillet10000}}" readonly="readonly" required type="text">
+                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->montant_livraison}}" readonly="readonly" required type="text">
                                 </div>
 
                                 @livewire('livreur-agents')
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Statut de la Livraison: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="statut" placeholder="{{$demandeLivraison->statut}}" readonly="readonly" required type="text">
+                                    <input class="form-control" name="statut" placeholder="{{$demande_livraisons->statut_livraison}}" readonly="readonly" required type="text">
                                 </div>
 
 

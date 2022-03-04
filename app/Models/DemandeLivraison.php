@@ -5,22 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DemandeLivraison extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'demande_livraisons';
 
     protected $fillable = [
         'ref_operation',
         'code_agence',
         'nom_client',
+        'prenom_client',
         'tel_client',
         'adresse_livraison',
         'nom_beneficiaire',
+        'prenom_beneficiaire',
         'tel_beneficiaire',
         'montant_livraison',
-        'billet_10000',
-        'billet_5000',
+        'nombreBillet10000',
+        'nombreBillet5000',
         'frais_livraison',
         'commission',
         'voucher',
@@ -32,7 +37,7 @@ class DemandeLivraison extends Model
         'livreur',
         'agent_livreur',
         'statut_livraison',
-        'code_utilisateur'
+        'user_id'
     ];
 
     public function agence():BelongsTo
@@ -47,7 +52,7 @@ class DemandeLivraison extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function liveur(): BelongsTo
+    public function livreur(): BelongsTo
     {
         return $this->belongsTo(Livreur::class);
     }

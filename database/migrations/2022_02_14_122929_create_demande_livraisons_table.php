@@ -40,7 +40,7 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->dateTime('heure_livraison');
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(AgentLivreur::class)->nullable();
-            $table->enum('statut_livraison', ['ASSIGNEE', 'NON_ASSIGNEE', 'EN COURS', 'TERMINE', 'ANNULEE'])->default('NON_ASSIGNEE');
+            $table->enum('statut_livraison', ['INITIEE',  'EN COURS', 'TERMINEE', 'ANNULEE'])->default('INITIEE');
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

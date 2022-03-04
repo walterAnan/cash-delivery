@@ -7,6 +7,8 @@ use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\LivraisonController;
 use App\Http\Controllers\LivreurController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
 use App\Http\Livewire\Users\CreateUser;
 use App\Http\Livewire\Users\EditUser;
 use App\Http\Livewire\Users\ShowUser;
@@ -31,10 +33,14 @@ Route::get('/', function () {
 });
 
 
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/test', function () {
+    return view('test');
+});
 
+
+Route::get('/test1', function (){
+    return view('test');
+});
 
 /**
  * Les routes accessibles uniquement par les administrateurs
@@ -48,17 +54,19 @@ Route::prefix('admin')
         Route::get('/users', Users::class)->name('users.index');
 
         // Route qui accède à la vue permettant de créer un utilisateur
-        Route::get('/users/create', CreateUser::class)->name('users.create');
+        Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
 
         // Route qui accède à la vue affichant les détails d'un utilisateur donné
         Route::get('/users/{user}', ShowUser::class)->name('users.show');
 
         // Route qui accède à la vue permettant d'éditer les infos d'un utilisateur donné
-        Route::get('/users/{user}/edit', EditUser::class)->name('users.edit');
+        Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
 
         Route::get('/users/{user}/update', UpdateUser::class)->name('users.update');
 
-});
+
+
+    });
 
 Route::get('/livraison', function () {
     return view('livraisons.index');
@@ -71,10 +79,16 @@ Route::get('/livraison', function () {
 //Livraison
 
 
+
 Route::group([
     'middleware' => ['auth:sanctum']
 ],
     function(){
+
+        Route::get('/test', function () {
+            return 1;
+        });
+
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
@@ -84,8 +98,9 @@ Route::group([
         ]);
 
         Route::resource('demandes', DemandeController::class)->only([
-            'index', 'show', 'edit', 'create', 'update', 'store', 'destroy'
+            'index', 'show', 'edit', 'create', 'update', 'store', 'destroy', 'recherche'
         ]);
+
 
 
         Route::resource('agences', AgenceController::class);

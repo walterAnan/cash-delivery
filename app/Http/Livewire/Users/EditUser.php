@@ -28,16 +28,17 @@ class EditUser extends Component
         $this->agences = Agence::all();
     }
 
-    public function myFunction()
+    public function updateUser()
     {
-        dd($this->state);
-//        $this->validatedData = Validator::make($this->state, [
-//            'name' => ['required', 'string', 'max:191'],
-//            'email' => ['required', 'email', 'max:191', Rule::unique('users')->ignore($this->user->id)],
-//            'agence_id' => ['required', 'numeric', 'exists:agences,id'],
-//        ])->validate();
+        $this->validatedData = Validator::make($this->state, [
+            'name' => ['required', 'string', 'max:191'],
+            'email' => ['required', 'email', 'max:191', Rule::unique('users')->ignore($this->user->id)],
+            'agence_id' => ['required', 'numeric', 'exists:agences,id'],
+        ])->validate();
 
-//        $this->user->update($this->validatedData);
+//        dd($this->validatedData);
+
+        $this->user->update($this->validatedData);
 
 //        $this->dispatchBrowserEvent('swal:success', [
 //            'type' => 'success',
@@ -45,7 +46,7 @@ class EditUser extends Component
 //            'text' => ''
 //        ]);
 
-//        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index');
     }
 
 
@@ -61,6 +62,6 @@ class EditUser extends Component
     public function render()
     {
 //        dd($this->state);
-        return view('livewire.users.edit-user')->extends('layouts.master');
+        return view('livewire.users.edit-user');
     }
 }

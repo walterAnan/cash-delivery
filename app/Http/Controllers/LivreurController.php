@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Demande;
 use App\Models\Livreur;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -68,7 +69,7 @@ class LivreurController extends Controller
 
         $livreur->save();
 
-        return redirect()->route('livreurs.index')->with('success','Livreur créer successfully!');
+        return redirect()->route('livreurs.index')->with('success','Livreur créé avec succès!');
     }
 
 
@@ -92,6 +93,7 @@ class LivreurController extends Controller
      */
     public function edit($id)
     {
+
         $livreur = Livreur::findOrFail($id);
 
         return view('livreurs.edit', compact('livreur'));
@@ -131,6 +133,8 @@ class LivreurController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Livreur::whereId($id)->delete();
+
+        return redirect()->route('livreurs.index')->withSuccess(__('livreur supprimée avec succès.'));
     }
 }

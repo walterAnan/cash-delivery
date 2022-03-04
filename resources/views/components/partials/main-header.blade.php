@@ -11,17 +11,19 @@
 							<a class="main-header-menu-icon" href="" id="mainSidebarToggle"><span></span></a>
 						</div>
 						<div class="main-header-right">
+                            <form type="get" action="{{url('/recherche')}}">
 							<div class="dropdown d-md-flex header-search">
 								<a class="nav-link icon header-search">
 									<i class="fe fe-search"></i>
 								</a>
 								<div class="dropdown-menu">
 									<div class="main-form-search p-2">
-										<input class="form-control" placeholder="Search" type="search">
+										<input class="form-control" placeholder="Recherche" type="search">
 										<button class="btn"><i class="fe fe-search"></i></button>
 									</div>
 								</div>
 							</div>
+                            </form>
 
                             @admin
                             <!-- Teams Dropdown -->

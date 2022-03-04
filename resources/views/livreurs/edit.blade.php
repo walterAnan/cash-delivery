@@ -74,7 +74,7 @@
 
 
                                 <div class="col-lg-6">
-                                    <button class="btn ripple btn-main-primary btn-block" type="submit">Modifier</button>
+                                    <button class="btn ripple btn-main-primary btn-block" type="submit", style="background-color:#4a9e04">Modifier</button>
                                 </div>
 
                                 <div class="col-lg-6">

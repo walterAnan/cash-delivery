@@ -33,6 +33,7 @@
                                 <th>Email</th>
                                 <th>Agence</th>
                                 <th class="text-center">Actions</th>
+                                <th><a class="btn ripple btn-info" style="background-color: #4a9e04" href="{{route('admin.users.create')}}">Ajouter</a></th>
                             </tr>
                             </thead>
                             <tbody>

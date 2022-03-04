@@ -6,7 +6,7 @@
             <x-slot name="title">{{ $title }}</x-slot>
             <x-slot name="description">
                 <span class="small">
-                    {{ $description }}
+                    {{ $description ?? '' }}
                 </span>
             </x-slot>
         </x-jet-section-title>

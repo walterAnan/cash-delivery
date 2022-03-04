@@ -122,21 +122,19 @@
             <div class="card custom-card">
                 <div class="card-body dash1">
                     <div class="d-flex">
-                        <p class="mb-1 tx-inverse">Nombre Total de livraison</p>
+                        <p class="mb-1 tx-inverse">Nombre de Demande de livraison</p>
                         <div class="ml-auto">
                             <i class="fas fa-chart-line fs-20 text-primary"></i>
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">5</h3>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::nombreT_nouvelle_demande()}}</h3>
                     </div>
+                    <!--
                     <div class="progress mb-1">
                         <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-70p" role="progressbar"></div>
                     </div>
-                    <div class="expansion-label d-flex">
-                        <span class="text-muted">Last Month</span>
-                        <span class="ml-auto"><i class="fas fa-caret-up mr-1 text-success"></i>0.7%</span>
-                    </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -144,43 +142,19 @@
             <div class="card custom-card">
                 <div class="card-body dash1">
                     <div class="d-flex">
-                        <p class="mb-1 tx-inverse">Chiffres d'Affaires</p>
-                        <div class="ml-auto">
-                            <i class="fab fa-rev fs-20 text-secondary"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="dash-25">1200,897 xaf</h3>
-                    </div>
-                    <div class="progress mb-1">
-                        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-60p bg-secondary" role="progressbar"></div>
-                    </div>
-                    <div class="expansion-label d-flex">
-                        <span class="text-muted">Last Month</span>
-                        <span class="ml-auto"><i class="fas fa-caret-down mr-1 text-danger"></i>0.43%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-3 col-lg-6">
-            <div class="card custom-card">
-                <div class="card-body dash1">
-                    <div class="d-flex">
-                        <p class="mb-1 tx-inverse">Le plus grand montant</p>
+                        <p class="mb-1 tx-inverse">Montant Total des Livraisons</p>
                         <div class="ml-auto">
                             <i class="fas fa-dollar-sign fs-20 text-success"></i>
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">11,234 xaf</h3>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::chiffreAffaires()}} F XAF</h3>
                     </div>
+                    <!--
                     <div class="progress mb-1">
-                        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-50p bg-success" role="progressbar"></div>
+                        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-60p bg-secondary" role="progressbar"></div>
                     </div>
-                    <div class="expansion-label d-flex text-muted">
-                        <span class="text-muted">Last Month</span>
-                        <span class="ml-auto"><i class="fas fa-caret-down mr-1 text-danger"></i>1.44%</span>
-                    </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -188,14 +162,36 @@
             <div class="card custom-card">
                 <div class="card-body dash1">
                     <div class="d-flex">
-                        <p class="mb-1 tx-inverse">Profit Total</p>
+                        <p class="mb-1 tx-inverse">Montant Total des Commissions</p>
+                        <div class="ml-auto">
+                            <i class="fas fa-dollar-sign fs-20 text-success"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::commission()}}F XAF</h3>
+                    </div>
+                    <!--
+                    <div class="progress mb-1">
+                        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-50p bg-success" role="progressbar"></div>
+                    </div>
+                    -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 col-lg-6">
+            <div class="card custom-card">
+                <div class="card-body dash1">
+                    <div class="d-flex">
+                        <p class="mb-1 tx-inverse">Le plus gros montant </p>
                         <div class="ml-auto">
                             <i class="fas fa-signal fs-20 text-info"></i>
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">789 xaf</h3>
+                        <h3 class="dash-25"> {{\App\Http\Controllers\DemandeController::montantMax()}}xaf</h3>
                     </div>
+                    <!--
                     <div class="progress mb-1">
                         <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-40p bg-info" role="progressbar"></div>
                     </div>
@@ -203,6 +199,7 @@
                         <span class="text-muted">Last Month</span>
                         <span class="ml-auto"><i class="fas fa-caret-up mr-1 text-success"></i>0.9%</span>
                     </div>
+                    -->
                 </div>
             </div>
         </div>

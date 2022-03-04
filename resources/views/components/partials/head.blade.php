@@ -39,6 +39,12 @@
 		<!---Sidemenu css-->
 		<link href="{{ URL::asset('assets/plugins/sidemenu/sidemenu.css')}}" rel="stylesheet">
 
+        <link href="{{ URL::asset('assets/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+        <link href="{{ URL::asset('assets/plugins/datatable/responsivebootstrap4.min.css')}}" rel="stylesheet">
+        <link href="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.bootstrap4.min.css')}}" rel="stylesheet">
+        <!---Select2 css-->
+        <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+
         @livewireStyles
 
         <!-- Scripts -->

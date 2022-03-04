@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agence;
 use App\Models\StatutAgence;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Integer;
 
@@ -17,6 +18,7 @@ class AgenceController extends Controller
     public function index()
     {
         $agences = Agence::all();
+
         return view('agences.index', compact('agences'));
     }
 
@@ -52,7 +54,7 @@ class AgenceController extends Controller
 //
 
         $agence->save();
-        return redirect()->route('agences.index')->with('success','demande created successfully!');
+        return redirect()->route('agences.index')->with('success','Agence créée avec succès!');
     }
 
     /**
@@ -74,6 +76,7 @@ class AgenceController extends Controller
      */
     public function edit($id)
     {
+
         $agence = Agence::find($id);
         return view('agences.edit', compact('agence'));
     }
@@ -103,10 +106,9 @@ class AgenceController extends Controller
      */
     public function destroy($id)
     {
-//        $id->agence->destroy();
-//
-//        return redirect()->route('agences.index')
-//            ->withSuccess(__('Agences deleted successfully.'));
+        Agence::whereId($id)->delete();
+
+       return redirect()->route('agences.index')->withSuccess(__('Agence supprimée avec succès.'));
     }
 
 

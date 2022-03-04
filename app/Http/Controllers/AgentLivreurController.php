@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AgentLivreur;
 use App\Models\Livreur;
+use App\Models\StatutAgentLivreur;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 class AgentLivreurController extends Controller
 {
@@ -27,7 +29,8 @@ class AgentLivreurController extends Controller
     public function create()
     {
         $livreurs = $this->getAllLivreur();
-        return view('agent_livreurs.create', compact('livreurs'));
+        $statuts = $this->getstatut();
+        return view('agent_livreurs.create', compact('livreurs', 'statuts'))->with('success','Item created successfully!');
     }
 
     /**
@@ -47,9 +50,11 @@ class AgentLivreurController extends Controller
             'adresseAgent' => 'required',
             'cautionAgent' => 'required',
             'livreur_id' => 'required',
+            'statut_id'=>'required',
             //'statut_agence_id' => 'required|exists:statut_agences,id',
         ]);
         $agent = new AgentLivreur();
+
         $agent->codeAgent = 'AGT_' . Str::random(8);
         $agent->nomAgent = $request->nomAgent;
         $agent->prenomAgent = $request->prenomAgent;
@@ -57,6 +62,7 @@ class AgentLivreurController extends Controller
         $agent->adresseAgent = $request->adresseAgent;
         $agent->montantCautionAgent = $request->cautionAgent;
         $agent->livreur_id = $request->livreur_id;
+        $agent->statut_agent_livreur_id = $request->statut_id;
         //$agent->statut_agence_id = $request->statut_agence_id;
 
 
@@ -86,7 +92,8 @@ class AgentLivreurController extends Controller
      */
     public function edit($id)
     {
-        //
+        $agent = AgentLivreur::findOrFail($id);
+        return view('agent_livreurs.edit', compact('agent'));
     }
 
     /**
@@ -96,9 +103,16 @@ class AgentLivreurController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $agent)
     {
-        //
+        $validatedData = $request->validate([
+            'nomAgent' => 'required',
+            'prenomAgent' => 'required',
+            'adresseAgence' => 'required',
+        ]);
+        AgentLivreur::where('id', $agent)->update($validatedData);
+
+        return redirect()->route('agents.index');
     }
 
     /**
@@ -109,10 +123,19 @@ class AgentLivreurController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AgentLivreur::whereId($id)->delete();
+        return redirect()->route('agents.index')->withSuccess(__('Agents supprimée avec succès.'));
     }
 
     public function getAllLivreur(){
         return Livreur::all();
     }
+
+
+    public function getstatut(){
+        return StatutAgentLivreur::all();
+    }
+
+
+
 }

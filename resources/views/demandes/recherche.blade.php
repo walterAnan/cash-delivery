@@ -102,7 +102,7 @@
                                         <h2 class="card-title mb-1" style="font-family: 'Times New Roman'; font-size: x-large;">Liste des demandes de livraison</h2>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="dataTable my-datatable table table-hover mg-b-0 table table-striped">
+                                        <table class="table table-hover mg-b-0 table table-striped">
                                             <thead style="size: A3">
                                             <tr>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Code</th>
@@ -180,6 +180,7 @@
                                             </tbody>
 
                                         </table>
+                                        {{$demande_livraisons->links()}}
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +195,7 @@
     <!-- End Row -->
 
 
-</div>
-</div>
+    </div>
+    </div>
 
 @endsection

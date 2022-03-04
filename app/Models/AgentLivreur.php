@@ -18,7 +18,7 @@ class AgentLivreur extends Model
         'prenomAgent',
         'telephoneAgent',
         'adresseAgent',
-        'statutAgent',
+        'statut_agent_livreur_id',
         'soldeNetAgent',
         'montantCautionAgent',
         'soldeNetAgent',

@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="col-lg-6 form-group">
                                         <label class="form-label">Agence ID: <span class="tx-danger">*</span></label>
-                                        <input class="form-control" name="agence_id" placeholder="Agence" required type="tel">
+                                        <input class="form-control" name="agence_id" placeholder="Agence" required type="number">
                                     </div>
                                 </div>
                                 <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>

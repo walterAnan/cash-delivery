@@ -76,3 +76,26 @@
         <!-- Sweet-Alert js-->
         <script src="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
         <script src="{{ URL::asset('assets/plugins/sweet-alert/dark-jquery.sweet-alert.js')}}"></script>
+
+        <!-- Data Table js -->
+        <script src="{{ URL::asset('assets/plugins/datatable/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/dataTables.bootstrap4.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/js/table-data.js')}}"></script>
+        <script>
+            $(document).ready(function() {
+                $('.my-datatable').DataTable( {
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json'
+                    }
+                } );
+            } )
+        </script>
+        <script src="{{ URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/dataTables.buttons.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.bootstrap4.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/jszip.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/pdfmake.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/vfs_fonts.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.html5.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.print.min.js')}}"></script>
+        <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.colVis.min.js')}}"></script>
