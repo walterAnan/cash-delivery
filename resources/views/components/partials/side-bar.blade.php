@@ -50,6 +50,11 @@
             </li>
 
             <li class="nav-item">
+                <x-nav-link href="{{route('incidents.index') }}" libelle="Outils" icon="fe-">
+                </x-nav-link>
+            </li>
+
+            <li class="nav-item">
             <li class="nav-label" style="font-family: 'Times New Roman'; font-size: large;color: #4a9e04">Les Stats</li>
                 <x-dropdown>
                     <x-slot name="entete">

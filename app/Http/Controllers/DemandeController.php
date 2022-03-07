@@ -201,4 +201,24 @@ class DemandeController extends Controller
         $demandes = DemandeLivraison::where('ref_opreration', 'like', '%'.$recherche.'%')->get();
         return view('demandes.recherche', compact('demandes'));
     }
+
+
+    public function sommeLivraisons($id){
+        $montantTotalLivraison = 0;
+       $livraisons = DemandeLivraison::where('livreur_id', $id)->where('statut_livraison','EN COURS')->get();
+       foreach ($livraisons as $livraison){
+           $montant = $livraison->montant_livraison;
+           $montantTotalLivraison +=$montant;
+           return $montantTotalLivraison;
+       }
+    }
+
+    public function caution($id){
+        $livreur = Livreur::where('$id', $id);
+        $caution = $livreur->cautionLivreur;
+        return $caution;
+    }
+    public function montantDemandeEnCours(){
+
+    }
 }
