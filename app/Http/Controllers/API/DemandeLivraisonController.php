@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\StatutDemande;
 use App\Http\Controllers\Controller;
 use App\Models\DemandeLivraison;
 use Illuminate\Http\Request;
@@ -179,7 +180,7 @@ class DemandeLivraisonController extends Controller
         $livraison = DemandeLivraison::find($request->id);
 
         if($livraison) {
-            $livraison->statut_livraison = "EN COURS";
+            $livraison->statut_livraison = StatutDemande::ENCOURS;
             $livraison->save();
             return Response()->json([
                 'statut'=>'OK',
@@ -197,7 +198,7 @@ class DemandeLivraisonController extends Controller
 
 
     public function historiqueLivraison(Request $id){
-        $historiqueLivraison = DemandeLivraison::where('agent_livreur_id', $id->agent_livreur_id)->where('statut_livraison', 'like', 'TERMINEE')->get();
+        $historiqueLivraison = DemandeLivraison::where('agent_livreur_id', $id->agent_livreur_id)->where('statut_livraison', StatutDemande::EFFECTUEE)->get();
         if ($historiqueLivraison){
             return Response()->json([
                 'status'=>'OK',

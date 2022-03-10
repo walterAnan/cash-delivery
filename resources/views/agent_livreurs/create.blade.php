@@ -60,16 +60,16 @@
                                     </div>
 
 
-                                    <div class="col-lg form-group">
-                                        <label class="form-label">Statut de l'Agent Livreur: <span class="tx-danger">*</span></label>
-                                        <select class="form-control select2" name="statut_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
-                                            <option label="Choose one">
-                                            </option>
-                                            @foreach($statuts as $statut)
-                                                <option value="{{ $statut->id }}">{{ $statut->libelle }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+{{--                                    <div class="col-lg form-group">--}}
+{{--                                       <label class="form-label">Statut de l'Agent Livreur: <span class="tx-danger">*</span></label>--}}
+{{--                                        <select class="form-control select2" name="statut_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>--}}
+{{--                                            <option label="Choose one">--}}
+{{--                                            </option>--}}
+{{--                                            @foreach($statuts as $statut)--}}
+{{--                                                <option value="{{ $statut->id }}">{{ $statut->libelle }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                    </div>--}}
 
 
 
@@ -83,8 +83,15 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+
+                                <div class="col-lg-6">
                                 <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="{{ route('agents.index') }}" type="buttton" class="btn ripple btn-danger btn-block">Annuler</a>
+                                </div>
+                                </div>
+
                             </div>
                         </form>
                     </div>

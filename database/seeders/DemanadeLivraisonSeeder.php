@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\StatutDemande;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -40,7 +41,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>'EN COURS',
+                'statut_livraison'=> StatutDemande::ENCOURS->value,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -69,7 +70,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>'TERMINEE',
+                'statut_livraison'=>StatutDemande::EFFECTUEE,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -98,7 +99,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>'TERMINEE',
+                'statut_livraison'=>StatutDemande::EFFECTUEE,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -126,7 +127,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>'EN COURS',
+                'statut_livraison'=>StatutDemande::ENCOURS,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -155,7 +156,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>'INITIEE',
+                'statut_livraison'=>StatutDemande::INITIEE,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),

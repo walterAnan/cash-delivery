@@ -15,7 +15,7 @@
                     <i class="fe fe-external-link"></i> Export <i class="fas fa-caret-down ml-1"></i>
                 </a>
                 <div  class="dropdown-menu tx-13">
-                    <a class="dropdown-item" href="#"><i class="far fa-file-pdf mr-2"></i>Export as Pdf</a>
+                    <a class="dropdown-item" href="{{ route('demandes.create') }}"><i class="far fa-file-pdf mr-2"></i>Export as Pdf</a>
                     <a class="dropdown-item" href="#"><i class="far fa-image mr-2"></i>Export as Image</a>
                     <a class="dropdown-item" href="#"><i class="far fa-file-excel mr-2"></i>Export as Excel</a>
                 </div>

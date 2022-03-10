@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatutAgent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,7 +28,7 @@ class AgentLivreur extends Model
         'moyensdedeplacement_id',
     ];
 
-    public function livreurs():BelongsTo
+    public function livreur():BelongsTo
     {
         return $this->belongsTo(Livreur::class, 'livreur_id', 'id');
     }
@@ -47,4 +48,7 @@ class AgentLivreur extends Model
     {
         return $this->hasMany(MoyensDeDeplacement::class);
     }
+    protected $casts = [
+        'statut_agent_livreur_id'=>StatutAgent::class,
+    ];
 }

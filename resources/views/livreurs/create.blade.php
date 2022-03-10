@@ -74,8 +74,15 @@
                                         <label class="form-label">Agence ID: <span class="tx-danger">*</span></label>
                                         <input class="form-control" name="agence_id" placeholder="Agence" required type="number">
                                     </div>
+                                    <div class="col-lg-6">
+                                        <a href="{{ route('incidents.index') }}" type="buttton" class="btn ripple btn-danger btn-block">Annuler</a>
+                                    </div>
+
+                                <div class="col-lg-6">
+                                    <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
                                 </div>
-                                <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
+
+                                </div>
                             </div>
                         </form>
                     </div>

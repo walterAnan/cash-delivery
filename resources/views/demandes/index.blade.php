@@ -124,18 +124,29 @@
                                                     <td>{{ $demandeLivraison->montant_livraison }}</td>
                                                     <td>{{ $demandeLivraison->nom_client }}</td>
                                                     <td>{{ $demandeLivraison->nom_beneficiaire }}</td>
-                                                    <td>{{ $demandeLivraison->statut_livraison }}</td>
                                                     <td class="text-center">
-                                                        <div class="flex items-center justify-between">
-                                                            <a href="{{ route('demandes.show', $demandeLivraison->id) }}" class="btn badge-primary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                                Détails
+                                                        <span class="badge badge-pill {{ badgeColor($demandeLivraison->statut_livraison) }}">
+                                                            {{ $demandeLivraison->statut_livraison->value }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="d-flex align-items-center justify-content-between px-5">
+                                                            <a href="{{ route('demandes.show', $demandeLivraison->id) }}" title="Détails">
+                                                                <i class="fas fa-bars "></i>
                                                             </a>
-                                                            <a href="{{ route('demandes.edit', $demandeLivraison->id) }}" class="btn badge-secondary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border-radius: 2px; border: 0.5px solid #555555; height: 1px" >
-                                                                Assigner
+                                                            @if($demandeLivraison->statut_livraison == \App\Enums\StatutDemande::INITIEE)
+                                                                <a href="{{ route('demandes.edit', $demandeLivraison->id) }}" title="Assigner">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </a>
+                                                            @else
+                                                                <a role="link" aria-disabled="true">
+                                                                    <i class="fas fa-edit" style="color: #4b4f56"></i>
+                                                                </a>
+                                                            @endif
+                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                                <i class="fas fa-archive"></i>
                                                             </a>
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deletedata" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                                Archiver
-                                                            </button>
+
 
                                                             <!-- The Modal -->
                                                             <div class="modal" id="deletedata">

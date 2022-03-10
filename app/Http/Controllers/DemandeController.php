@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatutDemande;
 use App\Models\AgentLivreur;
 use App\Models\Demande;
 use App\Models\DemandeLivraison;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Type\Integer;
 use StatutLivraison;
+use PDF;
 
 class DemandeController extends Controller
 {
@@ -24,12 +26,13 @@ class DemandeController extends Controller
 
     {
         $demande_livraisons = DemandeLivraison::all();
-        return view('demandes.index', compact('demande_livraisons',));
+
+        return view('demandes.index', compact('demande_livraisons'));
     }
 
 
     public static function nombre_nouvelle_demande(){
-        $nombre_nouvelle_demande = DemandeLivraison::where('statut_livraison', 'INITIEE')->count();
+        $nombre_nouvelle_demande = DemandeLivraison::where('statut_livraison', StatutDemande::INITIEE)->count();
         return $nombre_nouvelle_demande;
 
     }
@@ -91,8 +94,18 @@ class DemandeController extends Controller
      */
     public function create()
     {
-        //
+        $demande_livraisons = DemandeLivraison::all();
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y'),
+            'demande_livraisons'=>$demande_livraisons
+        ];
+
+        $pdf = PDF::loadView('myPDF', $data);
+
+        return $pdf->download('dash.pdf');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -115,7 +128,10 @@ class DemandeController extends Controller
     {
 //        dd($id);
 //        $demande_livraisons = DB::table('demande_livraisons')->whereId($id)->first();
+
         $demande_livraisons = DemandeLivraison::whereId($id)->first();
+
+
 
         return view('demandes.show', compact('demande_livraisons'));
     }
@@ -127,9 +143,12 @@ class DemandeController extends Controller
      */
     public function edit($id)
     {
+        $id_demandes = [];
+
         $demande_livraisons = DemandeLivraison::findOrFail($id);
 
-        return view('demandes.edit', compact('demande_livraisons'));
+        $id_demandes[] = DemandeLivraison::all()->map->only(['id']);
+        return view('demandes.edit', compact('demande_livraisons', 'id_demandes'));
 
     }
 
@@ -158,7 +177,7 @@ class DemandeController extends Controller
         $demande_livraison->agent_livreur_id = $request->agent_id;
 
 //        $livraison->user_id = 2;
-        $demande_livraison->statut_livraison = 'EN COURS';
+        $demande_livraison->statut_livraison = StatutDemande::ENCOURS;
         $demande_livraison->save();
 
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
@@ -179,7 +198,7 @@ class DemandeController extends Controller
 
     public function getLivraisonEnCoursLivreur(){
             global $montantLivreur;
-        $livraisons = DemandeLivraison::where('statut_livraison','En Cours' );
+        $livraisons = DemandeLivraison::where('statut_livraison', StatutDemande::ENCOURS);
         foreach ($livraisons as $livraison){
             $montant = $livraison->montant_livraison;
             $livreur = $livraisons->livreur_id->livra;
@@ -203,22 +222,5 @@ class DemandeController extends Controller
     }
 
 
-    public function sommeLivraisons($id){
-        $montantTotalLivraison = 0;
-       $livraisons = DemandeLivraison::where('livreur_id', $id)->where('statut_livraison','EN COURS')->get();
-       foreach ($livraisons as $livraison){
-           $montant = $livraison->montant_livraison;
-           $montantTotalLivraison +=$montant;
-           return $montantTotalLivraison;
-       }
-    }
 
-    public function caution($id){
-        $livreur = Livreur::where('$id', $id);
-        $caution = $livreur->cautionLivreur;
-        return $caution;
-    }
-    public function montantDemandeEnCours(){
-
-    }
 }

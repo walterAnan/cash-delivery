@@ -16,9 +16,12 @@
                 @if(is_null($selectedLivreur)) disabled @endif>
             <option label="Choose one">
             </option>
-            @foreach($agents as $agent)
-                <option value="{{ $agent->id }}">{{ $agent->nomAgent . ' ' . $agent->prenomAgent }}</option>
-            @endforeach
+
+            @isset($agents)
+                @foreach($agents as $agent)
+                    <option value="{{ $agent->id }}">{{ $agent->nomAgent . ' ' . $agent->prenomAgent }}</option>
+                @endforeach
+            @endisset
         </select>
     </div>
 </div>

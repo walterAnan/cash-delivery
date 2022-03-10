@@ -56,7 +56,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Statut de l'Agent Livreur</div>
-                                        <div class="col-sm-4">{{$agent->statut_agent_livreur_id}}</div>
+                                        <div class="col-sm-4">{{$agent->statut_agent_livreur_id->name}}</div>
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Le Solde de l'Agent Livreur</div>
@@ -68,7 +68,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">ID du Livreur auquel L'Agent est rattaché</div>
-                                        <div class="col-sm-4">{{$agent->livreur_id}}</div>
+                                        <div class="col-sm-4">{{$agent->livreur->raisonSociale}}</div>
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Contrôle Sur ces Livraisons</div>

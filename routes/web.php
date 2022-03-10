@@ -6,6 +6,7 @@ use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\LivraisonController;
 use App\Http\Controllers\LivreurController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersController;
@@ -93,8 +94,10 @@ Route::group([
             return view('dashboard');
         })->name('dashboard');
 
+
+
         Route::resource('livraisons', LivraisonController::class)->only([
-            'index', 'show', 'edit', 'create', 'update', 'store', 'destroy'
+            'index', 'show', 'edit', 'create', 'update', 'store', 'destroy', 'generate'
         ]);
 
         Route::resource('demandes', DemandeController::class)->only([
@@ -104,6 +107,7 @@ Route::group([
 
 
         Route::resource('agences', AgenceController::class);
+        Route::resource('generate', PDFController::class);
 
 //        Route::as('agences.')
 //            ->controller(AgenceController::class)

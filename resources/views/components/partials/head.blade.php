@@ -5,7 +5,7 @@
 		<title>Cash Delivery</title>
 
 		<!---Fontawesome css-->
-		<link href="{{ URL::asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
+		<link href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">
 
 		<!---Ionicons css-->
 		<link href="{{ URL::asset('assets/plugins/ionicons/css/ionicons.min.css')}}" rel="stylesheet">

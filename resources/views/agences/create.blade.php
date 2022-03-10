@@ -62,8 +62,8 @@
 {{--                                </div>--}}
                                     </div>
 
-                                    <div class="col-lg form-group">
-                                        <select class="form-control select2" name="statut_agence_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
+                                    <div class="col-lg-12 form-group">
+                                        <select class="form-control select" name="statut_agence_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
                                             <option label="Choose one">
                                             </option>
                                             @foreach($status as $statut)
@@ -71,9 +71,15 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
+                                    </div>
 
+                                <div class="col-lg-6">
+                                    <a href="{{ route('incidents.index') }}" type="buttton" class="btn ripple btn-danger btn-block">Annuler</a>
                                 </div>
-                                <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
+
+                            </div>
                             </div>
                         </form>
                     </div>

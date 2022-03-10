@@ -73,19 +73,21 @@
                                                 <th scope="row">{{ ($loop->index + 1) }}</th>
                                                 <td>{{ $agence->codeAgence }}</td>
                                                 <td>{{ $agence->nomAgence }}</td>
+
                                                 <td class="text-center"><span class="badge badge-pill badge-{{ $agence->statutColor }}">{{ $agence->statut->libelle }}</span></td>
                                                 <td class="text-center">
-                                                    <div class="flex items-center justify-between">
-                                                        <a href="{{ route('agences.show', $agence->id) }}" class="btn badge-primary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                            Voir
+                                                    <div class="d-flex align-items-center justify-content-between px-1">
+                                                        <a href="{{ route('agences.show', $agence->id) }}" >
+                                                            <i class="fas fa-bars "></i>
                                                         </a>
-                                                        <a href="{{ route('agences.edit', $agence->id) }}" class="btn badge-secondary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                            Modifier</a>
+                                                        <a href="{{ route('agences.edit', $agence->id) }}" >
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
 
                                                         <!-- Button to Open the Modal -->
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deletedata" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                            Supprimer
-                                                        </button>
+                                                        <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                            <i class="fas fa-archive"></i>
+                                                        </a>
 
                                                         <!-- The Modal -->
                                                         <div class="modal" id="deletedata">

@@ -73,16 +73,16 @@
                                                     <td>{{ $livreur->emailLivreur}}</td>
                                                     <td>{{ $livreur->cautionLivreur }}</td>
                                                     <td class="text-center">
-                                                        <div class="flex items-center justify-between">
-                                                            <a href="{{ route('livreurs.show', $livreur->id) }}" class="btn badge-primary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                                Détails
+                                                        <div class="d-flex align-items-center justify-content-between px-5">
+                                                            <a href="{{ route('livreurs.show', $livreur->id) }}">
+                                                                <i class="fas fa-bars "></i>
                                                             </a>
-                                                            <a href="{{ route('livreurs.edit', $livreur->id) }}" class="btn badge-primary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                                Modifier
+                                                            <a href="{{ route('livreurs.edit', $livreur->id) }}">
+                                                                <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deletedata" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">
-                                                                Supprimer
-                                                            </button>
+                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                                <i class="fas fa-archive"></i>
+                                                            </a>
 
                                                             <!-- The Modal -->
                                                             <div class="modal" id="deletedata">

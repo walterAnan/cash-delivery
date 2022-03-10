@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatutAgent;
 use App\Models\ControlLivraison;
 use App\Models\Livreur;
 use App\Models\MoyensDeDeplacement;
@@ -31,7 +32,7 @@ class CreateAgentLivreursTable extends Migration
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(ControlLivraison::class)->nullable();
             $table->foreignIdFor(MoyensDeDeplacement::class)->nullable();
-            $table->foreignIdFor(statutAgentLivreur::class)->nullable();
+            $table->foreignIdFor(statutAgentLivreur::class)->default(StatutAgent::DISPONIBLE->value);
             $table->timestamps();
         });
     }

@@ -47,8 +47,13 @@
                                         @endforeach
                                     </select>
                                     </div>
+                                <div class="col-lg-6">
+                                    <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
                                 </div>
-                                <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>
+                                <div class="col-lg-6">
+                                    <a href="{{ route('incidents.index') }}" type="buttton" class="btn ripple btn-danger btn-block">Annuler</a>
+                                </div>
+                                </div>
                             </div>
                         </form>
                     </div>

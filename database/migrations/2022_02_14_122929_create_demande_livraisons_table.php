@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\StatutDemande;
 use App\Models\AgentLivreur;
 use App\Models\Livreur;
 use App\Models\User;
@@ -18,7 +19,7 @@ class CreateDemandeLivraisonsTable extends Migration
     {
         Schema::create('demande_livraisons', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_operation');
+            $table->string('ref_operation')->unique();
             $table->char('code_agence',10);
             $table->string('nom_client');
             $table->string('prenom_client');
@@ -31,7 +32,7 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->unsignedInteger('nombreBillet10000');
             $table->unsignedInteger('nombreBillet5000');
             $table->unsignedInteger('frais_livraison');
-            $table->unsignedInteger('voucher');
+            $table->string('voucher', 5);
             $table->unsignedBigInteger('commission');
             $table->string('lien_gps');
             $table->dateTime('date_reception');
@@ -40,7 +41,7 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->dateTime('heure_livraison');
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(AgentLivreur::class)->nullable();
-            $table->enum('statut_livraison', ['INITIEE',  'EN COURS', 'TERMINEE', 'ANNULEE'])->default('INITIEE');
+            $table->string('statut_livraison')->default(StatutDemande::INITIEE->value);
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

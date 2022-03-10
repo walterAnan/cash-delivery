@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\StatutAgent;
 use App\Http\Controllers\Controller;
 use App\Models\AgentLivreur;
 use App\Models\DemandeLivraison;
@@ -124,11 +125,31 @@ class AgentLivreurController extends Controller
         ]);
     }
 
-    public function updateStatus(Request $request){
+    public function updateStatusDispo(Request $request){
         $agent = AgentLivreur::find($request->agent_id);
 
         if($agent) {
-            $agent->statut_agent_livreur_id = 1;
+            $agent->statut_agent_livreur_id = StatutAgent::DISPONIBLE;
+            $agent->save();
+            return Response()->json([
+                'statut'=>'OK',
+                'message_title'=>'Succès',
+                'message_content'=>'modifié avec succès'
+            ] ,200);
+        }
+        return Response()->json([
+            'status'=>'NON_OK',
+            'message_tilte'=>'Echec',
+            'message_content'=>'Echec de Modification ',
+        ]);
+
+    }
+
+    public function updateStatusIndispo(Request $request){
+        $agent = AgentLivreur::find($request->agent_id);
+
+        if($agent) {
+            $agent->statut_agent_livreur_id = StatutAgent::INDISPONIBLE;
             $agent->save();
             return Response()->json([
                 'statut'=>'OK',

@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Enums\StatutDemande;
 use App\Models\AgentLivreur;
+use App\Models\DemandeLivraison;
 use App\Models\Livreur;
 use Livewire\Component;
 
@@ -15,23 +17,54 @@ class LivreurAgents extends Component
     public $selectedAgent = null;
 
 
-    public function mount()
+    public function mount($idLivraisonEnCours)
     {
-        // Liste des livreurs pour alimenter le dropdown
-        $this->livreurs = Livreur::all();
+
+        $this->livreurs = Livreur::all()->filter(function ($livreur) use ($idLivraisonEnCours) {
+            return $this->estElligible($livreur->id, $idLivraisonEnCours);
+        });
 
         $this->agents = collect();
     }
 
-    public function updatedSelectedLivreur($livreur_id)
+    public function updatedSelectedLivreur(int $livreur_id)
     {
-        $this->agents = AgentLivreur::where('livreur_id', $livreur_id)->get();
-//        $this->selected = null;
+
+        $livreur= Livreur::findOrFail($livreur_id);
+        $this->agents = $livreur->agentLivreurs;
+    }
+
+
+    public function sommeLivraisons($idLivreur){
+        $montantTotalLivraison = 0;
+        $livraisons = DemandeLivraison::where('livreur_id', $idLivreur)->where('statut_livraison', StatutDemande::ENCOURS)->get();
+        foreach ($livraisons as $livraison){
+            $montantTotalLivraison += $livraison->montant_livraison;
+        }
+        return $montantTotalLivraison;
+    }
+
+    public function caution($idLivreur){
+        $livreur = Livreur::findOrFail($idLivreur);
+        $caution = $livreur->cautionLivreur;
+        return $caution;
+    }
+    public function montantDemandeEnCours($idDemandeEnCours){
+        $livraison = DemandeLivraison::findOrFail($idDemandeEnCours);
+        return $livraison->montant_livraison;
+    }
+
+    public function estElligible($idLivreur, $idLivraisonEnCours): bool
+    {
+        $caution = $this->caution($idLivreur);
+        $montantTotalLivraisons = $this->sommeLivraisons($idLivreur) + $this->montantDemandeEnCours($idLivraisonEnCours);
+        return $caution >= $montantTotalLivraisons;
     }
 
 
     public function render()
     {
+//        dd($this->livreurs);
         return view('livewire.livreur-agents');
     }
 }

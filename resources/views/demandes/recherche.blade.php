@@ -124,7 +124,7 @@
                                                     <td>{{ $demandeLivraison->montant_livraison }}</td>
                                                     <td>{{ $demandeLivraison->nom_client }}</td>
                                                     <td>{{ $demandeLivraison->nom_beneficiaire }}</td>
-                                                    <td>{{ $demandeLivraison->statut_livraison }}</td>
+                                                    <td>{{ $demandeLivraison->statut_livraison->value }}</td>
                                                     <td class="text-center">
                                                         <div class="flex items-center justify-between">
                                                             <a href="{{ route('demandes.show', $demandeLivraison->id) }}" class="btn badge-primary" style="margin-left: 5px; background-color: snow; color: #0c0e13; border: 0.5px solid #555555;border-radius: 2px ; height: 1px">

@@ -62,7 +62,7 @@ class AgentLivreurController extends Controller
         $agent->adresseAgent = $request->adresseAgent;
         $agent->montantCautionAgent = $request->cautionAgent;
         $agent->livreur_id = $request->livreur_id;
-        $agent->statut_agent_livreur_id = $request->statut_id;
+        //$agent->statut_agent_livreur_id = $request->statut_id;
         //$agent->statut_agence_id = $request->statut_agence_id;
 
 

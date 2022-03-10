@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatutDemande;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,6 +39,11 @@ class DemandeLivraison extends Model
         'agent_livreur',
         'statut_livraison',
         'user_id'
+    ];
+
+
+    protected $casts = [
+      'statut_livraison' => StatutDemande::class
     ];
 
     public function agence():BelongsTo
