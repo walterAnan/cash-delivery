@@ -60,7 +60,7 @@
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Statut de la Livraison: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="statut" placeholder="{{$demande_livraisons->statut_livraison->value}}" readonly="readonly" required type="text">
+                                    <input class="form-control" name="statut" placeholder="{{$demande_livraisons->statutDemande->libelle}}" readonly="readonly" required type="text">
                                 </div>
 
 

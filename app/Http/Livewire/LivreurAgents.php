@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Enums\StatutDemande;
+use App\Enums\StatutDemandeEnum;
 use App\Models\AgentLivreur;
 use App\Models\DemandeLivraison;
 use App\Models\Livreur;
@@ -37,7 +37,7 @@ class LivreurAgents extends Component
 
     public function sommeLivraisons($idLivreur){
         $montantTotalLivraison = 0;
-        $livraisons = DemandeLivraison::where('livreur_id', $idLivreur)->where('statut_livraison', StatutDemande::ENCOURS)->get();
+        $livraisons = DemandeLivraison::where('livreur_id', $idLivreur)->where('statut_demande_id', StatutDemandeEnum::ENCOURS)->get();
         foreach ($livraisons as $livraison){
             $montantTotalLivraison += $livraison->montant_livraison;
         }

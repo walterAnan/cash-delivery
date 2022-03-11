@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatutLivraisonsTable extends Migration
+class CreateStatutDemandesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateStatutLivraisonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('statut_livraisons', function (Blueprint $table) {
+        Schema::create('statut_demandes', function (Blueprint $table) {
             $table->id();
             $table->string('libelle');
             $table->string('slug');
@@ -29,6 +29,6 @@ class CreateStatutLivraisonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statut_livraisons');
+        Schema::dropIfExists('statut_demandes');
     }
 }

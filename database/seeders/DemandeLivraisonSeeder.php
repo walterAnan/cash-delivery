@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Enums\StatutDemande;
+use App\Enums\StatutDemandeEnum;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DemanadeLivraisonSeeder extends Seeder
+class DemandeLivraisonSeeder extends Seeder
 {
     public $table = 'demande_livraisons';
     /**
@@ -32,7 +32,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'nombreBillet10000'=>3,
                 'nombreBillet5000'=>4,
                 'frais_livraison'=>5000,
-                'voucher'=>'2100245603',
+                'voucher'=>'21008',
                 'commission'=>'2000',
                 'lien_gps'=>'https://google_maps',
                 'date_reception'=>now(),
@@ -41,7 +41,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=> StatutDemande::ENCOURS->value,
+                'statut_demande_id'=> StatutDemandeEnum::ENCOURS->value,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -61,7 +61,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'nombreBillet10000'=>30,
                 'nombreBillet5000'=>40,
                 'frais_livraison'=>50000,
-                'voucher'=>'2100245603',
+                'voucher'=>'45603',
                 'commission'=>20000,
                 'lien_gps'=>'https://google_maps1',
                 'date_reception'=>now(),
@@ -70,7 +70,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>StatutDemande::EFFECTUEE,
+                'statut_demande_id'=>StatutDemandeEnum::EFFECTUEE,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -90,7 +90,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'nombreBillet10000'=>30,
                 'nombreBillet5000'=>40,
                 'frais_livraison'=>50000,
-                'voucher'=>'2100245603',
+                'voucher'=>'02456',
                 'commission'=>20000,
                 'lien_gps'=>'https://google_maps1',
                 'date_reception'=>now(),
@@ -99,7 +99,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>StatutDemande::EFFECTUEE,
+                'statut_demande_id'=>StatutDemandeEnum::EFFECTUEE,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -118,7 +118,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'nombreBillet10000'=>30,
                 'nombreBillet5000'=>40,
                 'frais_livraison'=>50000,
-                'voucher'=>'2100245603',
+                'voucher'=>'78564',
                 'commission'=>20000,
                 'lien_gps'=>'https://google_maps1',
                 'date_reception'=>now(),
@@ -127,7 +127,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>StatutDemande::ENCOURS,
+                'statut_demande_id'=>StatutDemandeEnum::ENCOURS,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),
@@ -147,7 +147,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'nombreBillet10000'=>30,
                 'nombreBillet5000'=>40,
                 'frais_livraison'=>50000,
-                'voucher'=>'2100245603',
+                'voucher'=>'25846',
                 'commission'=>20000,
                 'lien_gps'=>'https://google_maps1',
                 'date_reception'=>now(),
@@ -156,7 +156,7 @@ class DemanadeLivraisonSeeder extends Seeder
                 'heure_livraison'=>now(),
                 'livreur_id' =>'1',
                 'agent_livreur_id'=>'1',
-                'statut_livraison'=>StatutDemande::INITIEE,
+                'statut_demande_id'=>StatutDemandeEnum::INITIEE,
                 'user_id'=>'1',
                 'created_at'=>now(),
                 'updated_at'=>now(),

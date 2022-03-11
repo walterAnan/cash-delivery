@@ -1,17 +1,17 @@
 <?php
 
 
-use App\Enums\StatutDemande;
+use App\Enums\StatutDemandeEnum;
 
 const DEFAULT_PASSWORD = 'password';
 const DEFAULT_TEAM_ID = 1;
 
-function badgeColor(StatutDemande $statutDemande)
+function badgeColor(StatutDemandeEnum $statutDemande)
 {
     return match ($statutDemande) {
-        StatutDemande::INITIEE => 'badge-primary',
-        StatutDemande::ENCOURS => 'badge-warning',
-        StatutDemande::EFFECTUEE => 'badge-success',
-        StatutDemande::ANNULEE => 'badge-danger',
+        StatutDemandeEnum::INITIEE => 'badge-primary',
+        StatutDemandeEnum::ENCOURS => 'badge-warning',
+        StatutDemandeEnum::EFFECTUEE => 'badge-success',
+        StatutDemandeEnum::ANNULEE => 'badge-danger',
     };
 }

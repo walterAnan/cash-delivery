@@ -5,9 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class StatutLivraisonSeeder extends Seeder
+class StatutDemandeSeeder extends Seeder
 {
-    protected $table = 'statut_livraisons';
+    protected $table = 'statut_demandes';
     /**
      * Run the database seeds.
      *
@@ -30,6 +30,11 @@ class StatutLivraisonSeeder extends Seeder
                 'libelle' => 'Effectuée',
                 'slug' => 'effectuee',
                 'description' => 'Livraison effectuée',
+            ],
+            [
+                'libelle' => 'Annulée',
+                'slug' => 'annulee',
+                'description' => 'Livraison annulée',
             ]
 
         ]);

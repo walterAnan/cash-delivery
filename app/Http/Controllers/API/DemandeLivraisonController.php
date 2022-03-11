@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\StatutDemande;
+use App\Enums\StatutDemandeEnum;
 use App\Http\Controllers\Controller;
 use App\Models\DemandeLivraison;
 use Illuminate\Http\Request;
@@ -119,7 +119,7 @@ class DemandeLivraisonController extends Controller
             'heure_livraison'=>'required',
             'livreur'=>'nullable',
             'agent_livreur'=>'nullable',
-            'statut_livraison'=>'nullable',
+            'statut_demande_id'=>'nullable',
             'code_utilisateur'=>'nullable',
         ]);
 
@@ -180,7 +180,7 @@ class DemandeLivraisonController extends Controller
         $livraison = DemandeLivraison::find($request->id);
 
         if($livraison) {
-            $livraison->statut_livraison = StatutDemande::ENCOURS;
+            $livraison->statut_demande_id = StatutDemandeEnum::ENCOURS;
             $livraison->save();
             return Response()->json([
                 'statut'=>'OK',
@@ -198,7 +198,7 @@ class DemandeLivraisonController extends Controller
 
 
     public function historiqueLivraison(Request $id){
-        $historiqueLivraison = DemandeLivraison::where('agent_livreur_id', $id->agent_livreur_id)->where('statut_livraison', StatutDemande::EFFECTUEE)->get();
+        $historiqueLivraison = DemandeLivraison::where('agent_livreur_id', $id->agent_livreur_id)->where('statut_demande_id', StatutDemandeEnum::EFFECTUEE)->get();
         if ($historiqueLivraison){
             return Response()->json([
                 'status'=>'OK',

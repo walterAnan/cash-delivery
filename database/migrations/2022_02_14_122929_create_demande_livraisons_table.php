@@ -1,8 +1,9 @@
 <?php
 
-use App\Enums\StatutDemande;
+use App\Enums\StatutDemandeEnum;
 use App\Models\AgentLivreur;
 use App\Models\Livreur;
+use App\Models\StatutDemande;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -32,7 +33,7 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->unsignedInteger('nombreBillet10000');
             $table->unsignedInteger('nombreBillet5000');
             $table->unsignedInteger('frais_livraison');
-            $table->string('voucher', 5);
+            $table->string('voucher', 5)->unique();
             $table->unsignedBigInteger('commission');
             $table->string('lien_gps');
             $table->dateTime('date_reception');
@@ -41,7 +42,7 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->dateTime('heure_livraison');
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(AgentLivreur::class)->nullable();
-            $table->string('statut_livraison')->default(StatutDemande::INITIEE->value);
+            $table->foreignIdFor(StatutDemande::class)->default(StatutDemandeEnum::INITIEE->value);
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

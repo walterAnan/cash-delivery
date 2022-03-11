@@ -32,7 +32,7 @@ class CreateAgentLivreursTable extends Migration
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(ControlLivraison::class)->nullable();
             $table->foreignIdFor(MoyensDeDeplacement::class)->nullable();
-            $table->foreignIdFor(statutAgentLivreur::class)->default(StatutAgent::DISPONIBLE->value);
+            $table->foreignIdFor(StatutAgentLivreur::class)->default(StatutAgent::DISPONIBLE->value);
             $table->timestamps();
         });
     }

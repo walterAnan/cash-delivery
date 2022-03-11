@@ -125,8 +125,8 @@
                                                     <td>{{ $demandeLivraison->nom_client }}</td>
                                                     <td>{{ $demandeLivraison->nom_beneficiaire }}</td>
                                                     <td class="text-center">
-                                                        <span class="badge badge-pill {{ badgeColor($demandeLivraison->statut_livraison) }}">
-                                                            {{ $demandeLivraison->statut_livraison->value }}
+                                                        <span class="badge badge-pill {{ badgeColor($demandeLivraison->statut_demande_id) }}">
+                                                            {{ $demandeLivraison->statutDemande->libelle }}
                                                         </span>
                                                     </td>
                                                     <td class="text-center">
@@ -134,7 +134,7 @@
                                                             <a href="{{ route('demandes.show', $demandeLivraison->id) }}" title="Détails">
                                                                 <i class="fas fa-bars "></i>
                                                             </a>
-                                                            @if($demandeLivraison->statut_livraison == \App\Enums\StatutDemande::INITIEE)
+                                                            @if($demandeLivraison->statut_demande_id == \App\Enums\StatutDemandeEnum::INITIEE)
                                                                 <a href="{{ route('demandes.edit', $demandeLivraison->id) }}" title="Assigner">
                                                                     <i class="fas fa-edit"></i>
                                                                 </a>

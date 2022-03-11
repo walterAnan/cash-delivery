@@ -113,7 +113,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-3 text-muted">Statut de la livraison: </div>
-                                        <div class="col-sm-8">{{$demande_livraisons->statut_livraison->value}}</div>
+                                        <div class="col-sm-8">{{$demande_livraisons->statutDemande->libelle}}</div>
                                     </li>
 
                                     <li class="p-b-20 row">
