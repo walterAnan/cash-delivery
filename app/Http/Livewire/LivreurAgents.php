@@ -37,7 +37,7 @@ class LivreurAgents extends Component
 
     public function sommeLivraisons($idLivreur){
         $montantTotalLivraison = 0;
-        $livraisons = DemandeLivraison::where('livreur_id', $idLivreur)->where('statut_demande_id', StatutDemandeEnum::ENCOURS)->get();
+        $livraisons = DemandeLivraison::where('livreur_id', $idLivreur)->where('statut_demande_id', DEMANDE_ENCOURS)->get();
         foreach ($livraisons as $livraison){
             $montantTotalLivraison += $livraison->montant_livraison;
         }

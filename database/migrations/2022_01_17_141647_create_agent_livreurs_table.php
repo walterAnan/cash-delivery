@@ -5,7 +5,7 @@ use App\Models\ControlLivraison;
 use App\Models\Livreur;
 use App\Models\MoyensDeDeplacement;
 use App\Models\StatutAgence;
-use App\Models\statutAgentLivreur;
+use App\Models\StatutAgentLivreur;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -32,7 +32,7 @@ class CreateAgentLivreursTable extends Migration
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(ControlLivraison::class)->nullable();
             $table->foreignIdFor(MoyensDeDeplacement::class)->nullable();
-            $table->foreignIdFor(StatutAgentLivreur::class)->default(StatutAgent::DISPONIBLE->value);
+            $table->boolean('estDisponible')->default(true);
             $table->timestamps();
         });
     }

@@ -56,13 +56,12 @@
                                     <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->montant_livraison}}" readonly="readonly" required type="text">
                                 </div>
 
-                                @livewire('livreur-agents', [$demande_livraisons->id])
-
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Statut de la Livraison: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="statut" placeholder="{{$demande_livraisons->statutDemande->libelle}}" readonly="readonly" required type="text">
                                 </div>
 
+                                @livewire('livreur-agents', [$demande_livraisons->id])
 
                             <div class="col-lg-3 form-group">
                             <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Assigner</button>

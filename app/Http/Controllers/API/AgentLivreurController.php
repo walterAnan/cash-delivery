@@ -129,7 +129,7 @@ class AgentLivreurController extends Controller
         $agent = AgentLivreur::find($request->agent_id);
 
         if($agent) {
-            $agent->statut_agent_livreur_id = StatutAgent::DISPONIBLE;
+            $agent->estDisponible = true;
             $agent->save();
             return Response()->json([
                 'statut'=>'OK',
@@ -149,7 +149,7 @@ class AgentLivreurController extends Controller
         $agent = AgentLivreur::find($request->agent_id);
 
         if($agent) {
-            $agent->statut_agent_livreur_id = StatutAgent::INDISPONIBLE;
+            $agent->estDisponible = false;
             $agent->save();
             return Response()->json([
                 'statut'=>'OK',

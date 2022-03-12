@@ -32,7 +32,7 @@ class DemandeController extends Controller
 
 
     public static function nombre_nouvelle_demande(){
-        $nombre_nouvelle_demande = DemandeLivraison::where('statut_demande_id', StatutDemandeEnum::INITIEE)->count();
+        $nombre_nouvelle_demande = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->count();
         return $nombre_nouvelle_demande;
 
     }
@@ -177,7 +177,7 @@ class DemandeController extends Controller
         $demande_livraison->agent_livreur_id = $request->agent_id;
 
 //        $livraison->user_id = 2;
-        $demande_livraison->statut_demande_id = StatutDemandeEnum::ENCOURS;
+        $demande_livraison->statut_demande_id = DEMANDE_ENCOURS;
         $demande_livraison->save();
 
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
@@ -198,7 +198,7 @@ class DemandeController extends Controller
 
     public function getLivraisonEnCoursLivreur(){
             global $montantLivreur;
-        $livraisons = DemandeLivraison::where('statut_demande_id', StatutDemandeEnum::ENCOURS);
+        $livraisons = DemandeLivraison::where('statut_demande_id', DEMANDE_ENCOURS);
         foreach ($livraisons as $livraison){
             $montant = $livraison->montant_livraison;
             $livreur = $livraisons->livreur_id->livra;

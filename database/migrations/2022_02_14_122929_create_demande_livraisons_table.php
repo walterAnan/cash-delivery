@@ -42,7 +42,7 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->dateTime('heure_livraison');
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(AgentLivreur::class)->nullable();
-            $table->foreignIdFor(StatutDemande::class)->default(StatutDemandeEnum::INITIEE->value);
+            $table->foreignIdFor(StatutDemande::class)->default(1);
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

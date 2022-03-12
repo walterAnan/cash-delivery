@@ -42,10 +42,6 @@ class DemandeLivraison extends Model
     ];
 
 
-    protected $casts = [
-      'statut_demande_id' => StatutDemandeEnum::class
-    ];
-
     public function agence():BelongsTo
     {
         return $this->belongsTo(Agence::class);

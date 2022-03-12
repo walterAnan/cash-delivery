@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LivreurSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(TeamSeeder::class);
-        $this->call(StatutAgentLivreurSeeder::class);
         $this->call(StatutLivreurSeeder::class);
         Demande::factory(10)->create();
         $this->call(StatutDemandeSeeder::class);

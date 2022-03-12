@@ -134,7 +134,7 @@
                                                             <a href="{{ route('demandes.show', $demandeLivraison->id) }}" title="Détails">
                                                                 <i class="fas fa-bars "></i>
                                                             </a>
-                                                            @if($demandeLivraison->statut_demande_id == \App\Enums\StatutDemandeEnum::INITIEE)
+                                                            @if($demandeLivraison->statut_demande_id == DEMANDE_INITIEE)
                                                                 <a href="{{ route('demandes.edit', $demandeLivraison->id) }}" title="Assigner">
                                                                     <i class="fas fa-edit"></i>
                                                                 </a>

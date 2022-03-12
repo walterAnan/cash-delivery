@@ -19,7 +19,7 @@ class AgentLivreur extends Model
         'prenomAgent',
         'telephoneAgent',
         'adresseAgent',
-        'statut_agent_livreur_id',
+        'estDisponible',
         'soldeNetAgent',
         'montantCautionAgent',
         'soldeNetAgent',
@@ -48,7 +48,21 @@ class AgentLivreur extends Model
     {
         return $this->hasMany(MoyensDeDeplacement::class);
     }
+
     protected $casts = [
-        'statut_agent_livreur_id'=>StatutAgent::class,
+        'estDisponible'=> 'boolean',
     ];
+
+    protected $appends = [
+        'disponibilite'
+    ];
+
+    public function getDisponibiliteAttribute(): string
+    {
+        if ($this->getAttribute('estDisponible')) {
+            return 'Disponible';
+        } else {
+            return 'Indisponible';
+        }
+    }
 }

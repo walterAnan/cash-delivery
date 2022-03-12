@@ -180,7 +180,7 @@ class DemandeLivraisonController extends Controller
         $livraison = DemandeLivraison::find($request->id);
 
         if($livraison) {
-            $livraison->statut_demande_id = StatutDemandeEnum::ENCOURS;
+            $livraison->statut_demande_id = DEMANDE_ENCOURS;
             $livraison->save();
             return Response()->json([
                 'statut'=>'OK',

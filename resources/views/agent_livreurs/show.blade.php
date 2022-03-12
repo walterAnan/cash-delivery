@@ -56,7 +56,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Statut de l'Agent Livreur</div>
-                                        <div class="col-sm-4">{{$agent->statut_agent_livreur_id->name}}</div>
+                                        <div class="col-sm-4">{{$agent->disponibilite}}</div>
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Le Solde de l'Agent Livreur</div>

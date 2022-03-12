@@ -59,20 +59,6 @@
                                         <input class="form-control" name="cautionAgent" placeholder="Caution" required type="number">
                                     </div>
 
-
-{{--                                    <div class="col-lg form-group">--}}
-{{--                                       <label class="form-label">Statut de l'Agent Livreur: <span class="tx-danger">*</span></label>--}}
-{{--                                        <select class="form-control select2" name="statut_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>--}}
-{{--                                            <option label="Choose one">--}}
-{{--                                            </option>--}}
-{{--                                            @foreach($statuts as $statut)--}}
-{{--                                                <option value="{{ $statut->id }}">{{ $statut->libelle }}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-
-
-
                                     <div class="col-lg form-group">
                                         <label class="form-label">Livreur: <span class="tx-danger">*</span></label>
                                         <select class="form-control select2" name="livreur_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>

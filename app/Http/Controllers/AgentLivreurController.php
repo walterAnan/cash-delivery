@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\AgentLivreur;
 use App\Models\Livreur;
-use App\Models\StatutAgentLivreur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -29,8 +28,7 @@ class AgentLivreurController extends Controller
     public function create()
     {
         $livreurs = $this->getAllLivreur();
-        $statuts = $this->getstatut();
-        return view('agent_livreurs.create', compact('livreurs', 'statuts'))->with('success','Item created successfully!');
+        return view('agent_livreurs.create', compact('livreurs'))->with('success','Item created successfully!');
     }
 
     /**
@@ -50,7 +48,6 @@ class AgentLivreurController extends Controller
             'adresseAgent' => 'required',
             'cautionAgent' => 'required',
             'livreur_id' => 'required',
-            'statut_id'=>'required',
             //'statut_agence_id' => 'required|exists:statut_agences,id',
         ]);
         $agent = new AgentLivreur();
@@ -62,8 +59,6 @@ class AgentLivreurController extends Controller
         $agent->adresseAgent = $request->adresseAgent;
         $agent->montantCautionAgent = $request->cautionAgent;
         $agent->livreur_id = $request->livreur_id;
-        //$agent->statut_agent_livreur_id = $request->statut_id;
-        //$agent->statut_agence_id = $request->statut_agence_id;
 
 
 //
@@ -130,12 +125,5 @@ class AgentLivreurController extends Controller
     public function getAllLivreur(){
         return Livreur::all();
     }
-
-
-    public function getstatut(){
-        return StatutAgentLivreur::all();
-    }
-
-
 
 }

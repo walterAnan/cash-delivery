@@ -23,12 +23,13 @@
             <!-- Agence -->
             <div class="mb-3">
                 <x-jet-label for="agence_id" value="{{ __('Agence') }}" />
-                <select id="agence_id" class="form-control" wire:model.defer="state.agence_id" >
-                    @foreach($this->agences as $agence)
-                        <option value="{{ $agence->id }}">{{ $agence->nomAgence }}</option>
-                    @endforeach
-                </select>
-                <x-jet-input-error for="agence_id" />
+{{--                <select id="agence_id" class="form-control" wire:model.defer="state.agence_id">--}}
+{{--                    @foreach($this->agences as $agence)--}}
+{{--                        <option value="{{ $agence->id }}">{{ $agence->nomAgence }}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--                <x-jet-input-error for="agence_id" />--}}
+                <x-jet-input id="agence_id" type="text" value="{{ $this->agencePrincipale->nomAgence }}" disabled="true"/>
             </div>
         </div>
     </x-slot>
