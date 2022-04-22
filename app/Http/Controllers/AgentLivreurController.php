@@ -17,6 +17,7 @@ class AgentLivreurController extends Controller
     public function index()
     {
         $agent_livreurs = AgentLivreur::all();
+
         return view('agent_livreurs.index', compact('agent_livreurs'));
     }
 

@@ -1,93 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
-use App\Enums\StatutAgent;
 use App\Http\Controllers\Controller;
 use App\Models\AgentLivreur;
 use App\Models\DemandeLivraison;
+use DB;
 use Illuminate\Http\Request;
 
 class AgentLivreurController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $agents = AgentLivreur::all();
-        return response()->json($agents);
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public  function  testLogin(Request $request){
         $login = $request->login;
         $password = $request->password;
@@ -98,23 +19,17 @@ class AgentLivreurController extends Controller
         ]);
     }
 
-
     public function authentif(Request $request){
-        $codeSecret = $request->code_secret;
-        $numeroTel = strval('+'."". $request->numero_tel);
-
-        $agent = AgentLivreur::where([
-            ['telephoneAgent', '=',''.$numeroTel .'' ],
-            ['codeAgent', '=',''.$codeSecret .'']
-        ])->first();
-
+        $codeSecret = $request->codeAgent;
+        $numeroTel = $request->telephoneAgent;
+        $agent = AgentLivreur::where('codeAgent', $codeSecret)->where('telephoneAgent', 'LIKE', '%'.$numeroTel)->first();
         if($agent) {
-
             return Response()->json([
                 'status'=>'OK',
                 'message_tilte'=>'Succès',
                 'message_content'=>'Vous etes connectez',
                 'agent'=> $agent,
+
             ], 200);
         }
 
@@ -127,7 +42,6 @@ class AgentLivreurController extends Controller
 
     public function updateStatusDispo(Request $request){
         $agent = AgentLivreur::find($request->agent_id);
-
         if($agent) {
             $agent->estDisponible = true;
             $agent->save();
@@ -141,6 +55,7 @@ class AgentLivreurController extends Controller
             'status'=>'NON_OK',
             'message_tilte'=>'Echec',
             'message_content'=>'Echec de Modification ',
+            'disponibilite'=>$agent->estDisponible,
         ]);
 
     }
@@ -154,7 +69,8 @@ class AgentLivreurController extends Controller
             return Response()->json([
                 'statut'=>'OK',
                 'message_title'=>'Succès',
-                'message_content'=>'modifié avec succès'
+                'message_content'=>'modifié avec succès',
+                'disponibilite'=>$agent->estDisponible,
             ] ,200);
         }
         return Response()->json([
@@ -165,18 +81,16 @@ class AgentLivreurController extends Controller
 
     }
     public function checkOtp(Request $request){
-        $agent_id = $request->agent_id;
+        $demande_id = $request->demande_id;
         $otp = $request->otp;
-        $agent = DemandeLivraison::where([
-            ['voucher', '=',''.$otp .'' ],
-            ['agent_livreur_id', '=',''.$agent_id .'']
-        ])->first();
-
-        if($agent) {
+        $demande = DemandeLivraison::where('id', $demande_id)->where('voucher', $otp)->where('statut_demande_id', DEMANDE_ENCOURS)->first();
+        if($demande) {
             return Response()->json([
                 'status'=>'OK',
                 'message_tilte'=>'Succès',
                 'message_content'=>'Il est éffectivement le bénéficiaire',
+                'livraison'=>$demande,
+
             ], 200);
         }
 
@@ -184,6 +98,7 @@ class AgentLivreurController extends Controller
             'status'=>'NON_OK',
             'message_tilte'=>'Erreur',
             'message_content'=>'les informations sont incorrectes',
-        ]);
+            'livraison'=>$demande,
+        ], status: 404);
     }
 }

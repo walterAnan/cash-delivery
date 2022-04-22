@@ -26,6 +26,7 @@ class CreateLivreursTable extends Migration
             $table->string('emailLivreur');
             $table->string('cautionLivreur');
             $table->string('telephoneLivreur');
+            $table->string('commission')->nullable();
             $table->foreignIdFor(Agence::class);
             $table->timestamps();
         });
