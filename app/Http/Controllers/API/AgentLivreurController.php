@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\AgentLivreur;
 use App\Models\DemandeLivraison;
+use App\Models\Device;
 use DB;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,28 @@ class AgentLivreurController extends Controller
             'message_content'=>'les informations sont incorrectes',
         ]);
     }
+
+
+
+    public function tokenStorage(Request $request){
+        $agent = AgentLivreur::findOrFail($request->id);
+        if ($agent){
+                $agent->token = $request->token;
+                $agent->save();
+                return Response()->json([
+                    'statut'=>'OK',
+                    'message_title'=>'Succès',
+                    'message_content'=>'modifié avec succès'
+                ] ,200);
+        }
+        return Response()->json([
+            'status'=>'NON_OK',
+            'message_tilte'=>'Echec',
+            'message_content'=>'Echec de Modification '
+        ]);
+        }
+
+
 
     public function updateStatusDispo(Request $request){
         $agent = AgentLivreur::find($request->agent_id);

@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ControlLivraison extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'codeContrôl',
-        'libelleContrôl'
+        'est_livreur_interne',
+        'montant_min_livraison',
+        'montant_max_livraison',
     ];
 
-    public function controle(){
-        //
-    }
 }

@@ -51,6 +51,10 @@
                                         <div class="col-sm-4">{{$agent->telephoneAgent}}</div>
                                     </li>
                                     <li class="p-b-20 row">
+                                        <div class="col-sm-4 text-muted">Ville de l'Agent Livreur</div>
+                                        <div class="col-sm-4">{{$agent->localite->ville}}?</div>
+                                    </li>
+                                    <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Adresse de l'Agence (Quartier)</div>
                                         <div class="col-sm-4">{{$agent->adresseAgent}}</div>
                                     </li>
@@ -58,29 +62,30 @@
                                         <div class="col-sm-4 text-muted">Statut de l'Agent Livreur</div>
                                         <div class="col-sm-4">{{$agent->disponibilite}}</div>
                                     </li>
+{{--                                    <li class="p-b-20 row">--}}
+{{--                                        <div class="col-sm-4 text-muted">Le Solde de l'Agent Livreur</div>--}}
+{{--                                        <div class="col-sm-4">{{$agent->soldeNetAgent}}</div>--}}
+{{--                                    </li>--}}
                                     <li class="p-b-20 row">
-                                        <div class="col-sm-4 text-muted">Le Solde de l'Agent Livreur</div>
-                                        <div class="col-sm-4">{{$agent->soldeNetAgent}}</div>
-                                    </li>
-                                    <li class="p-b-20 row">
-                                        <div class="col-sm-4 text-muted">Montant de La Caution de L'Agent Livreur</div>
-                                        <div class="col-sm-4">{{$agent->montantCautionAgent}}</div>
-                                    </li>
-                                    <li class="p-b-20 row">
-                                        <div class="col-sm-4 text-muted">ID du Livreur auquel L'Agent est rattaché</div>
+                                        <div class="col-sm-4 text-muted">Livreur auquel L'Agent est rattaché</div>
                                         <div class="col-sm-4">{{$agent->livreur->raisonSociale}}</div>
                                     </li>
+{{--                                    <li class="p-b-20 row">--}}
+{{--                                        <div class="col-sm-4 text-muted">Contrôle Sur ces Livraisons</div>--}}
+{{--                                        <div class="col-sm-4">{{$agent->controlLivraison_id}}</div>--}}
+{{--                                    </li>--}}
                                     <li class="p-b-20 row">
-                                        <div class="col-sm-4 text-muted">Contrôle Sur ces Livraisons</div>
-                                        <div class="col-sm-4">{{$agent->controlLivraison_id}}</div>
-                                    </li>
-                                    <li class="p-b-20 row">
-                                        <div class="col-sm-4 text-muted">ID du Moyen de Deplacement de L'Agent Livreur</div>
+                                        <div class="col-sm-4 text-muted">Moyen de Deplacement de L'Agent Livreur</div>
                                         <div class="col-sm-4">{{$agent->moyensdedeplacement_id}}</div>
                                     </li>
 
                                 </ul>
                             </div>
+                        </div>
+
+                        <div class="btn btn-list my-4">
+                            <a class="btn ripple btn-light mx-5" href="{{route('agents.index')}}" style="color: #28a745">Retour</a>
+
                         </div>
                     </div>
                 </div>

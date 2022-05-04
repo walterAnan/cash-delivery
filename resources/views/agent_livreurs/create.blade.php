@@ -35,16 +35,47 @@
                                         <label class="form-label">Nom de l'Agent: <span class="tx-danger">*</span></label>
                                         <input class="form-control" name="nomAgent" placeholder="Nom Agent" required type="text">
                                     </div>
+                                    @error('nomAgent')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
 
                                     <div class="col-lg-6 form-group">
                                         <label class="form-label">Prenom de l'Agent: <span class="tx-danger">*</span></label>
-                                        <input class="form-control" name="prenomAgent" placeholder="Prenom" required type="text">
+                                        <input class="form-control" name="prenomAgent" placeholder="Prénom Agent" required type="text">
                                     </div>
+                                    @error('prenomAgent')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+
+{{--                                    <div class="col-lg-6 form-group">--}}
+{{--                                        <label class="form-label">Prenom de l'Agent: <span class="tx-danger">*</span></label>--}}
+{{--                                        <input class="form-control" name="prenomAgent" placeholder="Prenom" required type="text">--}}
+{{--                                    </div>--}}
 
 
                                     <div class="col-lg-6 form-group">
                                         <label class="form-label">Téléphone de l'Agent: <span class="tx-danger">*</span></label>
                                         <input class="form-control" name="telephoneAgent" placeholder="Téléphone" required type="text">
+                                    </div>
+                                    @error('telephoneAgent')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+
+
+                                    <div class="col-lg form-group">
+                                        <label class="form-label">Ville: <span class="tx-danger">*</span></label>
+                                        <select class="form-control select2" name="localite_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
+                                            <option label="Choose one">
+                                            </option>
+                                            @foreach($localites as $localite)
+                                                <option value="{{ $localite->id }}" class="@error('localite_id') is-invalid @enderror">
+                                                    {{ $localite->ville }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('localite_id')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
 
@@ -52,12 +83,15 @@
                                         <label class="form-label">Adresse de l'Agent: <span class="tx-danger">*</span></label>
                                         <input class="form-control" name="adresseAgent" placeholder="Adresse" required type="text">
                                     </div>
+                                    @error('adresseAgent')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
 
 
-                                    <div class="col-lg-6 form-group">
-                                        <label class="form-label">Montant de la Caution: <span class="tx-danger">*</span></label>
-                                        <input class="form-control" name="cautionAgent" placeholder="Caution" required type="number">
-                                    </div>
+{{--                                    <div class="col-lg-6 form-group">--}}
+{{--                                        <label class="form-label">Montant de la Caution: <span class="tx-danger">*</span></label>--}}
+{{--                                        <input class="form-control" name="cautionAgent" placeholder="Caution" required type="number">--}}
+{{--                                    </div>--}}
 
                                     <div class="col-lg form-group">
                                         <label class="form-label">Livreur: <span class="tx-danger">*</span></label>
@@ -69,6 +103,9 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    @error('livreur_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
 
                                 <div class="col-lg-6">
                                 <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Créer</button>

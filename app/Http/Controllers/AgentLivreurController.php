@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AgentLivreur;
 use App\Models\Livreur;
+use App\Models\Localite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -16,7 +17,7 @@ class AgentLivreurController extends Controller
      */
     public function index()
     {
-        $agent_livreurs = AgentLivreur::all();
+        $agent_livreurs = AgentLivreur::with('localite')->get();
 
         return view('agent_livreurs.index', compact('agent_livreurs'));
     }
@@ -24,12 +25,12 @@ class AgentLivreurController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $livreurs = $this->getAllLivreur();
-        return view('agent_livreurs.create', compact('livreurs'))->with('success','Item created successfully!');
+        $livreurs = $this->getAllLivreurs();
+        $localites = $this->getAllLocalites();
+        return view('agent_livreurs.create', compact(['livreurs', 'localites']))->with('success','Item created successfully!');
     }
 
     /**
@@ -40,17 +41,21 @@ class AgentLivreurController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'codeAgent',
             'nomAgent' => 'required',
             'prenomAgent' => 'required',
             'telephoneAgent'=> 'required',
             'adresseAgent' => 'required',
-            'cautionAgent' => 'required',
+//            'cautionAgent' => 'required',
             'livreur_id' => 'required',
+            'localite_id' => ['required'],
             //'statut_agence_id' => 'required|exists:statut_agences,id',
+        ],
+        [
+            'localite_id.required' => 'Veuillez sélectionner une ville'
         ]);
+
         $agent = new AgentLivreur();
 
         $agent->codeAgent = 'AGT_' . Str::random(8);
@@ -58,12 +63,11 @@ class AgentLivreurController extends Controller
         $agent->prenomAgent = $request->prenomAgent;
         $agent->telephoneAgent = $request->telephoneAgent;
         $agent->adresseAgent = $request->adresseAgent;
-        $agent->montantCautionAgent = $request->cautionAgent;
         $agent->livreur_id = $request->livreur_id;
+        $agent->localite_id = $request->localite_id;
 
-
+//        dd($agent);
 //
-
         $agent->save();
         return redirect()->route('agents.index')->with('success','Agent créé avec succès!');
     }
@@ -89,7 +93,9 @@ class AgentLivreurController extends Controller
     public function edit($id)
     {
         $agent = AgentLivreur::findOrFail($id);
-        return view('agent_livreurs.edit', compact('agent'));
+        $livreurs = $this->getAllLivreurs();
+        $localites = $this->getAllLocalites();
+        return view('agent_livreurs.edit', compact(['agent', 'livreurs', 'localites']));
     }
 
     /**
@@ -102,10 +108,19 @@ class AgentLivreurController extends Controller
     public function update(Request $request, $agent)
     {
         $validatedData = $request->validate([
+            'codeAgent',
             'nomAgent' => 'required',
             'prenomAgent' => 'required',
-            'adresseAgence' => 'required',
-        ]);
+            'telephoneAgent'=> 'required',
+            'adresseAgent' => 'required',
+//            'cautionAgent' => 'required',
+            'livreur_id' => 'required',
+            'localite_id' => ['required'],
+            //'statut_agence_id' => 'required|exists:statut_agences,id',
+        ],
+            [
+                'localite_id.required' => 'Veuillez sélectionner une ville'
+            ]);
         AgentLivreur::where('id', $agent)->update($validatedData);
 
         return redirect()->route('agents.index');
@@ -120,11 +135,15 @@ class AgentLivreurController extends Controller
     public function destroy($id)
     {
         AgentLivreur::whereId($id)->delete();
-        return redirect()->route('agents.index')->withSuccess(__('Agents supprimée avec succès.'));
+        return redirect()->route('agents.index')->withSuccess(__('Agent supprimé avec succès.'));
     }
 
-    public function getAllLivreur(){
+    public function getAllLivreurs(){
         return Livreur::all();
+    }
+
+    public function getAllLocalites(){
+        return Localite::all();
     }
 
 }

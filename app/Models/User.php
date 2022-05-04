@@ -82,6 +82,13 @@ class User extends Authenticatable
     }
 
 
+    public function hasObserverRole(): bool
+    {
+        return $this->hasTeamRole(auth()->user()->currentTeam, 'observer');
+    }
+
+
+
     public function agence(): BelongsTo
     {
         return $this->belongsTo(Agence::class);

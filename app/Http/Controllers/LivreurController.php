@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agence;
 use App\Models\Demande;
 use App\Models\Livreur;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -19,6 +22,7 @@ class LivreurController extends Controller
     public function index()
     {
         $livreurs = Livreur::all();
+//        dd($livreurs->toArray());
         return view('livreurs.index', compact('livreurs'));
     }
 
@@ -29,7 +33,8 @@ class LivreurController extends Controller
      */
     public function create()
     {
-        return view('livreurs.create');
+        $agences = Agence::all();
+        return view('livreurs.create', compact('agences'));
     }
 
     /**
@@ -44,14 +49,28 @@ class LivreurController extends Controller
 
         $request->validate([
             'nomResponsable' => 'required',
-            'prenomResponsable' => 'required',
+            'prenomResponsable' => 'nullable',
             'raisonSociale' => 'required',
             'telephoneResponsable' => 'required',
             'adresseLivreur' => 'required',
             'emailLivreur' => 'required',
-            'cautionLivreur' => 'required|numeric',
+            'cautionLivreur' => 'required|numeric|gte:200000',
+            'modeCommission' => ['string', Rule::in(['TAUX', 'MONTANT_FIX'])],
+//            'typeLivreur' => ['string', Rule::in(['INTERNE', 'EXTERNE'])],
+            'valeurCommission' => 'required|numeric',
             'telephoneLivreur' => 'required',
             'agence_id' => 'required',
+            'control_livraison_id'=>'required|exists:control_livraisons,id'
+        ], [
+            'nomResponsable.required' => 'Champ Obligatoire',
+            'raisonSociale.required' =>'Champ Obligatoire',
+            'telephoneResponsable.required' =>'Champ Obligatoire',
+            'adresseLivreur.required' =>'Champ Obligatoire',
+            'cautionLivreur.required' =>'Champ Obligatoire',
+            'commisssionLivreur.required' =>'Champ Obligatoire',
+            'telephoneLivreur.required' =>'Champ Obligatoire',
+            'agence_id.required' =>'Champ Obligatoire',
+            'control_livraison_id.required' =>'Champ Obligatoire',
         ]);
 
         $livreur = new Livreur();
@@ -65,7 +84,12 @@ class LivreurController extends Controller
         $livreur->emailLivreur = $request->emailLivreur;
         $livreur->cautionLivreur = $request->cautionLivreur;
         $livreur->telephoneLivreur = $request->telephoneLivreur;
+        $livreur->modeCommission = $request->modeCommission;
+//        $livreur->typeLivreur = $request->typeLivreur;
+        $livreur->valeurCommission = $request->valeurCommission;
         $livreur->agence_id = $request->agence_id;
+        $livreur->control_livraison_id = $request->control_livraison_id;
+
 
         $livreur->save();
 
@@ -95,8 +119,8 @@ class LivreurController extends Controller
     {
 
         $livreur = Livreur::findOrFail($id);
-
-        return view('livreurs.edit', compact('livreur'));
+        $agences = Agence::all();
+        return view('livreurs.edit', compact(['livreur', 'agences']));
     }
 
     /**
@@ -108,19 +132,33 @@ class LivreurController extends Controller
     public function update(Request $request, $livreur)
     {
 
-        $validatedData=$request->validate([
-            'nomResponsable'=>'required',
-            'prenomResponsable' => 'required',
-            'raisonSociale'=>'required',
-            'telephoneResponsable'=>'required',
-            'adresseLivreur'=>'required',
-            'emailLivreur'=>'required',
-            'cautionLivreur'=>'required',
-            'telephoneLivreur'=>'required',
+        $validator = Validator::make($request->all(), [
+            'nomResponsable' => 'required',
+            'prenomResponsable' => 'nullable',
+            'raisonSociale' => 'required',
+            'telephoneResponsable' => 'required',
+            'adresseLivreur' => 'required',
+            'emailLivreur' => 'required',
+            'cautionLivreur' => 'required|numeric|gte:200000',
+            'modeCommission' => ['string', Rule::in(['TAUX', 'MONTANT_FIX'])],
+            'valeurCommission' => 'exclude_if:modeCommission,',
+            'telephoneLivreur' => 'required',
+            'agence_id' => 'required',
+            'control_livraison_id'=>'required',
+        ], [
+            'nomResponsable.required' => 'Champ Obligatoire',
+            'raisonSociale.required' =>'Champ Obligatoire',
+            'telephoneResponsable.required' =>'Champ Obligatoire',
+            'adresseLivreur.required' =>'Champ Obligatoire',
+            'cautionLivreur.required' =>'Champ Obligatoire',
+            'commisssionLivreur.required' =>'Champ Obligatoire',
+            'telephoneLivreur.required' =>'Champ Obligatoire',
+            'agence_id.required' =>'Champ Obligatoire',
+            'control_livraison_id.required' =>'Champ Obligatoire',
+        ])->validate();;
 
-        ]);
 
-        Livreur::where('id', $livreur)->update($validatedData);
+        $livreur = Livreur::where('id', $livreur)->update($validator);
 
         return redirect()->route('livreurs.index');
     }
@@ -131,10 +169,14 @@ class LivreurController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Livreur $livreur)
     {
-        Livreur::whereId($id)->delete();
+//        dd($id);
+//        Livreur::whereId($id)->delete();
 
+        $livreur->delete();
         return redirect()->route('livreurs.index')->withSuccess(__('livreur supprimée avec succès.'));
     }
+
+
 }

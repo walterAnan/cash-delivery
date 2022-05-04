@@ -21,13 +21,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call(StatutAgenceSeeder::class);
         $this->call(AgenceSeeder::class);
+        $this->call(ControlLivraisonSeeder::class);
         $this->call(LivreurSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(TeamSeeder::class);
         $this->call(StatutLivreurSeeder::class);
         Demande::factory(10)->create();
         $this->call(StatutDemandeSeeder::class);
+        $this->call(AgentLivreurSeeder::class);
         $this->call(DemandeLivraisonSeeder::class);
+        $this->call(TypeLivreurSeeder::class);
+        $this->call(LocaliteSeeder::class);
 
     }
 }

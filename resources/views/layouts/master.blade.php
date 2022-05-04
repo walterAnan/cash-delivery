@@ -31,5 +31,6 @@
         </div>
         <!-- End Page -->
 @include('components/partials/footer-scripts')
+@yield('script1')
 </body>
 </html>

@@ -122,9 +122,9 @@
             <div class="card custom-card">
                 <div class="card-body dash1">
                     <div class="d-flex">
-                        <p class="mb-1 tx-inverse">Nombre de Demande de livraison</p>
+                        <p class="mb-1 tx-inverse">Demandes de livraison</p>
                         <div class="ml-auto">
-                            <i class="fas fa-chart-line fs-20 text-primary"></i>
+                            <i class="fas fa-signal fs-20 text-info"></i>
                         </div>
                     </div>
                     <div>
@@ -144,7 +144,7 @@
                     <div class="d-flex">
                         <p class="mb-1 tx-inverse">Montant Total des Livraisons</p>
                         <div class="ml-auto">
-                            <i class="fas fa-dollar-sign fs-20 text-success"></i>
+                            <i class="fas fa-signal fs-20 text-info"></i>
                         </div>
                     </div>
                     <div>
@@ -164,7 +164,7 @@
                     <div class="d-flex">
                         <p class="mb-1 tx-inverse">Montant Total des Commissions</p>
                         <div class="ml-auto">
-                            <i class="fas fa-dollar-sign fs-20 text-success"></i>
+                            <i class="fas fa-signal fs-20 text-info"></i>
                         </div>
                     </div>
                     <div>
@@ -208,80 +208,123 @@
 
     <!-- Row -->
     <div class="row row-sm">
-        <div class="col-sm-12 col-xl-8 col-lg-8">
-            <div class="card custom-card overflow-hidden">
-                <div class="card-body">
-                    <div class="card-option d-flex">
-                        <div>
-                            <h6 class="card-title mb-1">Evolution Nombre de livraisons Total et Livraisons effectuées </h6>
-                        </div>
-                        <div class="card-option-title ml-auto">
-                            <div class="btn-group p-0">
-                                <button class="btn btn-outline-light btn-sm" type="button">Year</button>
+        <div class="col-sm-12 col-xl-6 col-lg-6">
+            <div class="container">
+                <div class="row justify-content-center">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <h4>{{ $chart1->options['chart_title'] }}</h4>
+                                {!! $chart1->renderHtml() !!}
+
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        <canvas id="sales"></canvas>
+
                     </div>
                 </div>
             </div>
+
+
+{{--            <div class="card custom-card overflow-hidden">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div class="card-option d-flex">--}}
+{{--                        <div>--}}
+{{--                            <h6 class="card-title mb-1">Evolution Nombre de livraisons Total et Livraisons effectuées </h6>--}}
+{{--                        </div>--}}
+{{--                        <div class="card-option-title ml-auto">--}}
+{{--                            <div class="btn-group p-0">--}}
+{{--                                <button class="btn btn-outline-light btn-sm" type="button">Year</button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div>--}}
+{{--                        <canvas id="sales"></canvas>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
         </div>
-        <div class="col-sm-12 col-xl-4 col-lg-4">
+        <div class="col-sm-12 col-xl-6 col-lg-4">
             <div class="card custom-card">
                 <div class="card-body">
                     <div>
-                        <h6 class="card-title mb-1">Cost BreakDown</h6>
-                        <p class="text-muted card-sub-title">Excepteur sint occaecat cupidatat non proident.</p>
+                        <h6 class="card-title mb-1" style="font-size: x-large">Les Meilleurs livreurs</h6>
+                        <br>
                     </div>
-                    <div class="row">
-                        <div class="col-6 col-md-6 text-center">
-                            <div class="mb-2">
-                                <span class="peity-donut" data-peity='{ "fill": ["#eb6f33", "#77778e33"], "innerRadius": 14, "radius": 20 }'>4/7</span>
-                            </div>
-                            <p class="mb-1 tx-inverse">Marketing</p>
-                            <h4 class="mb-1"><span>$</span>67,927</h4>
-                            <span class="text-muted fs-12"><i class="fas fa-caret-up mr-1 text-success"></i>54% last month</span>
-                        </div>
-                        <div class="col-6 col-md-6 text-center">
-                            <div class="mb-2">
-                                <span class="peity-donut" data-peity='{ "fill": ["#01b8ff", "#77778e33"], "innerRadius": 14, "radius": 20 }'>2/7</span>
-                            </div>
-                            <p class="mb-1 tx-inverse">Sales</p>
-                            <h4 class="mb-1"><span>$</span>24,789</h4>
-                            <span class="text-muted fs-12"><i class="fas fa-caret-down mr-1 text-danger"></i>33% last month</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card custom-card">
-                <div class="card-body">
-                    <div>
-                        <h6 class="card-title mb-1">Monthly Profits</h6>
-                        <p class="text-muted card-sub-title">Excepteur sint occaecat cupidatat non proident.</p>
-                    </div>
-                    <h3><span>$</span>22,534</h3>
-                    <div class="clearfix mb-3">
-                        <div class="clearfix">
-                            <span class="float-left text-muted">This Month</span>
-                            <span class="float-right">75%</span>
-                        </div>
-                        <div class="progress mt-1">
-                            <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-70p bg-primary" role="progressbar"></div>
-                        </div>
-                    </div>
-                    <div class="clearfix">
-                        <div class="clearfix">
-                            <span class="float-left text-muted">Last Month</span>
-                            <span class="float-right">50%</span>
-                        </div>
-                        <div class="progress mt-1">
-                            <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress-bar progress-bar-xs wd-50p bg-success" role="progressbar"></div>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table mg-b-2-f">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Livreur</th>
+                                <th>Montant des Livraisons</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach(\App\Http\Controllers\DemandeController::livreursPro() as $livreurs)
+                            <tr>
+                                <th scope="row">{{ ($loop->index + 1) }}</th>
+                                <td>{{ $livreurs->raison_sociale}}</td>
+                                <td>{{ $livreurs->montant_total }}</td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+
+
+
+{{--            <div class="card custom-card overflow-hidden">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div class="card-option d-flex">--}}
+{{--                        <div>--}}
+{{--                            <h6 class="card-title mb-1">Evolution Nombre de livraisons Total et Livraisons effectuées </h6>--}}
+{{--                        </div>--}}
+{{--                        <div class="card-option-title ml-auto">--}}
+{{--                            <div class="btn-group p-0">--}}
+{{--                                <button class="btn btn-outline-light btn-sm" type="button">Year</button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div>--}}
+{{--                        <canvas id="sales"></canvas>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
+
+
+
+{{--            <div class="card custom-card">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div>--}}
+{{--                        <h6 class="card-title mb-1">Monthly Profits</h6>--}}
+{{--                        <p class="text-muted card-sub-title">Excepteur sint occaecat cupidatat non proident.</p>--}}
+{{--                    </div>--}}
+{{--                    <h3><span>$</span>22,534</h3>--}}
+{{--                    <div class="clearfix mb-3">--}}
+{{--                        <div class="clearfix">--}}
+{{--                            <span class="float-left text-muted">This Month</span>--}}
+{{--                            <span class="float-right">75%</span>--}}
+{{--                        </div>--}}
+{{--                        <div class="progress mt-1">--}}
+{{--                            <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" class="progress-bar progress-bar-xs wd-70p bg-primary" role="progressbar"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="clearfix">--}}
+{{--                        <div class="clearfix">--}}
+{{--                            <span class="float-left text-muted">Last Month</span>--}}
+{{--                            <span class="float-right">50%</span>--}}
+{{--                        </div>--}}
+{{--                        <div class="progress mt-1">--}}
+{{--                            <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" class="progress-bar progress-bar-xs wd-50p bg-success" role="progressbar"></div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
+
     </div>
     <!-- End Row -->
 
@@ -295,7 +338,17 @@
     <!-- End Row -->
 
     <!-- A ne pas supprimer -->
+
     </div>
     </div>
+
     <!-- End Main Content-->
 @endsection
+@section('script1')
+<script>
+    {!! $chart1->renderChartJsLibrary() !!}
+    {!! $chart1->renderJs() !!}
+
+</script>
+@endsection
+

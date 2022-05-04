@@ -35,27 +35,63 @@
                                     <label class="form-label">Nom l'Agent: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="nomAgent" placeholder="" value="{{$agent->nomAgent}}" required type="text">
                                 </div>
+                                @error('nomAgent')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Prenom de l'Agent: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="prenomAgent" placeholder="" value="{{$agent->prenomAgent}}" required type="text">
                                 </div>
+                                @error('prenomAgent')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">telephone de l'Agent: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="telephoneAgent" placeholder="" value="{{$agent->telephoneAgent}}" required type="text">
                                 </div>
-
+                                @error('telephoneAgent')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
 
                                 <div class="col-lg-6 form-group">
-                                    <label class="form-label">Adresse de l'Agent: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="adresseAgent" placeholder="" value="{{$agent->adresseAgent}}" required type="text">
+                                    <label class="form-label">Ville: <span class="tx-danger">*</span></label>
+                                    <select class="form-control select2" name="localite_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
+{{--                                        <option label="Choose one">--}}
+{{--                                        </option>--}}
+                                        @foreach($localites as $localite)
+                                            <option value="{{ $localite->id }}" class="@error('localite_id') is-invalid @enderror">
+                                                {{ $localite->ville }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('localite_id')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Adresse de l'Agent: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="adresseAgent" placeholder="" value="{{$agent->adresseAgent}}" required type="text">
+                                    <input class="form-control" name="adresseAgent" placeholder="Adresse" value="{{$agent->adresseAgent}}" required type="text">
                                 </div>
+                                @error('adresseAgent')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+
+                                <div class="col-lg-6 form-group">
+                                    <label class="form-label">Livreur: <span class="tx-danger">*</span></label>
+                                    <select class="form-control select2" name="livreur_id" value="{{$agent->livreur_id}}" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
+{{--                                        <option label="Choose one">--}}
+{{--                                        </option>--}}
+                                        @foreach($livreurs as $livreur)
+                                            <option value="{{ $livreur->id }}">{{ $livreur->raisonSociale }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('livreur_id')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
 
 
 

@@ -17,7 +17,7 @@
 
             <li class="nav-label" style="font-family: 'Times New Roman'; font-size: large; color:#4a9e04">Les Tables</li>
             <li class="nav-item">
-                <x-nav-link href="{{ route('demandes.index') }}" libelle="Demandes de Livraison" icon="fe-bell">
+                <x-nav-link href="{{ route('demandes.index') }}" libelle="Demandes Livraison" icon="fe-bell">
                     <span class="badge badge-danger side-badge">{{\App\Http\Controllers\DemandeController::nombre_nouvelle_demande()}}</span>
                 </x-nav-link>
             </li>

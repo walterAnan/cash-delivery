@@ -4,34 +4,81 @@ namespace App\Http\Livewire;
 
 use App\Enums\StatutDemandeEnum;
 use App\Models\AgentLivreur;
+use App\Models\ControlLivraison;
 use App\Models\DemandeLivraison;
 use App\Models\Livreur;
+use App\Models\Localite;
+use FontLib\Table\Type\loca;
 use Livewire\Component;
 
 class LivreurAgents extends Component
 {
     public $livreurs;
+    public $localites;
     public $agents;
+//    public $agentsParLivreurEtLocalite;
 
     public $selectedLivreur = null;
+    public $selectedLocalite = null;
     public $selectedAgent = null;
+    public $livraisonEnCours;
 
 
     public function mount($idLivraisonEnCours)
     {
+        $this->livraisonEnCours = DemandeLivraison::query()->findOrFail($idLivraisonEnCours);
 
-        $this->livreurs = Livreur::all()->filter(function ($livreur) use ($idLivraisonEnCours) {
-            return $this->estElligible($livreur->id, $idLivraisonEnCours);
-        });
+        $this->selectedLocalite = Localite::whereVille($this->livraisonEnCours->adresse_livraison)->first()?->id;
+
+        $montantLivraisonEnCours = DemandeLivraison::findOrFail($idLivraisonEnCours)->montant_livraison;
+        $controlLivreurExterne = ControlLivraison::where('est_livreur_interne', false)->firstOrFail();
+
+
+        if($montantLivraisonEnCours > $controlLivreurExterne->montant_max_livraison){
+            $this->livreurs = Livreur::query()
+                ->whereRelation('controlLivraison', 'est_livreur_interne', true)
+                ->get();
+        } else {
+            $this->livreurs = Livreur::all()->filter(function ($livreur) use ($idLivraisonEnCours) {
+                return $this->estElligible($livreur->id, $idLivraisonEnCours);
+            });
+        }
+
+        $this->localites = Localite::all();
+
+//        $this->agentsParLiveur = collect();
 
         $this->agents = collect();
     }
 
     public function updatedSelectedLivreur(int $livreur_id)
     {
-
         $livreur= Livreur::findOrFail($livreur_id);
-        $this->agents = $livreur->agentLivreurs;
+        $this->agents = $livreur->agentLivreurs
+            ->filter(function ($agent) {
+            return $agent->localite?->id == $this->selectedLocalite;
+        })
+        ;
+//        dd($this->agentsParLivreur->toArray());
+    }
+
+    public function updatedSelectedLocalite(int $localite_id)
+    {
+        $localite = Localite::findOrFail($localite_id);
+        $agents_tmp = $this->agents;
+        $this->agents = AgentLivreur::query()
+            ->when($this->selectedLivreur, function ($query) {
+                $query->where('livreur_id', $this->selectedLivreur);
+            })
+            ->where('localite_id', $localite_id)
+            ->get();
+//        dd([
+//           $this->selectedLivreur,
+//           $this->selectedLocalite,
+//           $this->agents->toarray(),
+//           $agents_tmp->toarray(),
+////           $this->agentsParLivreurEtLocalite->toarray(),
+//        ]);
     }
 
 
@@ -60,6 +107,8 @@ class LivreurAgents extends Component
         $montantTotalLivraisons = $this->sommeLivraisons($idLivreur) + $this->montantDemandeEnCours($idLivraisonEnCours);
         return $caution >= $montantTotalLivraisons;
     }
+
+
 
 
     public function render()

@@ -4483,7 +4483,7 @@
 			longitude: 2.5630555555556,
 			href: "#",
 			tooltip: {
-				content: "<span style=\"font-weight:bold;\">Combs-la-Ville (77122)</span><br />Population : 21845"
+				content: "<span style=\"font-weight:bold;\">Combs-la-Localite (77122)</span><br />Population : 21845"
 			}
 		},
 		"town-14327": {
@@ -5086,7 +5086,7 @@
 			longitude: 1.7108333333333,
 			href: "#",
 			tooltip: {
-				content: "<span style=\"font-weight:bold;\">Mantes-la-Ville (78362)</span><br />Population : 19418"
+				content: "<span style=\"font-weight:bold;\">Mantes-la-Localite (78362)</span><br />Population : 19418"
 			}
 		},
 		"town-85047": {
@@ -8632,7 +8632,7 @@
 			longitude: 2.1933333333333,
 			href: "#",
 			tooltip: {
-				content: "<span style=\"font-weight:bold;\">Ville-d'Avray (92077)</span><br />Population : 11013"
+				content: "<span style=\"font-weight:bold;\">Localite-d'Avray (92077)</span><br />Population : 11013"
 			}
 		},
 		"town-27056": {

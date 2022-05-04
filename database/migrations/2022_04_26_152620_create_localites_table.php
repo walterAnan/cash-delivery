@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateControlLivraisonsTable extends Migration
+class CreateLocalitesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateControlLivraisonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('control_livraisons', function (Blueprint $table) {
+        Schema::create('localites', function (Blueprint $table) {
             $table->id();
-            $table->boolean('est_livreur_interne');
-            $table->unsignedBigInteger('montant_min_livraison');
-            $table->unsignedBigInteger('montant_max_livraison');
+            $table->string('ville');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateControlLivraisonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('control_livraisons');
+        Schema::dropIfExists('villes');
     }
 }

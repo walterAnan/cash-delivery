@@ -18,27 +18,27 @@ class DemandeLivraison extends Model
         'ref_operation',
         'code_agence',
         'nom_client',
-        'prenom_client',
         'tel_client',
         'adresse_livraison',
         'nom_beneficiaire',
-        'prenom_beneficiaire',
         'tel_beneficiaire',
         'montant_livraison',
         'nombreBillet10000',
         'nombreBillet5000',
         'frais_livraison',
-        'commission',
         'voucher',
         'lien_gps',
         'date_reception',
-        'heure_reception',
         'date_livraison',
-        'heure_livraison',
         'livreur',
         'agent_livreur',
         'statut_demande_id',
         'user_id'
+    ];
+
+    protected $casts = [
+        'date_reception' => 'datetime',
+        'date_livraison' => 'datetime',
     ];
 
 
@@ -47,7 +47,7 @@ class DemandeLivraison extends Model
         return $this->belongsTo(Agence::class);
     }
 
-    public function utilisateur():BelongsTo
+    public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }

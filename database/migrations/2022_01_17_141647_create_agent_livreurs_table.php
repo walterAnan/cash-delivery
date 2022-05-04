@@ -4,6 +4,7 @@ use App\Enums\StatutAgent;
 use App\Models\Agence;
 use App\Models\ControlLivraison;
 use App\Models\Livreur;
+use App\Models\Localite;
 use App\Models\MoyensDeDeplacement;
 use App\Models\StatutAgence;
 use App\Models\StatutAgentLivreur;
@@ -27,6 +28,8 @@ class CreateAgentLivreursTable extends Migration
             $table->string('prenomAgent');
             $table->string('telephoneAgent')->unique();
             $table->string('adresseAgent');
+            $table->string('token')->nullable();
+            $table->foreignIdFor(Localite::class)->nullable();
             $table->double('montantCautionAgent')->nullable();
             $table->double('soldeNetAgent')->nullable();
             $table->foreignIdFor(Agence::class)->nullable();

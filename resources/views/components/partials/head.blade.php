@@ -44,6 +44,7 @@
         <link href="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.bootstrap4.min.css')}}" rel="stylesheet">
         <!---Select2 css-->
         <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
         @livewireStyles
 

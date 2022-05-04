@@ -62,7 +62,7 @@
                                                 <th>code Agent</th>
                                                 <th>Nom Agent</th>
                                                 <th>Prenom Agent</th>
-                                                <th>Caution Agent</th>
+                                                <th>Ville Agent</th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                             </thead>
@@ -73,7 +73,7 @@
                                                     <td>{{ $agent_livreur->codeAgent }}</td>
                                                     <td>{{ $agent_livreur->nomAgent }}</td>
                                                     <td>{{ $agent_livreur->prenomAgent }}</td>
-                                                    <td>{{ $agent_livreur->montantCautionAgent }}</td>
+                                                    <td>{{ $agent_livreur->localite?->ville }}</td>
                                                     <td class="text-center">
                                                         <div class="d-flex align-items-center justify-content-between px-1">
                                                             <a href="{{ route('agents.show', $agent_livreur->id) }}">
@@ -82,12 +82,12 @@
                                                             <a href="{{ route('agents.edit', $agent_livreur->id) }}">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata{{$agent_livreur->id}}" title="Archiver" onclick="event.preventDefault()">
                                                                 <i class="fas fa-archive"></i>
                                                             </a>
 
                                                             <!-- The Modal -->
-                                                            <div class="modal" id="deletedata">
+                                                            <div class="modal" id="deletedata{{$agent_livreur->id}}">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
 
@@ -106,10 +106,10 @@
                                                                         <div class="modal-footer">
                                                                             <div class="justify-content-between">
                                                                                 <a href="{{ route('agents.destroy', $agent_livreur->id) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
-                                                                                   onclick="event.preventDefault();document.getElementById('delete-agent').submit();">
+                                                                                   onclick="event.preventDefault();document.getElementById('delete-agent{{$agent_livreur->id}}').submit();">
                                                                                     OUI
                                                                                 </a>
-                                                                                <form method="post" id="delete-agent" action="{{ route('agents.destroy', $agent_livreur->id) }}">
+                                                                                <form method="post" id="delete-agent{{$agent_livreur->id}}" action="{{ route('agents.destroy', $agent_livreur->id) }}">
                                                                                     @csrf
                                                                                     @method('delete')
                                                                                 </form>

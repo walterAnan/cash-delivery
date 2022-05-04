@@ -85,12 +85,12 @@
                                                         </a>
 
                                                         <!-- Button to Open the Modal -->
-                                                        <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                        <a href="#" class="" data-toggle="modal" data-target="#deletedata{{$agence->id}}" title="Archiver" onclick="event.preventDefault()">
                                                             <i class="fas fa-archive"></i>
                                                         </a>
 
                                                         <!-- The Modal -->
-                                                        <div class="modal" id="deletedata">
+                                                        <div class="modal" id="deletedata{{$agence->id}}">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
 
@@ -109,10 +109,10 @@
                                                                     <div class="modal-footer">
                                                                         <div class="justify-content-between">
                                                                             <a href="{{ route('agences.destroy', $agence->id) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
-                                                                               onclick="event.preventDefault();document.getElementById('delete-agence').submit();">
+                                                                               onclick="event.preventDefault();document.getElementById('delete-agence{{$agence->id}}').submit();">
                                                                                 OUI
                                                                             </a>
-                                                                            <form method="post" id="delete-agence" action="{{ route('agences.destroy', $agence->id) }}">
+                                                                            <form method="post" id="delete-agence{{$agence->id}}" action="{{ route('agences.destroy', $agence->id) }}">
                                                                                 @csrf
                                                                                 @method('delete')
                                                                             </form>

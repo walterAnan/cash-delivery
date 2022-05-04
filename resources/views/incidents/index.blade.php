@@ -76,12 +76,12 @@
                                                             <a href="{{ route('incidents.edit', $incident->id) }}" >
                                                                <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata{{$incident->id}}" title="Archiver" onclick="event.preventDefault()">
                                                                 <i class="fas fa-archive"></i>
                                                             </a>
 
 
-                                                            <div class="modal" id="deletedata">
+                                                            <div class="modal" id="deletedata{{$incident->id}}">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
 
@@ -100,10 +100,10 @@
                                                                         <div class="modal-footer">
                                                                             <div class="justify-content-between">
                                                                                 <a href="{{ route('demandes.destroy', $incident->id) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
-                                                                                   onclick="event.preventDefault();document.getElementById('delete-incident').submit();">
+                                                                                   onclick="event.preventDefault();document.getElementById('delete-incident{{$incident->id}}').submit();">
                                                                                     OUI
                                                                                 </a>
-                                                                                <form method="post" id="delete-incident" action="{{ route('incidents.destroy', $incident->id) }}">
+                                                                                <form method="post" id="delete-incident{{$incident->id}}" action="{{ route('incidents.destroy', $incident->id) }}">
                                                                                     @csrf
                                                                                     @method('delete')
                                                                                 </form>

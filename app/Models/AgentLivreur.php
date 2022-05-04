@@ -21,12 +21,15 @@ class AgentLivreur extends Model
         'adresseAgent',
         'estDisponible',
         'soldeNetAgent',
-        'montantCautionAgent',
-        'soldeNetAgent',
+        'localite_id',
         'livreur_id',
-        'controlLivraison_id',
         'moyensdedeplacement_id',
     ];
+
+    public function localite(): BelongsTo
+    {
+        return $this->belongsTo(Localite::class);
+    }
 
     public function livreur():BelongsTo
     {
@@ -47,6 +50,10 @@ class AgentLivreur extends Model
     public function moyenDeDeplacement():HasMany
     {
         return $this->hasMany(MoyensDeDeplacement::class);
+    }
+    public function device():HasMany
+    {
+        return $this->hasMany(Device::class);
     }
 
     protected $casts = [

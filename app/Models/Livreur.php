@@ -21,7 +21,10 @@ class Livreur extends Model
         'emailLivreur',
         'cautionLivreur',
         'telephoneLivreur',
-        'agence_id'
+        'modeCommission',
+        'valeurCommission',
+        'agence_id',
+        'controlLivraison_id',
     ];
 
 
@@ -32,11 +35,11 @@ class Livreur extends Model
 //    }
 
 
-    public function livreurs(): HasMany
-    {
-        return $this->hasMany(Livreur::class);
-
-    }
+//    public function livreurs(): HasMany
+//    {
+//        return $this->hasMany(Livreur::class);
+//
+//    }
 
     public function agentLivreurs(): HasMany
     {
@@ -44,10 +47,15 @@ class Livreur extends Model
 
     }
 
-
     public function agence(): BelongsTo
     {
         return $this->belongsTo(Agence::class);
 
+    }
+
+
+    public function controlLivraison(): BelongsTo
+    {
+        return $this->belongsTo(ControlLivraison::class);
     }
 }

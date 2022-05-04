@@ -63,15 +63,18 @@
 
                                 @livewire('livreur-agents', [$demande_livraisons->id])
 
-                            <div class="col-lg-3 form-group">
-                            <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Assigner</button>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-lg-6 form-group">
+                                <button class="btn ripple btn-main-primary btn-block" type="submit" style="background-color: #4a9e04">Assigner</button>
                             </div>
 
-                            <div class="col-lg-3 form-group">
+                            <div class="col-lg-6 form-group">
                                 <a href="{{ route('demandes.index') }}" type="button" class="btn ripple btn-danger btn-block">Annuler</a>
                             </div>
-                            </div>
-            </div>
+                        </div>
 
                     </form>
 

@@ -19,13 +19,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('apiDemande_livraisons',DemandeLivraisonController::class);
-Route::apiResource('apiAgents',AgentLivreurController::class);
+
+Route::post('v1/livraison', DemandeLivraisonController::class.'@fetch');
+Route::get('liste_livraison', DemandeLivraisonController::class.'@listLivraison');
+Route::put('update_status_livraison', DemandeLivraisonController::class.'@updateStatusLivraison');
+Route::put('update_status_effectue', DemandeLivraisonController::class.'@updateStatusEffectue');
+Route::get('livraison_en_cours', DemandeLivraisonController::class.'@livraisonsEnCours');
+Route::get('historique_livraison', DemandeLivraisonController::class.'@historiqueLivraison');
+Route::get('dashboard_agent', DemandeLivraisonController::class.'@dashboradAgent');
+
+
+
+
 
 Route::post('login',AgentLivreurController::class.'@authentif');
-Route::put('update_status',AgentLivreurController::class.'@updateStatus');
-Route::put('update_status_livraison',DemandeLivraisonController::class.'@updateStatusLivraison');
-Route::get('liste_livraison', DemandeLivraisonController::class.'@listLivraison');
-Route::get('historique_livraison', DemandeLivraisonController::class.'@historiqueLivraison');
+Route::post('token_info', AgentLivreurController::class.'@tokenStorage');
+Route::put('update_status_dispo',AgentLivreurController::class.'@updateStatusDispo');
+Route::put('update_status_indispo',AgentLivreurController::class.'@updateStatusIndispo');
 Route::post('check_otp',AgentLivreurController::class.'@checkOtp');
 

@@ -105,8 +105,9 @@
                                         <table class="dataTable my-datatable table table-hover mg-b-0 table table-striped">
                                             <thead style="size: A3">
                                             <tr>
-                                                <th style="font-family: 'Palatino Linotype'; font-size:small">Code</th>
+                                                <th style="font-family: 'Palatino Linotype'; font-size:small">MAJ</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Référence</th>
+                                                <th class="" style="font-family: 'Palatino Linotype'; font-size:small">Date</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Montant (XAF)</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Client</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Bénéficiaire</th>
@@ -119,8 +120,9 @@
 
                                             @forelse($demande_livraisons as $demandeLivraison)
                                                 <tr>
-                                                    <th scope="row">{{ ($loop->index + 1) }}</th>
+                                                    <td>{{ $demandeLivraison->updated_at->toFormattedDatetime()}}</td>
                                                     <td>{{ $demandeLivraison->ref_operation }}</td>
+                                                    <td>{{ $demandeLivraison->date_reception->toFormattedDatetime()}}</th>
                                                     <td>{{ $demandeLivraison->montant_livraison }}</td>
                                                     <td>{{ $demandeLivraison->nom_client }}</td>
                                                     <td>{{ $demandeLivraison->nom_beneficiaire }}</td>

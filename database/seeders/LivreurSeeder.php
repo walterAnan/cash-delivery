@@ -26,9 +26,13 @@ class LivreurSeeder extends Seeder
                 'telephoneResponsable' => '123456789',
                 'adresseLivreur' => 'Batterie IV',
                 'emailLivreur' => 'kevin@gmail.com',
-                'cautionLivreur' => '5000000',
+                'cautionLivreur' => 5000000,
                 'telephoneLivreur' => '123456789',
+                'modeCommission' => 'TAUX',
+//                'typeLivreur'=>'INTERNE',
+                'valeurCommission' => 25,
                 'agence_id' => 1,
+                'control_livraison_id' => 2,
             ],
 
             [
@@ -39,9 +43,13 @@ class LivreurSeeder extends Seeder
                 'telephoneResponsable' => '321654987',
                 'adresseLivreur' => 'Batterie IV',
                 'emailLivreur' => 'benjamin@gmail.com',
-                'cautionLivreur' => '2500000',
+                'cautionLivreur' => 2500000,
                 'telephoneLivreur' => '321654987',
+                'modeCommission' => 'MONTANT_FIX',
+//                'typeLivreur'=>'INTERNE',
+                'valeurCommission' => 10000,
                 'agence_id' => 1,
+                'control_livraison_id' => 2,
             ]
         ]);
     }

@@ -1,1 +1,1 @@
-<img src="{{asset('assets/img/cassh-logo1.png')}}" alt="" style="width: 100px">
+<img src="{{asset('assets/img/cassh-logo1.png')}}" alt="" style="width: 64px">

@@ -3,7 +3,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<span>Copyright © 2019 <a href="#">Dashlead</a>. Designed by <a href="https://www.spruko.com/">Spruko</a> All rights reserved.</span>
+							<span>Copyright © 2022 <a href="https://www.sfe-fid.com/">SFE</a>. Designed by <a href="https://www.sfe-fid.com/">VENTIS</a> All rights reserved.</span>
 						</div>
 					</div>
 				</div>

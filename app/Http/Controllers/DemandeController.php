@@ -10,8 +10,11 @@ use App\Models\Livraison;
 use App\Models\Livreur;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+use phpDocumentor\Reflection\Types\Static_;
 use Ramsey\Uuid\Type\Integer;
 use StatutLivraison;
 use PDF;
@@ -25,11 +28,35 @@ class DemandeController extends Controller
     public function index()
 
     {
-        $demande_livraisons = DemandeLivraison::all();
+        $demande_livraisons = DemandeLivraison::orderBy('updated_at', 'desc')->get();
+        $chart_options = [
+            'chart_title' => 'Répartition des demandes en fonction de leur statut',
+            'report_type' => 'group_by_string',
+            'model' => 'App\Models\DemandeLivraison',
+            'conditions'            => [
+                ['name' => 'INITIEE', 'condition' => 'statut_demande_id = 1', 'color' => 'black', 'fill' => true],
+                ['name' => 'ASSIGNEE', 'condition' => 'statut_demande_id = 2', 'color' => 'blue', 'fill' => true],
+                ['name' => 'EN COURS', 'condition' => 'statut_demande_id = 3', 'color' => 'blue', 'fill' => true],
+                ['name' => 'EFFECTUEE', 'condition' => 'statut_demande_id = 4', 'color' => 'blue', 'fill' => true],
+                ['name' => 'ANNULEE', 'condition' => 'statut_demande_id = 5', 'color' => 'blue', 'fill' => true],
+            ],
+            'group_by_field' => 'statut_demande_id',
+            'aggregate_function' => 'count',
+//                'group_by_period' => 'day',
+            'chart_type' => 'pie',
+            'chart_color'=>'60, 179, 113'
+        ];
+        $chart1 = new LaravelChart($chart_options);
 
-        return view('demandes.index', compact('demande_livraisons'));
+
+        return view('demandes.index', compact('demande_livraisons', 'chart1'));
     }
 
+
+//
+//    public  function dashboard(){
+//        return view('dashboard');
+//    }
 
     public static function nombre_nouvelle_demande(){
         $nombre_nouvelle_demande = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->count();
@@ -44,6 +71,28 @@ class DemandeController extends Controller
 
     }
 
+    public static function meilleurLivreurs(){
+        $livraionPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)
+            ->select("livreur_id",
+                DB::raw("(sum(montant_livraison)) as montant_total"),
+
+            )
+            ->groupBy(DB::raw("demande_livraisons.livreur_id"))
+            ->orderBy('montant_total', 'DESC')->take(4)->get();
+       return $livraionPro;
+
+    }
+
+
+    public static function livreursPro(){
+        $livraisonsPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)
+            ->selectRaw('livreur_id, sum(montant_livraison)as montant_total')
+            ->addSelect(['raison_sociale' => Livreur::select('raisonSociale')
+                ->whereColumn('livreur_id', 'livreurs.id')
+            ])->groupBy('livreur_id')
+            ->orderBy('montant_total', 'DESC')->take(4)->get();
+        return $livraisonsPro;
+    }
 
     public static function chiffreAffaires(){
         $chiffre_affaires = 0;
@@ -126,8 +175,6 @@ class DemandeController extends Controller
      */
     public function show(int $id)
     {
-//        dd($id);
-//        $demande_livraisons = DB::table('demande_livraisons')->whereId($id)->first();
 
         $demande_livraisons = DemandeLivraison::whereId($id)->first();
 
@@ -143,12 +190,12 @@ class DemandeController extends Controller
      */
     public function edit($id)
     {
-        $id_demandes = [];
+//        $id_demandes = [];
 
         $demande_livraisons = DemandeLivraison::findOrFail($id);
-
-        $id_demandes[] = DemandeLivraison::all()->map->only(['id']);
-        return view('demandes.edit', compact('demande_livraisons', 'id_demandes'));
+//        dd($demande_livraisons);
+//        $id_demandes[] = DemandeLivraison::all()->map->only(['id']);
+        return view('demandes.edit', compact('demande_livraisons', ));
 
     }
 
@@ -159,6 +206,61 @@ class DemandeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+    public function notification(){
+        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bE_QmF1co-htcVgK6HwrgYRUp6a5JBNkA-YV4ArCIVairMPDDbGcvwuAI_colGobLj-mB6GW92l8KbC4ijFn9KhmUvfiWmlggSMRj5yKKyVLGCLnXlvW-mG_ktXaSFfQvsxc6Ho';
+        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
+        $notification = [
+
+                "title" => 'Cash delivery notification',
+
+                "body" => 'Vous avez une nouvelle assignation de livraison',
+
+                "sound"=> "default" // required for sound on ios
+
+            ];
+        $extraNotificationData = [
+            'message' => $notification, 'data'=>'dd'
+
+        ];
+        $fcmNotification = [
+            'to'=>$token,
+            'notification'=> $notification,
+            'data'=>$extraNotificationData
+        ];
+
+        $dataString = json_encode($fcmNotification);
+
+        $headers = [
+
+            'Authorization: key=' . $SERVER_API_KEY,
+
+            'Content-Type: application/json',
+
+        ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
+
+        curl_setopt($ch, CURLOPT_POST, true);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        echo $response;
+        return $response;
+
+    }
     public function update(Request $request, int $id)
     {
 
@@ -175,11 +277,11 @@ class DemandeController extends Controller
         $demande_livraison = DemandeLivraison::findOrfail($id);
         $demande_livraison->livreur_id = $request->livreur_id;
         $demande_livraison->agent_livreur_id = $request->agent_id;
+        //$demande_livraison->commission = $demande_livraison->frais_livraison*0.4;
 
 //        $livraison->user_id = 2;
-        $demande_livraison->statut_demande_id = DEMANDE_ENCOURS;
+        $demande_livraison->statut_demande_id = DEMANDE_ASSIGNEE;
         $demande_livraison->save();
-
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
     }
 
@@ -221,6 +323,27 @@ class DemandeController extends Controller
         return view('demandes.recherche', compact('demandes'));
     }
 
+
+
+    public Static function chart1()
+    {
+
+        $record = DemandeLivraison::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
+            ->where('created_at', '>', Carbon::today()->subDay(6))
+            ->groupBy('day_name','day')
+            ->orderBy('day')
+            ->get();
+
+        $data = [];
+
+        foreach($record as $row) {
+            $data['label'][] = $row->day_name;
+            $data['data'][] = (int) $row->count;
+        }
+
+        $data['chart_data'] = json_encode($data);
+        return $data;
+    }
 
 
 }

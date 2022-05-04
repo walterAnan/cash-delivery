@@ -21,6 +21,12 @@ class StatutDemandeSeeder extends Seeder
                'slug'=>'initiee',
                'description' => 'Livraison initiée',
            ],
+
+            [
+                'libelle' => 'Assignée',
+                'slug'=>'assignee',
+                'description' => 'Livraison assignée',
+            ],
             [
                 'libelle' => 'En cours',
                 'slug' => 'en-cours',

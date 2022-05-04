@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Agence;
+use App\Models\ControlLivraison;
 use App\Models\statutLivreur;
+use App\Models\TypeLivreur;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,10 +26,13 @@ class CreateLivreursTable extends Migration
             $table->string('telephoneResponsable');
             $table->string('adresseLivreur');
             $table->string('emailLivreur');
-            $table->string('cautionLivreur');
+            $table->unsignedInteger('cautionLivreur');
             $table->string('telephoneLivreur');
-            $table->string('commission')->nullable();
+            $table->enum('modeCommission', ['TAUX', 'MONTANT_FIX']);
+            $table->unsignedInteger('valeurCommission');
+//            $table->enum('typeLivreur', ['INTERNE', 'EXTERNE']);
             $table->foreignIdFor(Agence::class);
+            $table->foreignIdFor(ControlLivraison::class);
             $table->timestamps();
         });
     }

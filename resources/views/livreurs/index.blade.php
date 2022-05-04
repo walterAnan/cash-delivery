@@ -60,7 +60,7 @@
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Code</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Raison Sociale</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Adresse MAil</th>
-                                                <th style="font-family: 'Palatino Linotype'; font-size:small">Caution</th>
+{{--                                                <th style="font-family: 'Palatino Linotype'; font-size:small">Caution</th>--}}
                                                 <th class="text-center" style="font-family: 'Palatino Linotype'; font-size:small">Actions</th>
                                             </tr>
                                             </thead>
@@ -71,7 +71,7 @@
                                                     <td>{{ $livreur->codeLivreur }}</td>
                                                     <td>{{ $livreur->raisonSociale }}</td>
                                                     <td>{{ $livreur->emailLivreur}}</td>
-                                                    <td>{{ $livreur->cautionLivreur }}</td>
+{{--                                                    <td>{{ $livreur->cautionLivreur }}</td>--}}
                                                     <td class="text-center">
                                                         <div class="d-flex align-items-center justify-content-between px-5">
                                                             <a href="{{ route('livreurs.show', $livreur->id) }}">
@@ -80,12 +80,12 @@
                                                             <a href="{{ route('livreurs.edit', $livreur->id) }}">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
+                                                            <a href="#" class="" data-toggle="modal" data-target="#deleteLivreur{{$livreur->id}}" title="Archiver" onclick="event.preventDefault()">
                                                                 <i class="fas fa-archive"></i>
                                                             </a>
 
                                                             <!-- The Modal -->
-                                                            <div class="modal" id="deletedata">
+                                                            <div class="modal" id="deleteLivreur{{$livreur->id}}">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
 
@@ -103,11 +103,11 @@
                                                                         <!-- Modal footer -->
                                                                         <div class="modal-footer">
                                                                             <div class="justify-content-between">
-                                                                                <a href="{{ route('livreurs.destroy', $livreur->id) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
-                                                                                   onclick="event.preventDefault();document.getElementById('delete-livreur').submit();">
+                                                                                <a href="{{ route('livreurs.destroy', $livreur) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
+                                                                                   onclick="event.preventDefault();document.getElementById('delete-livreur{{$livreur->id}}').submit();">
                                                                                     OUI
                                                                                 </a>
-                                                                                <form method="post" id="delete-livreur" action="{{ route('livreurs.destroy', $livreur->id) }}">
+                                                                                <form method="post" id="delete-livreur{{$livreur->id}}" action="{{ route('livreurs.destroy', $livreur->id) }}">
                                                                                     @csrf
                                                                                     @method('delete')
                                                                                 </form>

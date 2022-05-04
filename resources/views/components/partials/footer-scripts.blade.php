@@ -6,6 +6,10 @@
 		<!-- Jquery js-->
 		<script src="{{ URL::asset('assets/plugins/jquery/jquery.min.js') }}"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
         @livewireScripts
 
 		<!-- Bootstrap js-->
@@ -86,9 +90,13 @@
                 $('.my-datatable').DataTable( {
                     language: {
                         url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json'
-                    }
+                    },
+                    "ordering": false,
                 } );
             } )
+
+{{--            {!! $chart1->renderChartJsLibrary() !!}--}}
+{{--            {!! $chart1->renderJs() !!}--}}
         </script>
         <script src="{{ URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
         <script src="{{ URL::asset('assets/plugins/datatable/fileexport/dataTables.buttons.min.js')}}"></script>
@@ -99,3 +107,5 @@
         <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.html5.min.js')}}"></script>
         <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.print.min.js')}}"></script>
         <script src="{{ URL::asset('assets/plugins/datatable/fileexport/buttons.colVis.min.js')}}"></script>
+
+

@@ -59,6 +59,12 @@
                             </ul>
                         </div>
                     </div>
+
+
+                        <div class="btn btn-list my-4">
+                            <a class="btn ripple btn-light mx-5" href="{{route('incidents.index')}}" style="color: #28a745">Retour</a>
+
+                        </div>
                     </div>
                 </div>
 

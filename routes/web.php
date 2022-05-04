@@ -17,6 +17,7 @@ use App\Http\Livewire\Users\UpdateUser;
 use App\Http\Livewire\Users\Users;
 use App\Models\AgentLivreur;
 use Illuminate\Support\Facades\Route;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,9 +40,7 @@ Route::get('/test', function () {
 });
 
 
-Route::get('/test1', function (){
-    return view('test');
-});
+Route::get('/test1', [DemandeController::class, 'livreursPro']);
 
 /**
  * Les routes accessibles uniquement par les administrateurs
@@ -91,7 +90,28 @@ Route::group([
         });
 
         Route::get('/dashboard', function () {
-            return view('dashboard');
+
+            $chart_options = [
+                'chart_title' => '   Répartition des demandes en fonction de leur statut',
+                'report_type' => 'group_by_relationship',
+                'model' => 'App\Models\DemandeLivraison',
+                'relationship_name' => 'statutDemande',
+//                'conditions'            => [
+//                    ['name' => 'INITIEE', 'condition' => 'statut_demande_id = 1',  'color' => 'black', 'fill' => true],
+//                    ['name' => 'ASSIGNEE', 'condition' => 'statut_demande_id = 2', 'color' => 'blue', 'fill' => true],
+//                    ['name' => 'EN COURS', 'condition' => 'statut_demande_id = 3', 'color' => 'blue', 'fill' => true],
+//                    ['name' => 'EFFECTUEE', 'condition' => 'statut_demande_id = 4', 'color' => 'blue', 'fill' => true],
+//                    ['name' => 'ANNULEE', 'condition' => 'statut_demande_id = 5', 'color' => 'blue', 'fill' => true],
+//                ],
+                'group_by_field' => 'libelle',
+                'aggregate_function' => 'count',
+//                'group_by_period' => 'day',
+                'chart_type' => 'pie',
+                'chart_color'=>'60, 179, 113'
+            ];
+            $chart1 = new LaravelChart($chart_options);
+
+            return view('dashboard', compact('chart1'));
         })->name('dashboard');
 
 
