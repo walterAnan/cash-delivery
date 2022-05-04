@@ -164,10 +164,7 @@ class DemandeLivraisonController extends Controller
        $listLivraison = DemandeLivraison::where('agent_livreur_id', $request->agent_livreur_id)
            ->where('statut_demande_id', DEMANDE_ASSIGNEE)
             ->get();
-       $device = Device::where('agent_livreur_id', $request->agent_livreur_id);
-//        $token = $device->token;
        if ($listLivraison){
-//           $this->notification($token);
            return Response()->json([
                'status'=>'OK',
                'message_tilte'=>'Succès',

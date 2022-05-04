@@ -208,10 +208,11 @@ class DemandeController extends Controller
      */
 
 
-    public function notification(){
+    public function notification($token){
         $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bE_QmF1co-htcVgK6HwrgYRUp6a5JBNkA-YV4ArCIVairMPDDbGcvwuAI_colGobLj-mB6GW92l8KbC4ijFn9KhmUvfiWmlggSMRj5yKKyVLGCLnXlvW-mG_ktXaSFfQvsxc6Ho';
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
+        $token1 = $token;
+//        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
         $notification = [
 
                 "title" => 'Cash delivery notification',
@@ -226,7 +227,7 @@ class DemandeController extends Controller
 
         ];
         $fcmNotification = [
-            'to'=>$token,
+            'to'=>$token1,
             'notification'=> $notification,
             'data'=>$extraNotificationData
         ];
@@ -277,11 +278,13 @@ class DemandeController extends Controller
         $demande_livraison = DemandeLivraison::findOrfail($id);
         $demande_livraison->livreur_id = $request->livreur_id;
         $demande_livraison->agent_livreur_id = $request->agent_id;
+        $token = $demande_livraison->token;
         //$demande_livraison->commission = $demande_livraison->frais_livraison*0.4;
 
 //        $livraison->user_id = 2;
         $demande_livraison->statut_demande_id = DEMANDE_ASSIGNEE;
         $demande_livraison->save();
+        $this->notification($token);
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
     }
 
