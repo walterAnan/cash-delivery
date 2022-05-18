@@ -17,8 +17,8 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('imei')->unique()->nullable();
-            $table->string('cleGlobal')->nullable();
-            $table->boolean('statut');
+            $table->string('masterKey')->nullable();
+            $table->boolean('statut')->default(false);
             $table->foreignIdFor(AgentLivreur::class);
             $table->timestamps();
         });

@@ -123,7 +123,7 @@ class AgentLivreurController extends Controller
             ]);
         AgentLivreur::where('id', $agent)->update($validatedData);
 
-        return redirect()->route('agents.index');
+        return redirect()->route('agents.index')->with('success','Agent modifié avec succès!');
     }
 
     /**

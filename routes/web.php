@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgenceController;
 use App\Http\Controllers\AgentLivreurController;
 use App\Http\Controllers\DemandeController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\LivraisonController;
 use App\Http\Controllers\LivreurController;
@@ -74,6 +75,7 @@ Route::get('/livraison', function () {
 
 
 
+
 // Routes des Crud
 
 //Livraison
@@ -85,9 +87,9 @@ Route::group([
 ],
     function(){
 
-        Route::get('/test', function () {
-            return 1;
-        });
+        Route::get('/activites',  [DemandeController::class, 'activites'])->name('activites');
+        Route::POST('/data_activites',  [DemandeController::class, 'data'])->name('data_activites');
+
 
         Route::get('/dashboard', function () {
 
@@ -115,13 +117,13 @@ Route::group([
         })->name('dashboard');
 
 
-
-        Route::resource('livraisons', LivraisonController::class)->only([
+        Route::resource('demandes', LivraisonController::class)->only([
             'index', 'show', 'edit', 'create', 'update', 'store', 'destroy', 'generate'
         ]);
 
+
         Route::resource('demandes', DemandeController::class)->only([
-            'index', 'show', 'edit', 'create', 'update', 'store', 'destroy', 'recherche'
+            'index', 'show', 'edit', 'create', 'update', 'store', 'destroy',
         ]);
 
 
@@ -148,6 +150,8 @@ Route::group([
 //                Route::delete('agences/{agence}/destroy', 'destroy')->name('destroy');
 //        });
 
+
+
         Route::resource('agents', AgentLivreurController::class)->only([
             'index', 'show', 'edit', 'create', 'update', 'store', 'destroy'
         ]);
@@ -158,6 +162,9 @@ Route::group([
 
 
         Route::resource('livreurs', LivreurController::class)->only([
+            'index', 'show', 'edit', 'create', 'update', 'destroy', 'store',
+        ]);
+        Route::resource('devices', DeviceController::class)->only([
             'index', 'show', 'edit', 'create', 'update', 'destroy', 'store'
         ]);
 

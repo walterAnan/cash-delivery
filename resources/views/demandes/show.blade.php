@@ -64,7 +64,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-3 text-muted">Montant à Livrer au client</div>
-                                        <div class="col-sm-8">{{$demande_livraisons->montant_livraison}}</div>
+                                        <div class="col-sm-8">{{\App\Http\Controllers\DemandeController::prixMill($demande_livraisons->montant_livraison)}}</div>
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-3 text-muted">Nombre de Billets de 10000 </div>
@@ -76,7 +76,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-3 text-muted">Frais Prelevée pour la Livraison</div>
-                                        <div class="col-sm-8">{{$demande_livraisons->frais_livraison}}</div>
+                                        <div class="col-sm-8">{{\App\Http\Controllers\DemandeController::prixMill($demande_livraisons->frais_livraison)}}</div>
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-3 text-muted">Commission du Livreur</div>

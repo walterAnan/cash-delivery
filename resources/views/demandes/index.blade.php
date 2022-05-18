@@ -123,7 +123,7 @@
                                                     <td>{{ $demandeLivraison->updated_at->toFormattedDatetime()}}</td>
                                                     <td>{{ $demandeLivraison->ref_operation }}</td>
                                                     <td>{{ $demandeLivraison->date_reception->toFormattedDatetime()}}</th>
-                                                    <td>{{ $demandeLivraison->montant_livraison }}</td>
+                                                    <td>{{ \App\Http\Controllers\DemandeController::prixMill($demandeLivraison->montant_livraison) }}</td>
                                                     <td>{{ $demandeLivraison->nom_client }}</td>
                                                     <td>{{ $demandeLivraison->nom_beneficiaire }}</td>
                                                     <td class="text-center">
@@ -134,11 +134,11 @@
                                                     <td class="text-center">
                                                         <div class="d-flex align-items-center justify-content-between px-5">
                                                             <a href="{{ route('demandes.show', $demandeLivraison->id) }}" title="Détails">
-                                                                <i class="fas fa-bars "></i>
+                                                                <i class="fas fa-bars mr-3"></i>
                                                             </a>
                                                             @if($demandeLivraison->statut_demande_id == DEMANDE_INITIEE)
-                                                                <a href="{{ route('demandes.edit', $demandeLivraison->id) }}" title="Assigner">
-                                                                    <i class="fas fa-edit"></i>
+                                                                <a href="{{ route('demandes.edit', $demandeLivraison->id) }}" title="Assigner" >
+                                                                    <i class="fas fa-edit mr-3"></i>
                                                                 </a>
                                                             @else
                                                                 <a role="link" aria-disabled="true">

@@ -64,5 +64,9 @@ class AppServiceProvider extends ServiceProvider
         Carbon::macro('toFormattedTime', function () {
             return $this->translatedFormat('H:i');
         });
+
+        Blade::directive('convert', function ($money) {
+            return "<?php echo number_format($money, 2); ?>";
+        });
     }
 }

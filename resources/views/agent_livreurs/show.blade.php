@@ -52,7 +52,7 @@
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Ville de l'Agent Livreur</div>
-                                        <div class="col-sm-4">{{$agent->localite->ville}}?</div>
+                                        <div class="col-sm-4">{{$agent->localite?->ville}}</div>
                                     </li>
                                     <li class="p-b-20 row">
                                         <div class="col-sm-4 text-muted">Adresse de l'Agence (Quartier)</div>

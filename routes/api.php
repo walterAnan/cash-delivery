@@ -24,6 +24,7 @@ Route::post('v1/livraison', DemandeLivraisonController::class.'@fetch');
 Route::get('liste_livraison', DemandeLivraisonController::class.'@listLivraison');
 Route::put('update_status_livraison', DemandeLivraisonController::class.'@updateStatusLivraison');
 Route::put('update_status_effectue', DemandeLivraisonController::class.'@updateStatusEffectue');
+Route::put('update_statut_annule', DemandeLivraisonController::class.'@updateStatusAnnule');
 Route::get('livraison_en_cours', DemandeLivraisonController::class.'@livraisonsEnCours');
 Route::get('historique_livraison', DemandeLivraisonController::class.'@historiqueLivraison');
 Route::get('dashboard_agent', DemandeLivraisonController::class.'@dashboradAgent');
@@ -33,6 +34,7 @@ Route::get('dashboard_agent', DemandeLivraisonController::class.'@dashboradAgent
 
 
 Route::post('login',AgentLivreurController::class.'@authentif');
+Route::post('apareil_auth', AgentLivreurController::class.'@appareilAuth');
 Route::post('token_info', AgentLivreurController::class.'@tokenStorage');
 Route::put('update_status_dispo',AgentLivreurController::class.'@updateStatusDispo');
 Route::put('update_status_indispo',AgentLivreurController::class.'@updateStatusIndispo');

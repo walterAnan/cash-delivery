@@ -7,17 +7,39 @@ use App\Models\DemandeLivraison;
 use App\Models\Device;
 use DB;
 use Illuminate\Http\Request;
+use function Symfony\Component\String\s;
 
 class AgentLivreurController extends Controller
 {
-    public  function  testLogin(Request $request){
-        $login = $request->login;
-        $password = $request->password;
+    public  function  appareilAuth(Request $request){
+        $imei1 = $request->imei1;
+        $imei2 = $request->imei2;
 
-        return response()->json([
-            'message' => 'Test OK',
-            'login' => $login
-        ]);
+//        dd($imei);
+//        $imei = substr($imei, 1, -1);
+//        $imei = explode(",",$imei);
+//        $imei1 = $imei[0];
+//        $imei2 = substr($imei[1], 1);
+        $appareil = Device::where('imei', $imei1)->orwhere('imei', $imei2)->first();
+
+        if($appareil){
+            return response()->json([
+                'status'=>'OK',
+                'message' => 'Test OK',
+                'message_title' => 'succes',
+                'message_content' => 'Cet appareil existe dans notre base de donnée',
+                'login' => $imei1
+            ],200);
+
+        }else {
+            return Response()->json([
+                'status'=>'NON_OK',
+                'message_tilte'=>'Erreur',
+                'message_content'=>'cet appreil n\'existe pas dans notre  base de donnée',
+                'login' => $imei1
+            ]);
+        }
+
     }
 
     public function authentif(Request $request){
@@ -27,7 +49,7 @@ class AgentLivreurController extends Controller
         if($agent) {
             return Response()->json([
                 'status'=>'OK',
-                'message_tilte'=>'Succès',
+                'message_title'=>'Succès',
                 'message_content'=>'Vous etes connectez',
                 'agent'=> $agent,
 

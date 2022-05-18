@@ -8,7 +8,7 @@
             <h2 class="main-content-title tx-24 mg-b-5"></h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Tableau de Bord</a></li>
-                <li class="breadcrumb-item"><a href="{{route('incidents.index')}}">Incidents</a></li>
+                <li class="breadcrumb-item"><a href="{{route('devices.index')}}">Incidents</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edition</li>
             </ol>
         </div>
@@ -26,19 +26,19 @@
         <div class="col-lg-12">
             <div class="card custom-card">
                 <div class="card-body">
-                    <form action="{{ route('incidents.update', $incident) }}" method="post">
+                    <form action="{{ route('devices.update', $device) }}" method="post">
                         @csrf
                         @method('PUT')
                         <div class="">
                             <div class="row">
                                 <div class="col-lg-6 form-group">
-                                    <label class="form-label">Changer code de l'Incident: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="codeIncident" placeholder="" value="{{$incident->codeIncident}}" required type="text">
+                                    <label class="form-label">Inserer l'IMEI du nouvel appareil: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="imei" placeholder="" value="{{$device->imei}}" required type="text">
                                 </div>
 
                                 <div class="col-lg-6 form-group">
-                                    <label class="form-label">Changer la description de l'incident: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="descriptionIncident" placeholder="" value="{{$incident->descriptionIncident}}" required type="text">
+                                    <label class="form-label">Inserer le masterKey du nouvel appareil: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" name="masterKey" value="{{$device->masterKey}}" required type="text">
                                 </div>
 
 
@@ -47,7 +47,7 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <a href="{{ route('incidents.index') }}" class="btn ripple btn-danger btn-block" type="button">Annuler</a>
+                                    <a href="{{ route('devices.index') }}" class="btn ripple btn-danger btn-block" type="button">Annuler</a>
                                 </div>
                             </div>
                         </div>

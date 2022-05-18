@@ -32,6 +32,10 @@
                 <x-nav-link href="{{ route('agents.index') }}" libelle="Agents Livreurs" icon="fe-users" >
                 </x-nav-link>
             </li>
+            <li class="nav-item">
+                <x-nav-link href="{{ route('devices.index') }}" libelle="Appreils" icon="icon ion-md-laptop" >
+                </x-nav-link>
+            </li>
             @admin
             <li class="nav-item">
                 <x-nav-link href="{{route('admin.users.index')}}" libelle="Utilisateurs" icon="fe-users">

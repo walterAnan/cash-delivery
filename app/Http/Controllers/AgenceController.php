@@ -95,7 +95,7 @@ class AgenceController extends Controller
         ]);
         Agence::where('id', $agence)->update($validatedData);
 
-        return redirect()->route('agences.index');
+        return redirect()->route('agences.index')->with('success','Agence modifiée avec succès!');
     }
 
     /**

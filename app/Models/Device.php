@@ -12,7 +12,7 @@ class Device extends Model
 
     protected $fillable = [
         'imei',
-        'token',
+        'masterKey',
         'statut',
 
     ];

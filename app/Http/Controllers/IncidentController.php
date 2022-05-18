@@ -99,7 +99,7 @@ class IncidentController extends Controller
 
         Incident::where('id', $incident)->update($validatedData);
 
-        return redirect()->route('incidents.index');
+        return redirect()->route('incidents.index')->with('success','Incident modifié avec succès!');
     }
 
     /**

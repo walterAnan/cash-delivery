@@ -148,7 +148,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::chiffreAffaires()}} F XAF</h3>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::chiffreAffaires()}} F.XAF</h3>
                     </div>
                     <!--
                     <div class="progress mb-1">
@@ -168,7 +168,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::commission()}}F XAF</h3>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::commission()}} F.XAF</h3>
                     </div>
                     <!--
                     <div class="progress mb-1">
@@ -189,7 +189,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25"> {{\App\Http\Controllers\DemandeController::montantMax()}}xaf</h3>
+                        <h3 class="dash-25"> {{\App\Http\Controllers\DemandeController::montantMax()}} F.XAF</h3>
                     </div>
                     <!--
                     <div class="progress mb-1">
@@ -256,7 +256,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Livreur</th>
-                                <th>Montant des Livraisons</th>
+                                <th>Montant des Livraisons FCFA</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -264,7 +264,7 @@
                             <tr>
                                 <th scope="row">{{ ($loop->index + 1) }}</th>
                                 <td>{{ $livreurs->raison_sociale}}</td>
-                                <td>{{ $livreurs->montant_total }}</td>
+                                <td>{{\App\Http\Controllers\DemandeController::prixMill($livreurs->montant_total) }}</td>
                             </tr>
                             @endforeach
                             </tbody>
@@ -326,6 +326,17 @@
         </div>
 
     </div>
+
+    <div class="container-fluid p-3 my-3 bg-primary text-white">
+            <div class="container ">
+                <h1>Activités des Livreurs</h1>
+            <div/>
+    </div>
+
+
+
+
+
     <!-- End Row -->
 
     <!-- Row -->

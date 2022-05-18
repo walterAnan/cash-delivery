@@ -103,7 +103,8 @@ class DemandeController extends Controller
 
         }
 
-        return $chiffre_affaires;
+
+        return self::prixMill(strval($chiffre_affaires));
 
     }
 
@@ -113,27 +114,28 @@ class DemandeController extends Controller
         $commission = 0;
         $demandes = DemandeLivraison::withTrashed()->get();
         foreach ($demandes as $demande){
-            $montant = $demande->commission;
+            $montant = $demande->frais_livraison;
             $commission +=$montant;
 
         }
 
-        return $commission;
+        return self::prixMill(strval($commission));
 
     }
 
 
     public static function montantMax(){
-        $montant = [];
+        $montant = array();
         $i = 0;
         $demandes = DemandeLivraison::withTrashed()->get();
         foreach ($demandes as $demande){
+            $montant[$i] = $demande->montant_livraison;
             $i++;
-            $montant = [$demande->montant_livraison];
 
         }
         $montant_max = max($montant);
-        return $montant_max;
+
+        return self::prixMill($montant_max);
 
     }
     /**
@@ -153,6 +155,12 @@ class DemandeController extends Controller
         $pdf = PDF::loadView('myPDF', $data);
 
         return $pdf->download('dash.pdf');
+    }
+
+    public function activites()
+    {
+
+        return view('demandes\activite');
     }
 
 
@@ -208,11 +216,11 @@ class DemandeController extends Controller
      */
 
 
-    public function notification($token){
-        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bE_QmF1co-htcVgK6HwrgYRUp6a5JBNkA-YV4ArCIVairMPDDbGcvwuAI_colGobLj-mB6GW92l8KbC4ijFn9KhmUvfiWmlggSMRj5yKKyVLGCLnXlvW-mG_ktXaSFfQvsxc6Ho';
+    public function notification(){
+        $SERVER_API_KEY = 'AIzaSyCrlxKGGYfrG26GfTMSwCfRcplwF-3XPCM';
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-        $token1 = $token;
-//        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
+//        $token1 = $token;
+        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
         $notification = [
 
                 "title" => 'Cash delivery notification',
@@ -227,7 +235,7 @@ class DemandeController extends Controller
 
         ];
         $fcmNotification = [
-            'to'=>$token1,
+            'to'=>$token,
             'notification'=> $notification,
             'data'=>$extraNotificationData
         ];
@@ -257,8 +265,9 @@ class DemandeController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
         $response = curl_exec($ch);
+
+        dd($response);
         curl_close($ch);
-        echo $response;
         return $response;
 
     }
@@ -270,21 +279,16 @@ class DemandeController extends Controller
           'agent_id' => 'required|exists:agent_livreurs,id',
         ]);
 
-        $agence = Livreur::findOrFail($request->livreur_id)->agence;
-//        $agent = AgentLivreur::findOrFail($request->agent_id)->nomAgent;
+        $livreurAgent = AgentLivreur::findOrFail($request->livreur_id);
 
-//        dd($demande);
 
         $demande_livraison = DemandeLivraison::findOrfail($id);
         $demande_livraison->livreur_id = $request->livreur_id;
         $demande_livraison->agent_livreur_id = $request->agent_id;
-        $token = $demande_livraison->token;
-        //$demande_livraison->commission = $demande_livraison->frais_livraison*0.4;
+        $token = $livreurAgent->token;
 
-//        $livraison->user_id = 2;
         $demande_livraison->statut_demande_id = DEMANDE_ASSIGNEE;
         $demande_livraison->save();
-        $this->notification($token);
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
     }
 
@@ -299,6 +303,43 @@ class DemandeController extends Controller
 
         return redirect()->route('demandes.index');
     }
+
+
+    public function sendNotification()
+    {
+//        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+
+
+        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bHySgh0RH9uZzaY5DQHIQTYNNMUO8ppUVa_lR-OtNDRjQo_B0FMH1f27p__RrFWK3TGzeQGouU7iVYr-LXfmz1_pdpq3BZSgpgziIc06rfAG1a39R2MZZ-J0sxdC2f0alFBrdVi';
+        $token = '';
+        $data = [
+            "registration_ids" => $token,
+            "notification" => [
+                "title" => 'Cash Delivery',
+                "body" => 'Vous avez une nouvelle livraison',
+            ]
+        ];
+        $dataString = json_encode($data);
+
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+
+        dd($response);
+    }
+
 
 
     public function getLivraisonEnCoursLivreur(){
@@ -346,6 +387,50 @@ class DemandeController extends Controller
 
         $data['chart_data'] = json_encode($data);
         return $data;
+    }
+
+
+    public static function prixMill($prix)
+    {
+        $str="";
+        $long =strlen($prix)-1;
+
+        for($i = $long ; $i>=0; $i--)
+        {
+            $j=$long -$i;
+            if( ($j%3 == 0) && $j!=0)
+            { $str= " ".$str;   }
+            $p= $prix[$i];
+
+            $str = $p.$str;
+
+        }
+        return($str);
+
+    }
+
+
+    public function commissionParLivreur($id, $date_bg, $date_end ){
+        $commission_par_livreur = DemandeLivraison::where('livreur_id', $id)->whereBetween('date_livraison', [$date_bg, $date_end])->where('statut_demande_id', DEMANDE_EFFECTUEE)->get();
+        return $commission_par_livreur;
+    }
+    public function data(Request $request){
+        $frais= 0;
+        $commission_par_livreur = 0;
+        $dateDebut = $request->dateDebut;
+        $dateFin = $request->dateFin;
+        $statLivreurs = Livreur::all();
+        foreach($statLivreurs as $livreur){
+            $livraisons = $this->commissionParLivreur($livreur->id, $dateDebut, $dateFin);
+            $nombre = count($livraisons);
+            foreach($livraisons as $livraison){
+                $frais += $livraison['frais_livraison'];
+                return $frais;
+            }
+
+            dd($frais);
+
+        }
     }
 
 

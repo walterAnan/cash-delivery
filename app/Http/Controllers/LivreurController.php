@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agence;
 use App\Models\Demande;
+use App\Models\DemandeLivraison;
 use App\Models\Livreur;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -57,7 +58,7 @@ class LivreurController extends Controller
             'cautionLivreur' => 'required|numeric|gte:200000',
             'modeCommission' => ['string', Rule::in(['TAUX', 'MONTANT_FIX'])],
 //            'typeLivreur' => ['string', Rule::in(['INTERNE', 'EXTERNE'])],
-            'valeurCommission' => 'required|numeric',
+            'valeurCommission' => Rule::when($request->modeCommission == 'TAUX', 'required|numeric|between:10,90', 'required|numeric|between:1000,100000'),
             'telephoneLivreur' => 'required',
             'agence_id' => 'required',
             'control_livraison_id'=>'required|exists:control_livraisons,id'
@@ -67,10 +68,13 @@ class LivreurController extends Controller
             'telephoneResponsable.required' =>'Champ Obligatoire',
             'adresseLivreur.required' =>'Champ Obligatoire',
             'cautionLivreur.required' =>'Champ Obligatoire',
+            'cautionLivreur.gte' =>'La caution doit être supérieur à 200.000',
             'commisssionLivreur.required' =>'Champ Obligatoire',
             'telephoneLivreur.required' =>'Champ Obligatoire',
             'agence_id.required' =>'Champ Obligatoire',
             'control_livraison_id.required' =>'Champ Obligatoire',
+            'valeurCommission.required' =>'Champ Obligatoire',
+            'valeurCommission.between' =>"La valeur de la commission doit être comprise entre 10 et 90 si vous choissisez l'option taux",
         ]);
 
         $livreur = new Livreur();
@@ -141,20 +145,24 @@ class LivreurController extends Controller
             'emailLivreur' => 'required',
             'cautionLivreur' => 'required|numeric|gte:200000',
             'modeCommission' => ['string', Rule::in(['TAUX', 'MONTANT_FIX'])],
-            'valeurCommission' => 'exclude_if:modeCommission,',
+//            'typeLivreur' => ['string', Rule::in(['INTERNE', 'EXTERNE'])],
+            'valeurCommission' => Rule::when($request->modeCommission == 'TAUX', 'required|numeric|between:10,90', 'required|numeric|between:1000,100000'),
             'telephoneLivreur' => 'required',
             'agence_id' => 'required',
-            'control_livraison_id'=>'required',
+            'control_livraison_id'=>'required|exists:control_livraisons,id'
         ], [
             'nomResponsable.required' => 'Champ Obligatoire',
             'raisonSociale.required' =>'Champ Obligatoire',
             'telephoneResponsable.required' =>'Champ Obligatoire',
             'adresseLivreur.required' =>'Champ Obligatoire',
             'cautionLivreur.required' =>'Champ Obligatoire',
+            'cautionLivreur.gte' =>'La caution doit être supérieur à 200.000',
             'commisssionLivreur.required' =>'Champ Obligatoire',
             'telephoneLivreur.required' =>'Champ Obligatoire',
             'agence_id.required' =>'Champ Obligatoire',
             'control_livraison_id.required' =>'Champ Obligatoire',
+            'valeurCommission.required' =>'Champ Obligatoire',
+            'valeurCommission.between' =>"La valeur de la commission doit être comprise entre 10 et 90 si vous choissisez l'option taux",
         ])->validate();;
 
 
@@ -175,7 +183,23 @@ class LivreurController extends Controller
 //        Livreur::whereId($id)->delete();
 
         $livreur->delete();
-        return redirect()->route('livreurs.index')->withSuccess(__('livreur supprimée avec succès.'));
+        return redirect()->route('livreurs.index')->withSuccess(__('livreur supprimé avec succès.'));
+    }
+
+
+
+    public function commissionLivreur($id){
+        $commission = 0;
+        $livraisonEffectuees = DemandeLivraison::where('livreur_id', $id)->where('statutDemande', DEMANDE_EFFECTUEE);
+        $livreur = Livreur::where('id', $id)->first();
+        if($livreur->modeCommission == "TAUX"){
+            foreach($livraisonEffectuees as $livraisonEffectuee){
+                $commission =+ $livreur->valeurCommission * $livraisonEffectuee->montant_livraison;
+                return $commission;
+            }
+        }else{
+            return $livreur->valeurCommission*$livraisonEffectuees->countBy('id');
+        }
     }
 
 
