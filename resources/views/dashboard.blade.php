@@ -327,11 +327,6 @@
 
     </div>
 
-    <div class="container-fluid p-3 my-3 bg-primary text-white">
-            <div class="container ">
-                <h1>Activités des Livreurs</h1>
-            <div/>
-    </div>
 
 
 

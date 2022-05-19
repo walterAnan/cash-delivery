@@ -58,4 +58,9 @@ class Livreur extends Model
     {
         return $this->belongsTo(ControlLivraison::class);
     }
+
+    public function livraisons(): HasMany
+    {
+        return $this->hasMany(DemandeLivraison::class);
+    }
 }

@@ -188,7 +188,7 @@ class LivreurController extends Controller
 
 
 
-    public function commissionLivreur($id){
+    public static function commissionLivreur($id){
         $commission = 0;
         $livraisonEffectuees = DemandeLivraison::where('livreur_id', $id)->where('statutDemande', DEMANDE_EFFECTUEE);
         $livreur = Livreur::where('id', $id)->first();

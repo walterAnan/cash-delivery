@@ -15,7 +15,7 @@
         </div>
     <div class="d-flex">
         <div class="mr-2">
-            <a class="btn ripple btn-info" style="background-color: #4a9e04; margin-bottom: 25px" href="{{route('activites')}}">Activités des Livreurs</a>
+            <a class="btn ripple btn-info" style="background-color: #4a9e04; margin-bottom: 25px" href="{{route('data_activites')}}">Activités des Livreurs</a>
         </div>
     </div>
     </div>

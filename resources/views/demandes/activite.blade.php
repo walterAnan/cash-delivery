@@ -15,7 +15,9 @@
     <div class="row">
         <div class="col-md-12 mt-3">
             <div class="row">
-                <form action="{{route('data_activites')}}" method="post">
+                <form action="{{route('data_activites')}}" method="POST">
+
+                    @method('GET')
                     @csrf
                     <div class="">
                         <div class="row">
@@ -60,11 +62,23 @@
                                 <th>Name</th>
                                 <th>Livraisons Effectuées</th>
                                 <th>Montant de la livraison</th>
-                                <th>Date de livraison</th>
                                 <th>Commission Frais de la Livraison</th>
                                 <th>Commission du livreur</th>
                             </tr>
                             </thead>
+                            <tbody>
+                            @forelse($livreurs as $livreur)
+                                <tr>
+                                    <th scope="row">{{ ($loop->index + 1) }}</th>
+                                    <td>{{ $livreur->raisonSociale }}</td>
+                                    <td>{{ $livreur->livraisonEffectuees }}</td>
+                                    <td>{{ $livreur->montantLivrains }}</td>
+                                    <td>{{ $livreur->fraisLivraisons }}</td>
+                                    <td>{{ $livreur->commission }}</td>
+                                </tr>
+                                @empty
+                            @endforelse
+                            </tbody>
                         </table>
                     </div>
                 </div>

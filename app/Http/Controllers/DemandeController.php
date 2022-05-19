@@ -9,6 +9,7 @@ use App\Models\DemandeLivraison;
 use App\Models\Livraison;
 use App\Models\Livreur;
 use http\Client\Curl\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -157,10 +158,10 @@ class DemandeController extends Controller
         return $pdf->download('dash.pdf');
     }
 
-    public function activites()
+    public function activites(Request|null $request)
     {
-
-        return view('demandes\activite');
+        $livreurs = $this->data($request);
+        return view('demandes.activite', compact('livreurs'));
     }
 
 
@@ -217,10 +218,13 @@ class DemandeController extends Controller
 
 
     public function notification(){
-        $SERVER_API_KEY = 'AIzaSyCrlxKGGYfrG26GfTMSwCfRcplwF-3XPCM';
-        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+
+        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bHySgh0RH9uZzaY5DQHIQTYNNMUO8ppUVa_lR-OtNDRjQo_B0FMH1f27p__RrFWK3TGzeQGouU7iVYr-LXfmz1_pdpq3BZSgpgziIc06rfAG1a39R2MZZ-J0sxdC2f0alFBrdVi';
+
+        $fcmUrl = 'POST https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send';
 //        $token1 = $token;
         $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
+
         $notification = [
 
                 "title" => 'Cash delivery notification',
@@ -240,6 +244,7 @@ class DemandeController extends Controller
             'data'=>$extraNotificationData
         ];
 
+
         $dataString = json_encode($fcmNotification);
 
         $headers = [
@@ -249,6 +254,8 @@ class DemandeController extends Controller
             'Content-Type: application/json',
 
         ];
+
+
 
         $ch = curl_init();
 
@@ -265,10 +272,8 @@ class DemandeController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
         $response = curl_exec($ch);
-
         dd($response);
-        curl_close($ch);
-        return $response;
+
 
     }
     public function update(Request $request, int $id)
@@ -286,7 +291,7 @@ class DemandeController extends Controller
         $demande_livraison->livreur_id = $request->livreur_id;
         $demande_livraison->agent_livreur_id = $request->agent_id;
         $token = $livreurAgent->token;
-
+        $this->notification();
         $demande_livraison->statut_demande_id = DEMANDE_ASSIGNEE;
         $demande_livraison->save();
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
@@ -393,6 +398,7 @@ class DemandeController extends Controller
     public static function prixMill($prix)
     {
         $str="";
+        $prix = strval($prix);
         $long =strlen($prix)-1;
 
         for($i = $long ; $i>=0; $i--)
@@ -410,28 +416,67 @@ class DemandeController extends Controller
     }
 
 
-    public function commissionParLivreur($id, $date_bg, $date_end ){
-        $commission_par_livreur = DemandeLivraison::where('livreur_id', $id)->whereBetween('date_livraison', [$date_bg, $date_end])->where('statut_demande_id', DEMANDE_EFFECTUEE)->get();
-        return $commission_par_livreur;
-    }
-    public function data(Request $request){
-        $frais= 0;
-        $commission_par_livreur = 0;
-        $dateDebut = $request->dateDebut;
-        $dateFin = $request->dateFin;
-        $statLivreurs = Livreur::all();
-        foreach($statLivreurs as $livreur){
-            $livraisons = $this->commissionParLivreur($livreur->id, $dateDebut, $dateFin);
-            $nombre = count($livraisons);
-            foreach($livraisons as $livraison){
-                $frais += $livraison['frais_livraison'];
-                return $frais;
+    public function commissionLivreur($id, $date_bg, $date_end ){
+        $livraisonEffectuees = DemandeLivraison::where('livreur_id', $id)->whereBetween('date_livraison', [$date_bg, $date_end])->where('statut_demande_id', DEMANDE_EFFECTUEE)->get();
+        $livreur = Livreur::findOrFail($id);
+        if($livreur->modeCommission == "TAUX"){
+            $commission = 0.0;
+            foreach($livraisonEffectuees as $livraisonEffectuee){
+                $commission += ($livreur->valeurCommission/100) * $livraisonEffectuee->frais_livraison;
             }
-
-            dd($frais);
-
+            return $commission;
+        }else{
+            return $livreur->valeurCommission*($livraisonEffectuees->count());
         }
     }
 
+
+    public function fraisLivraisonEffectuees($id, $date_bg, $date_end){
+        return DemandeLivraison::query()
+            ->where('livreur_id', $id)
+            ->whereBetween('date_livraison', [$date_bg, $date_end])
+            ->where('statut_demande_id', DEMANDE_EFFECTUEE)
+            ->sum('frais_livraison');
+
+    }
+
+
+    public function montantLivraisonEffectuees($id, $date_bg, $date_end){
+        return DemandeLivraison::query()
+            ->where('livreur_id', $id)
+            ->whereBetween('date_livraison', [$date_bg, $date_end])
+            ->where('statut_demande_id', DEMANDE_EFFECTUEE)
+            ->sum('montant_livraison');
+
+    }
+
+
+    public function nombreLivraisonEffectuees($id, $date_bg, $date_end){
+        return DemandeLivraison::query()
+            ->where('livreur_id', $id)
+            ->whereBetween('date_livraison', [$date_bg, $date_end])
+            ->where('statut_demande_id', DEMANDE_EFFECTUEE)
+            ->count();
+
+    }
+
+    public function data(Request $request){
+        $dateDebut = $request->dateDebut;
+        $dateFin = $request->dateFin;
+        $livreurs = Livreur::query()
+            ->with('livraisons:id,livreur_id')
+            ->select(['id', 'raisonSociale'])
+            ->get()
+            ->map(function ($livreur) use ($dateDebut,$dateFin){
+                $livreur->commission = $this->commissionLivreur($livreur->id, $dateDebut, $dateFin);
+                $livreur->livraisonEffectuees = $this->nombreLivraisonEffectuees($livreur->id, $dateDebut, $dateFin);
+                $livreur->fraisLivraisons = $this->fraisLivraisonEffectuees($livreur->id, $dateDebut, $dateFin);
+                $livreur->montantLivrains = $this->montantLivraisonEffectuees($livreur->id, $dateDebut, $dateFin);
+                return $livreur;
+                });
+
+        return view('demandes.activite', compact('livreurs'));
+
+        }
 
 }
