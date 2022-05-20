@@ -88,7 +88,7 @@ Route::group([
     function(){
 
         Route::get('/activites',  [DemandeController::class, 'activites'])->name('activites');
-        Route::POST('/data_activites',  [DemandeController::class, 'data'])->name('data_activites');
+        Route::get('/data_activites',  [DemandeController::class, 'data'])->name('data_activites');
 
 
         Route::get('/dashboard', function () {
