@@ -54,10 +54,7 @@ class DemandeController extends Controller
     }
 
 
-//
-//    public  function dashboard(){
-//        return view('dashboard');
-//    }
+// Fonction qui determine le nombre de livraisons initiée
 
     public static function nombre_nouvelle_demande(){
         $nombre_nouvelle_demande = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->count();
@@ -65,6 +62,7 @@ class DemandeController extends Controller
 
     }
 
+// Fonction le nombre total de livraisons
 
     public static function nombreT_nouvelle_demande(){
         $nombre_nouvelle_demande = DB::table('demande_livraisons')->count();
@@ -72,18 +70,7 @@ class DemandeController extends Controller
 
     }
 
-    public static function meilleurLivreurs(){
-        $livraionPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)
-            ->select("livreur_id",
-                DB::raw("(sum(montant_livraison)) as montant_total"),
-
-            )
-            ->groupBy(DB::raw("demande_livraisons.livreur_id"))
-            ->orderBy('montant_total', 'DESC')->take(4)->get();
-       return $livraionPro;
-
-    }
-
+ // Fonction qui determine les 4 meilleurs livreurs en fonction des montants livrés
 
     public static function livreursPro(){
         $livraisonsPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)
@@ -94,6 +81,10 @@ class DemandeController extends Controller
             ->orderBy('montant_total', 'DESC')->take(4)->get();
         return $livraisonsPro;
     }
+
+
+
+    // Fonction qui définit le chiffre d'affaires total réalisé
 
     public static function chiffreAffaires(){
         $chiffre_affaires = 0;
@@ -110,7 +101,7 @@ class DemandeController extends Controller
     }
 
 
-
+// Fonction qui retourne la commission sur chaque demande
     public static function commission(){
         $commission = 0;
         $demandes = DemandeLivraison::withTrashed()->get();
@@ -124,6 +115,7 @@ class DemandeController extends Controller
 
     }
 
+// Fonction qui renvoie le plus gros montant livré
 
     public static function montantMax(){
         $montant = array();
@@ -144,6 +136,10 @@ class DemandeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    // Fonction pour imprimer la page des livraions
+
     public function create()
     {
         $demande_livraisons = DemandeLivraison::all();
@@ -158,9 +154,14 @@ class DemandeController extends Controller
         return $pdf->download('dash.pdf');
     }
 
+
+
+// Fonction qui la vue sur l'activité des différents livreurs
+
     public function activites(Request|null $request)
     {
         $livreurs = $this->data($request);
+
         return view('demandes.activite', compact('livreurs'));
     }
 
@@ -171,6 +172,10 @@ class DemandeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function store(Request $request)
     {
 
@@ -187,8 +192,6 @@ class DemandeController extends Controller
 
         $demande_livraisons = DemandeLivraison::whereId($id)->first();
 
-
-
         return view('demandes.show', compact('demande_livraisons'));
     }
 
@@ -199,11 +202,8 @@ class DemandeController extends Controller
      */
     public function edit($id)
     {
-//        $id_demandes = [];
 
         $demande_livraisons = DemandeLivraison::findOrFail($id);
-//        dd($demande_livraisons);
-//        $id_demandes[] = DemandeLivraison::all()->map->only(['id']);
         return view('demandes.edit', compact('demande_livraisons', ));
 
     }
@@ -216,66 +216,71 @@ class DemandeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+//
+//    public function notification(){
+//
+//        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bHySgh0RH9uZzaY5DQHIQTYNNMUO8ppUVa_lR-OtNDRjQo_B0FMH1f27p__RrFWK3TGzeQGouU7iVYr-LXfmz1_pdpq3BZSgpgziIc06rfAG1a39R2MZZ-J0sxdC2f0alFBrdVi';
+//
+//        $fcmUrl = 'POST https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send';
+////        $token1 = $token;
+//        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
+//
+//        $notification = [
+//
+//                "title" => 'Cash delivery notification',
+//
+//                "body" => 'Vous avez une nouvelle assignation de livraison',
+//
+//                "sound"=> "default" // required for sound on ios
+//
+//            ];
+//        $extraNotificationData = [
+//            'message' => $notification, 'data'=>'dd'
+//
+//        ];
+//        $fcmNotification = [
+//            'to'=>$token,
+//            'notification'=> $notification,
+//            'data'=>$extraNotificationData
+//        ];
+//
+//
+//        $dataString = json_encode($fcmNotification);
+//
+//        $headers = [
+//
+//            'Authorization: key=' . $SERVER_API_KEY,
+//
+//            'Content-Type: application/json',
+//
+//        ];
+//
+//
+//
+//        $ch = curl_init();
+//
+//        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
+//
+//        curl_setopt($ch, CURLOPT_POST, true);
+//
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+//
+//        $response = curl_exec($ch);
+//        dd($response);
+//
+//
+//    }
 
-    public function notification(){
-
-        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bHySgh0RH9uZzaY5DQHIQTYNNMUO8ppUVa_lR-OtNDRjQo_B0FMH1f27p__RrFWK3TGzeQGouU7iVYr-LXfmz1_pdpq3BZSgpgziIc06rfAG1a39R2MZZ-J0sxdC2f0alFBrdVi';
-
-        $fcmUrl = 'POST https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send';
-//        $token1 = $token;
-        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
-
-        $notification = [
-
-                "title" => 'Cash delivery notification',
-
-                "body" => 'Vous avez une nouvelle assignation de livraison',
-
-                "sound"=> "default" // required for sound on ios
-
-            ];
-        $extraNotificationData = [
-            'message' => $notification, 'data'=>'dd'
-
-        ];
-        $fcmNotification = [
-            'to'=>$token,
-            'notification'=> $notification,
-            'data'=>$extraNotificationData
-        ];
-
-
-        $dataString = json_encode($fcmNotification);
-
-        $headers = [
-
-            'Authorization: key=' . $SERVER_API_KEY,
-
-            'Content-Type: application/json',
-
-        ];
 
 
 
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
-
-        curl_setopt($ch, CURLOPT_POST, true);
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        $response = curl_exec($ch);
-        dd($response);
-
-
-    }
+// Fonction pour faire l'assignation
     public function update(Request $request, int $id)
     {
 
@@ -356,14 +361,13 @@ class DemandeController extends Controller
         }
     }
 
-
-    public function montantLivraisonEnCours(){
-        $tab = [1,2,3];
-        $col = collect($tab)->sum(function ($t){
-            return $t;
-        });
-        dd($this->montantLivraisonEnCours());
-    }
+//// cacul de
+//    public function montantLivraisonEnCours(){
+//        $tab = [1,2,3];
+//        $col = collect($tab)->sum(function ($t){
+//            return $t;
+//        });
+//    }
 
 
     public function  recherche(){
@@ -376,7 +380,6 @@ class DemandeController extends Controller
 
     public Static function chart1()
     {
-
         $record = DemandeLivraison::select(\DB::raw("COUNT(*) as count"), \DB::raw("DAYNAME(created_at) as day_name"), \DB::raw("DAY(created_at) as day"))
             ->where('created_at', '>', Carbon::today()->subDay(6))
             ->groupBy('day_name','day')
@@ -394,6 +397,10 @@ class DemandeController extends Controller
         return $data;
     }
 
+
+
+
+  // Fonction pour effectuer le séparateur des milliers
 
     public static function prixMill($prix)
     {
@@ -415,7 +422,7 @@ class DemandeController extends Controller
 
     }
 
-
+// Fonction pour déterminer la commission sur une periode définie
     public function commissionLivreur($id, $date_bg, $date_end ){
         $livraisonEffectuees = DemandeLivraison::where('livreur_id', $id)->whereBetween('date_livraison', [$date_bg, $date_end])->where('statut_demande_id', DEMANDE_EFFECTUEE)->get();
         $livreur = Livreur::findOrFail($id);
@@ -424,41 +431,47 @@ class DemandeController extends Controller
             foreach($livraisonEffectuees as $livraisonEffectuee){
                 $commission += ($livreur->valeurCommission/100) * $livraisonEffectuee->frais_livraison;
             }
-            return $commission;
+            return self::prixMill($commission);
         }else{
-            return $livreur->valeurCommission*($livraisonEffectuees->count());
+            return self::prixMill($livreur->valeurCommission*($livraisonEffectuees->count()));
         }
     }
 
-
+// Determine les frais des livraisons éffectuées pour un livreur
     public function fraisLivraisonEffectuees($id, $date_bg, $date_end){
-        return DemandeLivraison::query()
+        return self::prixMill(DemandeLivraison::query()
             ->where('livreur_id', $id)
             ->whereBetween('date_livraison', [$date_bg, $date_end])
             ->where('statut_demande_id', DEMANDE_EFFECTUEE)
-            ->sum('frais_livraison');
+            ->sum('frais_livraison'));
 
     }
 
 
+
+// Calcule le le montant totzl des livraisons éffectuées pour un livreur
     public function montantLivraisonEffectuees($id, $date_bg, $date_end){
-        return DemandeLivraison::query()
+        return self::prixMill(DemandeLivraison::query()
             ->where('livreur_id', $id)
             ->whereBetween('date_livraison', [$date_bg, $date_end])
             ->where('statut_demande_id', DEMANDE_EFFECTUEE)
-            ->sum('montant_livraison');
+            ->sum('montant_livraison'));
 
     }
 
-
+// Determine le nombre de livraisons éffectuées
     public function nombreLivraisonEffectuees($id, $date_bg, $date_end){
-        return DemandeLivraison::query()
+        return self::prixMill(DemandeLivraison::query()
             ->where('livreur_id', $id)
             ->whereBetween('date_livraison', [$date_bg, $date_end])
             ->where('statut_demande_id', DEMANDE_EFFECTUEE)
-            ->count();
+            ->count());
 
     }
+
+
+
+// Renvoie pour chaque livreur la commission, le nombre de livraisons éffectuées, les frais des livraions qu'il a éffectuées et le montant de ses livraisons
 
     public function data(Request $request){
         $dateDebut = $request->dateDebut;
@@ -474,6 +487,7 @@ class DemandeController extends Controller
                 $livreur->montantLivrains = $this->montantLivraisonEffectuees($livreur->id, $dateDebut, $dateFin);
                 return $livreur;
                 });
+
 
         return view('demandes.activite', compact('livreurs'));
 

@@ -40,7 +40,6 @@ class AgenceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-//            'codeAgence' => 'required',
             'nomAgence' => 'required',
             'adresseAgence' => 'required',
             'statut_agence_id' => 'required|exists:statut_agences,id',

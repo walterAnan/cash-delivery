@@ -6,7 +6,7 @@
 @section('content')
 <div class="container my-5">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 fa-3x font-family ">
             <h1 class="text-center">Activté des Livreurs</h1>
             <hr>
         </div>
@@ -20,9 +20,12 @@
                     @method('GET')
                     @csrf
                     <div class="">
+                        <div class="mb-5 font-weight-bold font-italic fa-2x justify-content-center">
+                        <span> Définir la période sur laquelle évaluer l'activités des livreurs</span>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-4">
                                     <div class="input-group-prepend">
                                 <span class="input-group-text bg-info text-white" id="basic-addon1"><i
                                         class="fas fa-calendar-alt"></i></span>

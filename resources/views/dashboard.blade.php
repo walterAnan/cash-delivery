@@ -148,7 +148,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::chiffreAffaires()}} F.XAF</h3>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::chiffreAffaires()}} F XAF</h3>
                     </div>
                     <!--
                     <div class="progress mb-1">
@@ -168,7 +168,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::commission()}} F.XAF</h3>
+                        <h3 class="dash-25">{{\App\Http\Controllers\DemandeController::commission()}} F XAF</h3>
                     </div>
                     <!--
                     <div class="progress mb-1">
@@ -189,7 +189,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="dash-25"> {{\App\Http\Controllers\DemandeController::montantMax()}} F.XAF</h3>
+                        <h3 class="dash-25"> {{\App\Http\Controllers\DemandeController::montantMax()}} F XAF</h3>
                     </div>
                     <!--
                     <div class="progress mb-1">

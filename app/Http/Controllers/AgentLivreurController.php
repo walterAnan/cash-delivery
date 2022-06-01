@@ -47,10 +47,8 @@ class AgentLivreurController extends Controller
             'prenomAgent' => 'required',
             'telephoneAgent'=> 'required',
             'adresseAgent' => 'required',
-//            'cautionAgent' => 'required',
             'livreur_id' => 'required',
             'localite_id' => ['required'],
-            //'statut_agence_id' => 'required|exists:statut_agences,id',
         ],
         [
             'localite_id.required' => 'Veuillez sélectionner une ville'
@@ -66,8 +64,7 @@ class AgentLivreurController extends Controller
         $agent->livreur_id = $request->livreur_id;
         $agent->localite_id = $request->localite_id;
 
-//        dd($agent);
-//
+
         $agent->save();
         return redirect()->route('agents.index')->with('success','Agent créé avec succès!');
     }
@@ -113,10 +110,8 @@ class AgentLivreurController extends Controller
             'prenomAgent' => 'required',
             'telephoneAgent'=> 'required',
             'adresseAgent' => 'required',
-//            'cautionAgent' => 'required',
             'livreur_id' => 'required',
             'localite_id' => ['required'],
-            //'statut_agence_id' => 'required|exists:statut_agences,id',
         ],
             [
                 'localite_id.required' => 'Veuillez sélectionner une ville'

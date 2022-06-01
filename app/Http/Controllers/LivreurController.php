@@ -23,7 +23,6 @@ class LivreurController extends Controller
     public function index()
     {
         $livreurs = Livreur::all();
-//        dd($livreurs->toArray());
         return view('livreurs.index', compact('livreurs'));
     }
 
@@ -89,7 +88,6 @@ class LivreurController extends Controller
         $livreur->cautionLivreur = $request->cautionLivreur;
         $livreur->telephoneLivreur = $request->telephoneLivreur;
         $livreur->modeCommission = $request->modeCommission;
-//        $livreur->typeLivreur = $request->typeLivreur;
         $livreur->valeurCommission = $request->valeurCommission;
         $livreur->agence_id = $request->agence_id;
         $livreur->control_livraison_id = $request->control_livraison_id;
@@ -145,7 +143,6 @@ class LivreurController extends Controller
             'emailLivreur' => 'required',
             'cautionLivreur' => 'required|numeric|gte:200000',
             'modeCommission' => ['string', Rule::in(['TAUX', 'MONTANT_FIX'])],
-//            'typeLivreur' => ['string', Rule::in(['INTERNE', 'EXTERNE'])],
             'valeurCommission' => Rule::when($request->modeCommission == 'TAUX', 'required|numeric|between:10,90', 'required|numeric|between:1000,100000'),
             'telephoneLivreur' => 'required',
             'agence_id' => 'required',
@@ -179,28 +176,11 @@ class LivreurController extends Controller
      */
     public function destroy(Livreur $livreur)
     {
-//        dd($id);
-//        Livreur::whereId($id)->delete();
 
         $livreur->delete();
         return redirect()->route('livreurs.index')->withSuccess(__('livreur supprimé avec succès.'));
     }
 
-
-
-    public static function commissionLivreur($id){
-        $commission = 0;
-        $livraisonEffectuees = DemandeLivraison::where('livreur_id', $id)->where('statutDemande', DEMANDE_EFFECTUEE);
-        $livreur = Livreur::where('id', $id)->first();
-        if($livreur->modeCommission == "TAUX"){
-            foreach($livraisonEffectuees as $livraisonEffectuee){
-                $commission =+ $livreur->valeurCommission * $livraisonEffectuee->montant_livraison;
-                return $commission;
-            }
-        }else{
-            return $livreur->valeurCommission*$livraisonEffectuees->countBy('id');
-        }
-    }
 
 
 }
