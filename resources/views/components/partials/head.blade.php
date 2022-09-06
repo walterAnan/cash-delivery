@@ -1,8 +1,8 @@
 		<!-- Favicon -->
-		<link rel="icon" href="{{ URL::asset('assets/img/brand/favicon.ico')}}" type="image/x-icon"/>
+		<link rel="icon" href="{{ URL::asset('assets/img/cassh-logo1.png')}}" type="image/x-icon"/>
 
 		<!-- Title -->
-		<title>Cash Delivery</title>
+		<title>Cash Delivery app</title>
 
 		<!---Fontawesome css-->
 		<link href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css')}}" rel="stylesheet">

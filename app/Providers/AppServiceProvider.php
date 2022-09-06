@@ -38,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
             return auth()->user()->hasEditorRole();
         });
 
+        Blade::if('sav', function () {
+            return auth()->user()->hasSavRole();
+        });
+
         Carbon::setLocale('fr');
 
         // Format de date par défaut de l'application

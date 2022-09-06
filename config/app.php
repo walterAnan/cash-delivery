@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'twilio_sid' => env('TWILIO_SID', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +68,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Libreville',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +81,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +166,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 
 
+
         /*
          * Package Service Providers...
          */
@@ -234,6 +236,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Invoice' => LaravelDaily\Invoices\Facades\Invoice::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],

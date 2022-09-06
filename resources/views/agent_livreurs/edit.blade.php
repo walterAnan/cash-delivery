@@ -100,8 +100,8 @@
                                 </div>
 
 
-                                <div class="col-lg-3">
-                                    <button class="btn ripple btn-danger btn-block" type="button">Annuler</button>
+                                <div class="col-lg-6">
+                                    <a href="{{ route('agents.index') }}" class="btn ripple btn-danger btn-block" type="button">Annuler</a>
                                 </div>
 
 

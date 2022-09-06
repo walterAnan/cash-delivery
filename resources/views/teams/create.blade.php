@@ -1,7 +1,7 @@
 <x-master-layout>
     @section('page-header')
         <h2 class="h4 font-weight-bold">
-            {{ __('Create Team') }}
+            {{ __('Créer Une Equipe') }}
         </h2>
     @endsection
 

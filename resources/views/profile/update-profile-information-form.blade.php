@@ -4,13 +4,13 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
+        {{ __('Mettre à jour ton profile.') }}
     </x-slot>
 
     <x-slot name="form">
 
         <x-jet-action-message on="saved">
-            {{ __('Saved.') }}
+            {{ __('Valider.') }}
         </x-jet-action-message>
 
         <!-- Profile Photo -->
@@ -42,16 +42,16 @@
                 </div>
 
                 <x-jet-secondary-button class="mt-2 me-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ __('Select A New Photo') }}
+                    {{ __('Selectionner une nouvelle photo') }}
 				</x-jet-secondary-button>
-				
+
 				@if ($this->user->profile_photo_path)
                     <x-jet-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         <div wire:loading wire:target="deleteProfilePhoto" class="spinner-border spinner-border-sm" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
 
-                        {{ __('Remove Photo') }}
+                        {{ __('Supprimer la Photo') }}
                     </x-jet-secondary-button>
                 @endif
 
@@ -62,7 +62,7 @@
         <div class="w-md-75">
             <!-- Name -->
             <div class="mb-3">
-                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-label for="name" value="{{ __('Nom') }}" />
                 <x-jet-input id="name" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}" wire:model.defer="state.name" autocomplete="name" />
                 <x-jet-input-error for="name" />
             </div>
@@ -83,7 +83,7 @@
                     <span class="visually-hidden">Loading...</span>
                 </div>
 
-				{{ __('Save') }}
+				{{ __('Valider') }}
 			</x-jet-button>
 		</div>
     </x-slot>

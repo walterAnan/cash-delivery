@@ -25,6 +25,15 @@ const DEMANDE_ANNULEE    = 5;
 const INTERNE = 1;
 const EXTERNE = 2;
 
+
+
+/**
+ * Statuts d'un appareil
+ */
+
+const ACTIF = 1;
+const INACTIF = 2;
+
 function badgeColor(int $statutDemande)
 {
     return match ($statutDemande) {

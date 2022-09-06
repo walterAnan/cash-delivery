@@ -19,27 +19,27 @@
                 <div class="mb-3">
                     <x-jet-label value="{{ __('Email') }}" />
 
-                    <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email"
+                    <x-jet-input class="" type="email"
                                  name="email" :value="old('email')" required />
-                    <x-jet-input-error for="email"></x-jet-input-error>
+{{--                    <x-jet-input-error for="email"></x-jet-input-error>--}}
                 </div>
 
                 <div class="mb-3">
                     <x-jet-label value="{{ __('Mot de passe') }}" />
 
-                    <x-jet-input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password"
+                    <x-jet-input class="form-control" type="password"
                                  name="password" required autocomplete="current-password" />
                     <x-jet-input-error for="password"></x-jet-input-error>
                 </div>
 
-                <div class="mb-3">
-                    <div class="custom-control custom-checkbox">
-                        <x-jet-checkbox id="remember_me" name="remember" />
-                        <label class="custom-control-label" for="remember_me">
-                            {{ __('Remember Me') }}
-                        </label>
-                    </div>
-                </div>
+{{--                <div class="mb-3">--}}
+{{--                    <div class="custom-control custom-checkbox">--}}
+{{--                        <x-jet-checkbox id="remember_me" name="remember" />--}}
+{{--                        <label class="custom-control-label" for="remember_me">--}}
+{{--                            {{ __('Remember Me') }}--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="mb-0">
                     <div class="d-flex justify-content-end align-items-baseline">

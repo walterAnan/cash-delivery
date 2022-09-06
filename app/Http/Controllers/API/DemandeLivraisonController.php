@@ -9,6 +9,7 @@ use App\Models\Device;
 use App\Models\StatutDemande;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DemandeLivraisonController extends Controller
 {
@@ -54,37 +55,6 @@ class DemandeLivraisonController extends Controller
 
     }
 
-//    public function fetch1()
-//    {
-//        $response = Http::get('https://bocashdelivery.ventis.group/api/v1/livraison');
-//
-//        $livraisons = json_decode($response->body());
-//        foreach($livraisons as $livraison){
-//            $demande = new DemandeLivraison();
-//            $demande->ref_operation = $livraison->ref_operation;
-//            $demande->code_agence = $livraison->code_agence;
-//            $demande->nom_client = $livraison->nom_client;
-//            $demande->prenom_client = $livraison->prenom_client;
-//            $demande->adresse_livraison = $livraison->adresse_livraison;
-//            $demande->nom_beneficiaire = $livraison->nom_beneficiaire;
-//            $demande->prenom_beneficiaire = $livraison->prenom_beneficiaire;
-//            $demande->tel_beneficiaire = $livraison->tel_beneficiaire;
-//            $demande->montant_livraison = $livraison->montant_livraison;
-//            $demande->nombreBillet5000 = $livraison->nombreBillet5000;
-//            $demande->commission = $livraison->commission;
-//            $demande->lien_gps = $livraison->answers->answer_dlien_gps;
-//            $demande->date_reception = $livraison->date_reception;
-//            $demande->heure_reception = $livraison->heure_reception;
-//            $demande->date_livraison = $livraison->date_livraison;
-//            $demande->heure_livraison = $livraison->heure_livraison;
-//            return Response()->json([
-//                'status'=>'OK',
-//                'message_tilte'=>'Succès',
-//                'message_content'=>'La liste des livraisons',
-//            ], 200);
-//            $demande->save();
-//        }
-//    }
 
     /**
      * Update the specified resource in storage.
@@ -162,7 +132,7 @@ class DemandeLivraisonController extends Controller
 
     public function listLivraison(Request $request){
        $listLivraison = DemandeLivraison::where('agent_livreur_id', $request->agent_livreur_id)
-           ->where('statut_demande_id', DEMANDE_ASSIGNEE)
+           ->where('statut_demande_id', DEMANDE_ASSIGNEE)->orwhere('statut_demande_id', DEMANDE_ANNULEE)
             ->get();
        if ($listLivraison){
            return Response()->json([
@@ -179,59 +149,6 @@ class DemandeLivraisonController extends Controller
         ]);
     }
 
-    public function notification(Request $token){
-        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bE_QmF1co-htcVgK6HwrgYRUp6a5JBNkA-YV4ArCIVairMPDDbGcvwuAI_colGobLj-mB6GW92l8KbC4ijFn9KhmUvfiWmlggSMRj5yKKyVLGCLnXlvW-mG_ktXaSFfQvsxc6Ho';
-        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-        $token1 = $token;
-        $notification = [
-
-            "title" => 'Cash delivery notification',
-
-            "body" => 'Vous avez une nouvelle assignation de livraison',
-
-            "sound"=> "default" // required for sound on ios
-
-        ];
-        $extraNotificationData = [
-            'message' => $notification, 'data'=>'dd'
-
-        ];
-        $fcmNotification = [
-            'to'=>$token1,
-            'notification'=> $notification,
-            'data'=>$extraNotificationData
-        ];
-
-        $dataString = json_encode($fcmNotification);
-
-        $headers = [
-
-            'Authorization: key=' . $SERVER_API_KEY,
-
-            'Content-Type: application/json',
-
-        ];
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
-
-        curl_setopt($ch, CURLOPT_POST, true);
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-        echo $response;
-        return $response;
-
-    }
 
 
     public function updateStatusLivraison(Request $request){
@@ -257,16 +174,15 @@ class DemandeLivraisonController extends Controller
 
 
 
-    public function updateStatusAnnule(Request $request){
+    public function supprimer(Request $request){
         $livraison = DemandeLivraison::find($request->id);
 
         if($livraison) {
-            $livraison->statut_demande_id = DEMANDE_ANNULEE;
-            $livraison->save();
+            $livraison->delete();
             return Response()->json([
                 'statut'=>'OK',
                 'message_title'=>'Succès',
-                'message_content'=>'modifié avec succès'
+                'message_content'=>'supprimée avec succès.'
             ] ,200);
         }
         return Response()->json([
@@ -326,7 +242,7 @@ class DemandeLivraisonController extends Controller
     public function livraisonsEnCours(Request $request)
     {
         $livraisonsEnCours = DemandeLivraison::where('agent_livreur_id', $request->agent_livreur_id)
-            ->where('statut_demande_id', DEMANDE_ENCOURS)
+            ->where('statut_demande_id', DEMANDE_ENCOURS)->orwhere('statut_demande_id', DEMANDE_ANNULEE)
             ->get();
 
         if ($livraisonsEnCours) {

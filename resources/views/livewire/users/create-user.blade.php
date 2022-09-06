@@ -19,6 +19,17 @@
                 <x-jet-input id="email" type="email" class="{{ $errors->has('email') ? 'is-invalid' : '' }}" wire:model.defer="state.email" />
                 <x-jet-input-error for="email" />
             </div>
+            <div class="mb-3">
+                <x-jet-label for="password" value="{{ __('Mot de Passe') }}" />
+                <x-jet-input id="password" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}" wire:model.defer="state.password" />
+                <x-jet-input-error for="password" />
+            </div>
+
+            <div class="mb-3">
+                <x-jet-label for="password_confirmation" value="{{ __('Confirmation mot de passe') }}" />
+                <x-jet-input id="password_confirmation" type="text" class="{{ $errors->has('name') ? 'is-invalid' : '' }}" wire:model.defer="state.password_confirmation" />
+                <x-jet-input-error for="password_confirmation" />
+            </div>
 
             <!-- Agence -->
             <div class="mb-3">

@@ -2111,7 +2111,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 	box-shadow: 0 0 0 1px rgb(56, 210, 80);
 }
 .btn-outline-success.disabled, .btn-outline-success:disabled {
-	color: #03c895 !important; 
+	color: #03c895 !important;
 	background-color: transparent;
 }
 .btn-outline-success:not(:disabled):not(.disabled):active, .btn-outline-success:not(:disabled):not(.disabled).active, .show>.btn-outline-success.dropdown-toggle {
@@ -2183,7 +2183,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 	box-shadow: 0 0 0 1px rgb(255, 71, 61);
 }
 .btn-outline-danger.disabled, .btn-outline-danger:disabled {
-	color: #ff473d !important; 
+	color: #ff473d !important;
 	background-color: transparent;
 }
 .btn-outline-danger:not(:disabled):not(.disabled):active, .btn-outline-danger:not(:disabled):not(.disabled).active, .show>.btn-outline-danger.dropdown-toggle {
@@ -2827,7 +2827,7 @@ input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="butto
 	line-height: 1.5;
 	color: #596882;
 	vertical-align: middle;
-	
+
 	background-color: #fff;
 	border: 1px solid #e1e6f1;
 	border-radius: 0px;
@@ -15167,7 +15167,7 @@ body {
 	color: #1e1635;
 	position: relative;
 }
-.main-chat-body .media.flex-row-reverse .main-msg-wrapper:before,  
+.main-chat-body .media.flex-row-reverse .main-msg-wrapper:before,
 .main-chat-body .media.flex-row-reverse .main-msg-wrapper:after{
 	right: auto;
     left: 100%;
@@ -15184,7 +15184,7 @@ body {
 .main-msg-wrapper{
 	position:relative
 }
-.main-msg-wrapper:before,  
+.main-msg-wrapper:before,
 .main-msg-wrapper:after{
 	border-color: transparent #f1f2f9 transparent transparent;
     border-image: none;
@@ -16642,7 +16642,8 @@ body {
 	border-color: #e1e6f1;
 }
 .main-signin-header .form-control:focus {
-	border-color: #b4bdce;
+	/*border-color: #b4bdce;*/
+	border-color: #b5ceb4;
 	box-shadow: none;
 }
 .main-signin-header .form-control::placeholder {

@@ -33,35 +33,37 @@
                             <div class="row">
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Référence de la Livraison: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="montantDemande" placeholder="{{$demande_livraisons->ref_operation}}" readonly="readonly" required type="text">
+                                    <input class="form-control" style = "font-weight: bold" name="montantDemande" placeholder="{{$demande_livraisons->ref_operation}}" readonly="readonly" required type="text">
                                 </div>
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Nom du client: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="fraisDemande" placeholder="{{$demande_livraisons->nom_client}}" readonly="readonly" required type="text">
+                                    <input class="form-control" style = "font-weight: bold" name="fraisDemande" placeholder="{{$demande_livraisons->nom_client}}" readonly="readonly" required type="text">
                                 </div>
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Nom du Bénéficiaire: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->nom_beneficiaire}}" readonly="readonly" required type="text">
+                                    <input class="form-control" style = "font-weight: bold" name="nombreBillet10000" placeholder="{{$demande_livraisons->nom_beneficiaire}}" readonly="readonly" required type="text">
                                 </div>
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Adresse de la Livraison: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->adresse_livraison}}" readonly="readonly" required type="text">
+                                    <input class="form-control" style = "font-weight: bold" name="nombreBillet10000" placeholder="{{$demande_livraisons->adresse_livraison}}" readonly="readonly" required type="text">
                                 </div>
 
                                 <div class="col-lg-6 form-group">
-                                    <label class="form-label">Montant de leDemande: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="nombreBillet10000" placeholder="{{$demande_livraisons->montant_livraison}}" readonly="readonly" required type="text">
+                                    <label class="form-label">Montant de la Demande: <span class="tx-danger">*</span></label>
+                                    <input class="form-control" style = "font-weight: bold" name="nombreBillet10000" placeholder="{{\App\Http\Controllers\DemandeController::prixMill($demande_livraisons->montant_livraison)}}" readonly="readonly" required type="text">
                                 </div>
 
                                 <div class="col-lg-6 form-group">
                                     <label class="form-label">Statut de la Livraison: <span class="tx-danger">*</span></label>
-                                    <input class="form-control" name="statut" placeholder="{{$demande_livraisons->statutDemande->libelle}}" readonly="readonly" required type="text">
+                                    <input class="form-control" style = "font-weight: bold" name="statut" style = "font-weight: bold" placeholder="{{$demande_livraisons->statutDemande->libelle}}" readonly="readonly" required type="text">
                                 </div>
-
+                                <div class="col-lg-6 form-group" margin-top="100px" margin-bottom = "100px">
+                                <span class="" style="font-weight: bold" >Assignation</span>
                                 @livewire('livreur-agents', [$demande_livraisons->id])
+                                </div>
 
                             </div>
                         </div>

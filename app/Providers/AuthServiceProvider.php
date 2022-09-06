@@ -36,8 +36,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasEditorRole();
         });
 
-        Gate::define('observer', function(User $user) {
-            return $user->hasObserverRole();
+        Gate::define('sav', function(User $user) {
+            return $user->hasSavRole();
         });
 
 

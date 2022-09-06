@@ -87,6 +87,11 @@ class User extends Authenticatable
         return $this->hasTeamRole(auth()->user()->currentTeam, 'observer');
     }
 
+    public function hasSavRole(): bool
+    {
+        return $this->hasTeamRole(auth()->user()->currentTeam, 'sav');
+    }
+
 
 
     public function agence(): BelongsTo

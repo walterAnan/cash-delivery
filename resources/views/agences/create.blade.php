@@ -76,7 +76,7 @@
                                     </div>
 
                                 <div class="col-lg-6">
-                                    <a href="{{ route('incidents.index') }}" type="buttton" class="btn ripple btn-danger btn-block">Annuler</a>
+                                    <a href="{{ route('agences.index') }}" type="buttton" class="btn ripple btn-danger btn-block">Annuler</a>
                                 </div>
 
                             </div>

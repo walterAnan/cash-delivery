@@ -40,14 +40,22 @@
                                     <label class="form-label">Adresse de l'Agence: <span class="tx-danger">*</span></label>
                                     <input class="form-control" name="adresseAgence" placeholder="" value="{{$agence->adresseAgence}}" required type="text">
                                 </div>
-
+                                <div class="col-lg-12 form-group">
+                                    <select class="form-control select" name="statut_agence_id" data-parsley-class-handler="#slWrapper2" data-parsley-errors-container="#slErrorContainer2" data-placeholder="Choose one" required>
+                                        <option label="Choose one">
+                                        </option>
+                                        @foreach($status as $statut)
+                                            <option value="{{ $statut->id }}">{{ $statut->libelle }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                                 <div class="col-lg-6">
                                     <button class="btn ripple btn-main-primary btn-block", style="background-color: #4a9e04">Valider</button>
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <button class="btn ripple btn-danger btn-block" type="button">Annuler</button>
+                                    <a href="{{ route('agences.index') }}" class="btn ripple btn-danger btn-block" type="button">Annuler</a>
                                 </div>
                             </div>
                         </div>

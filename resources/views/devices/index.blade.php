@@ -59,7 +59,7 @@
                                                 <th>N</th>
                                                 <th>IMEI</th>
                                                 <th>masterKey</th>
-                                                <th>Statut</th>
+{{--                                                <th>Statut</th>--}}
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                             </thead>
@@ -69,7 +69,7 @@
                                                     <th scope="row">{{ ($loop->index + 1) }}</th>
                                                     <td>{{ $device->imei }}</td>
                                                     <td>{{ $device->masterKey }}</td>
-                                                    <td>{{ $device->status }}</td>
+{{--                                                    <td>{{ $device->status }}</td>--}}
                                                     <td class="text-center">
                                                         <div class="d-flex align-items-center justify-content-between px-1">
                                                             <a href="{{ route('devices.show', $device->id) }}" >

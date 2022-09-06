@@ -93,7 +93,6 @@
         <div class="col-lg-12">
             <div class="card custom-card">
                 <div class="card-body">
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card custom-card">
@@ -105,7 +104,7 @@
                                         <table class="dataTable my-datatable table table-hover mg-b-0 table table-striped">
                                             <thead style="size: A3">
                                             <tr>
-                                                <th style="font-family: 'Palatino Linotype'; font-size:small">MAJ</th>
+                                                <th style="font-family: 'Palatino Linotype'; font-size:small">Mise à jour</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Référence</th>
                                                 <th class="" style="font-family: 'Palatino Linotype'; font-size:small">Date</th>
                                                 <th style="font-family: 'Palatino Linotype'; font-size:small">Montant (XAF)</th>
@@ -145,45 +144,56 @@
                                                                     <i class="fas fa-edit" style="color: #4b4f56"></i>
                                                                 </a>
                                                             @endif
-                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata" title="Archiver" onclick="event.preventDefault()">
-                                                                <i class="fas fa-archive"></i>
+                                                            @if($demandeLivraison->statut_demande_id == DEMANDE_EFFECTUEE || $demandeLivraison->statut_demande_id == DEMANDE_ANNULEE)
+                                                                <a href="#" class="" data-toggle="modal" data-target="" title="Annuler">
+                                                                    <i class="fas fa-archive" style="color: #4b4f56"></i>
+                                                                </a>
+                                                            @else
+                                                            <a href="#" class="" data-toggle="modal" data-target="#deletedata{{$demandeLivraison->id}}" title="Annuler" onclick="event.preventDefault()">
+                                                                <i class="fas fa-archive" ></i>
                                                             </a>
+                                                            @endif
+
+
+                                                            <div class="modal" id="deletedata{{$demandeLivraison->id}}">
+                                                                @livewire('motif', ['demande_livraison' => $demandeLivraison ])
+                                                            </div>
 
 
                                                             <!-- The Modal -->
-                                                            <div class="modal" id="deletedata">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
+{{--                                                            <div class="modal" id="deletedata{{$demandeLivraison->id}}">--}}
+{{--                                                                <div class="modal-dialog">--}}
+{{--                                                                    <div class="modal-content">--}}
 
-                                                                        <!-- Modal Header -->
-                                                                        <div class="modal-header">
-                                                                            <h4 class="modal-title">Archivage de données</h4>
-                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                        </div>
+{{--                                                                        <!-- Modal Header -->--}}
+{{--                                                                        <div class="modal-header">--}}
+{{--                                                                            <h4 class="modal-title">Annulation de la demande</h4>--}}
+{{--                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>--}}
+{{--                                                                        </div>--}}
 
-                                                                        <!-- Modal body -->
-                                                                        <div class="modal-body">
-                                                                            Voulez-vous Archiver cette donnée ?
-                                                                        </div>
+{{--                                                                        <!-- Modal body -->--}}
+{{--                                                                        <div class="modal-body">--}}
+{{--                                                                            Voulez-vous Annuler cette demande ?--}}
+{{--                                                                        </div>--}}
 
-                                                                        <!-- Modal footer -->
-                                                                        <div class="modal-footer">
-                                                                            <div class="justify-content-between">
-                                                                                <a href="{{ route('demandes.destroy', $demandeLivraison->id) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
-                                                                                   onclick="event.preventDefault();document.getElementById('delete-demande').submit();">
-                                                                                    OUI
-                                                                                </a>
-                                                                                <form method="post" id="delete-demande" action="{{ route('demandes.destroy', $demandeLivraison->id) }}">
-                                                                                    @csrf
-                                                                                    @method('delete')
-                                                                                </form>
-                                                                            </div>
-                                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">NON</button>
-                                                                        </div>
+{{--                                                                        <!-- Modal footer -->--}}
+{{--                                                                        <div class="modal-footer">--}}
+{{--                                                                            <div class="justify-content-between">--}}
+{{--                                                                                <a href="{{ route('demandes.destroy', $demandeLivraison->id) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"--}}
+{{--                                                                                   onclick="event.preventDefault();document.getElementById('delete-demande{{$demandeLivraison->id}}').submit();">--}}
+{{--                                                                                    OUI--}}
+{{--                                                                                </a>--}}
+{{--                                                                                <form method="post" id="delete-demande{{$demandeLivraison->id}}" action="{{ route('demandes.destroy', $demandeLivraison->id) }}">--}}
+{{--                                                                                    @csrf--}}
+{{--                                                                                    @method('delete')--}}
+{{--                                                                                </form>--}}
+{{--                                                                            </div>--}}
+{{--                                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">NON</button>--}}
+{{--                                                                        </div>--}}
 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
                                                         </div>
                                                     </td>
                                                 </tr>

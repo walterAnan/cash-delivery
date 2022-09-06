@@ -75,9 +75,10 @@ class AgenceController extends Controller
      */
     public function edit($id)
     {
+        $status = $this->getAllStatut();
 
         $agence = Agence::find($id);
-        return view('agences.edit', compact('agence'));
+        return view('agences.edit', compact('agence', 'status'));
     }
 
     /**
@@ -91,6 +92,8 @@ class AgenceController extends Controller
         $validatedData = $request->validate([
             'nomAgence' => 'required',
             'adresseAgence' => 'required',
+            'statut_agence_id'=>'required',
+
         ]);
         Agence::where('id', $agence)->update($validatedData);
 

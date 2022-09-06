@@ -16,17 +16,12 @@
     </div>
         <div class="d-flex">
         <div class="mr-2">
-            <a class="btn ripple btn-outline-primary dropdown-toggle mb-0" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <i class="fe fe-external-link"></i> Export <i class="fas fa-caret-down ml-1"></i>
-            </a>
-            <div  class="dropdown-menu tx-13">
-                <a class="dropdown-item" href="#"><i class="far fa-file-pdf mr-2"></i>Export as Pdf</a>
-                <a class="dropdown-item" href="#"><i class="far fa-image mr-2"></i>Export as Image</a>
-                <a class="dropdown-item" href="#"><i class="far fa-file-excel mr-2"></i>Export as Excel</a>
-            </div>
+            <a class="btn ripple btn-info" style="background-color: #4a9e04; margin-bottom: 25px" href="{{route('data_activites_agents')}}">Activités des Agents</a>
+
         </div>
     </div>
     </div>
+
     <!-- End Page Header -->
 
 @endsection
@@ -63,6 +58,7 @@
                                                 <th>Nom Agent</th>
                                                 <th>Prenom Agent</th>
                                                 <th>Ville Agent</th>
+                                                <th>Livreur </th>
                                                 <th class="text-center">Actions</th>
                                             </tr>
                                             </thead>
@@ -74,6 +70,7 @@
                                                     <td>{{ $agent_livreur->nomAgent }}</td>
                                                     <td>{{ $agent_livreur->prenomAgent }}</td>
                                                     <td>{{ $agent_livreur->localite?->ville }}</td>
+                                                    <td>{{ $agent_livreur->livreur->raisonSociale }}</td>
                                                     <td class="text-center">
                                                         <div class="d-flex align-items-center justify-content-between px-1">
                                                             <a href="{{ route('agents.show', $agent_livreur->id) }}">

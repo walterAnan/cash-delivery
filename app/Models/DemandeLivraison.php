@@ -6,6 +6,7 @@ use App\Enums\StatutDemandeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DemandeLivraison extends Model
@@ -33,6 +34,7 @@ class DemandeLivraison extends Model
         'livreur',
         'agent_livreur',
         'statut_demande_id',
+        'motif_suppression_id',
         'user_id'
     ];
 
@@ -63,6 +65,11 @@ class DemandeLivraison extends Model
     }
 
     public function statutDemande(): BelongsTo
+    {
+        return $this->belongsTo(StatutDemande::class);
+    }
+
+    public function motif(): belongsTo
     {
         return $this->belongsTo(StatutDemande::class);
     }

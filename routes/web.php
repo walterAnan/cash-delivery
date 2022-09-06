@@ -34,6 +34,15 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+
+Route::get('/test', function () {
+    return view('test');
+});
+
+
+Route::get('/test1', [DemandeController::class, 'livreursPro']);
+
 /**
  * Les routes accessibles uniquement par les administrateurs
  */
@@ -78,8 +87,8 @@ Route::group([
 ],
     function(){
 
-        Route::POST('/activites',  [DemandeController::class, 'activites'])->name('activites');
-        Route::get('/data_activites',  [DemandeController::class, 'data'])->name('data_activites');
+        Route::get('/activites',  [DemandeController::class, 'activites'])->name('activites');
+        Route::POST('/data_activites',  [DemandeController::class, 'data'])->name('data_activites');
 
 
         Route::get('/dashboard', function () {

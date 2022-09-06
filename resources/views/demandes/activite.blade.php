@@ -15,9 +15,8 @@
     <div class="row">
         <div class="col-md-12 mt-3">
             <div class="row">
-                <form action="{{route('data_activites')}}" method="POST">
+                <form action="{{route('data_activites')}}" method="GET">
 
-                    @method('GET')
                     @csrf
                     <div class="">
                         <div class="mb-5 font-weight-bold font-italic fa-2x justify-content-center">
@@ -63,10 +62,10 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Livraisons Effectuées</th>
-                                <th>Montant de la livraison</th>
-                                <th>Commission Frais de la Livraison</th>
-                                <th>Commission du livreur</th>
+                                <th>Livraisons effectuées</th>
+                                <th>Montant des livraisons</th>
+                                <th>Frais de livraisons</th>
+                                <th>Commissions livreur</th>
                             </tr>
                             </thead>
                             <tbody>

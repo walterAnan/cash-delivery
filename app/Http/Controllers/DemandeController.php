@@ -12,13 +12,18 @@ use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use phpDocumentor\Reflection\Types\Static_;
+use PHPUnit\Util\Exception;
 use Ramsey\Uuid\Type\Integer;
 use StatutLivraison;
 use PDF;
+use Twilio\Exceptions\ConfigurationException;
+use Twilio\Rest\Client;
+
 
 class DemandeController extends Controller
 {
@@ -54,11 +59,64 @@ class DemandeController extends Controller
     }
 
 
+    public static function demandesEncours(){
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_ENCOURS)->whereDate('updated_at', Carbon::today())->get();
+        return $demandes;
+
+    }
+
+
+    public static function demandesAssigne(){
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_ASSIGNEE)->whereDate('updated_at', Carbon::today())->get();
+        return $demandes;
+
+    }
+
+
+
+    public static function demandesAnnuler(){
+        $demande_livraisons = DemandeLivraison::with('statutDemande:id,libelle')->where('statut_demande_id', DEMANDE_ANNULEE)->withTrashed()->get();
+//        dd($demande_livraisons->toArray());
+        return view('demandes.annule', compact('demande_livraisons'));
+
+    }
+
 // Fonction qui determine le nombre de livraisons initiée
 
     public static function nombre_nouvelle_demande(){
-        $nombre_nouvelle_demande = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->count();
-        return $nombre_nouvelle_demande;
+        $chiffre_affaires = 0;
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->where('created_at', now())->get();
+        foreach ($demandes as $demande){
+            $montant = $demande->montant_livraison;
+            $chiffre_affaires +=$montant;
+
+
+
+        }
+
+
+        return self::prixMill(strval($chiffre_affaires));
+
+    }
+
+
+
+    public function demandesSav(){
+       $demande_livraisons = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->get();
+
+        return view('demandes.sav', compact('demande_livraisons'));
+
+    }
+
+
+    public function savDonnee(){
+        $demande_livraisons = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->get();
+        if (request('term')) {
+            $demande_livraisons->where('ref_operation', 'Like', '%' . request('term') . '%');
+        }
+
+        return view('demandes.sav_donnee', compact('demande_livraisons'));
+
 
     }
 
@@ -73,8 +131,8 @@ class DemandeController extends Controller
  // Fonction qui determine les 4 meilleurs livreurs en fonction des montants livrés
 
     public static function livreursPro(){
-        $livraisonsPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)
-            ->selectRaw('livreur_id, sum(montant_livraison)as montant_total')
+        $livraisonsPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)->whereMonth('created_at', Carbon::now()->month)
+            ->selectRaw('livreur_id, sum(montant_livraison) as montant_total, COUNT(id) as nombre')
             ->addSelect(['raison_sociale' => Livreur::select('raisonSociale')
                 ->whereColumn('livreur_id', 'livreurs.id')
             ])->groupBy('livreur_id')
@@ -84,11 +142,43 @@ class DemandeController extends Controller
 
 
 
+    public static function sendMessage(String $receiver, String $messageContent){
+        $receiverNumber = $receiver;
+        $message = $messageContent;
+
+        try {
+            $account_sid = config('app.twilio_sid');
+            $auth_token = config('app.twilio_token');
+
+            $client = new Client($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => "sfe-fid",
+                'body' => $message]);
+
+        } catch (Exception $e) {
+            dd("Error: ". $e->getMessage());
+        }
+
+    }
+
+
+
+    public static function livreursProNombre(){
+        $livraisonsPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)
+            ->selectRaw('livreur_id')
+            ->addSelect(['raison_sociale' => Livreur::select('raisonSociale')
+                ->whereColumn('livreur_id', 'livreurs.id')
+            ])->groupBy('livreur_id')->count();
+        return $livraisonsPro;
+    }
+
+
+
     // Fonction qui définit le chiffre d'affaires total réalisé
 
-    public static function chiffreAffaires(){
+    public static function montantEncours(){
         $chiffre_affaires = 0;
-        $demandes = DemandeLivraison::withTrashed()->get();
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_ENCOURS)->where('created_at', now())->get();
         foreach ($demandes as $demande){
            $montant = $demande->montant_livraison;
            $chiffre_affaires +=$montant;
@@ -101,12 +191,15 @@ class DemandeController extends Controller
     }
 
 
+
+
+
 // Fonction qui retourne la commission sur chaque demande
-    public static function commission(){
+    public static function montantEffectue(){
         $commission = 0;
-        $demandes = DemandeLivraison::withTrashed()->get();
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)->where('created_at', now())->get();
         foreach ($demandes as $demande){
-            $montant = $demande->frais_livraison;
+            $montant = $demande->montant_livraison;
             $commission +=$montant;
 
         }
@@ -114,6 +207,46 @@ class DemandeController extends Controller
         return self::prixMill(strval($commission));
 
     }
+
+
+    public static function montantEffectueMois(){
+        $commission = 0;
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)->whereMonth('created_at', Carbon::now()->month)->get();
+        foreach ($demandes as $demande){
+            $montant = $demande->montant_livraison;
+            $commission +=$montant;
+
+        }
+
+        return self::prixMill(strval($commission));
+
+    }
+
+    public static function demandeInitiee(){
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->whereDate('created_at', Carbon::today())->get()->count();
+        return $demandes;
+    }
+
+
+    public static function demandeEncours(){
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_ENCOURS)->whereDate('created_at', Carbon::today())->get()->count();
+        return $demandes;
+    }
+
+
+    public static function demandeEffectue(){
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)->whereDate('created_at', Carbon::today())->get()->count();
+        return $demandes;
+    }
+
+    public static function demandeEffectueMois(){
+        $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)->whereDate('created_at', Carbon::today())->get()->count();
+        return $demandes;
+    }
+
+
+
+
 
 // Fonction qui renvoie le plus gros montant livré
 
@@ -164,6 +297,15 @@ class DemandeController extends Controller
 
         return view('demandes.activite', compact('livreurs'));
     }
+
+    public function activites_agents(Request|null $request)
+    {
+        $agents = $this->data_agents($request);
+
+
+        return view('demandes.activite_agents', compact('agents'));
+    }
+
 
 
     /**
@@ -216,66 +358,6 @@ class DemandeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-//
-//    public function notification(){
-//
-//        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bHySgh0RH9uZzaY5DQHIQTYNNMUO8ppUVa_lR-OtNDRjQo_B0FMH1f27p__RrFWK3TGzeQGouU7iVYr-LXfmz1_pdpq3BZSgpgziIc06rfAG1a39R2MZZ-J0sxdC2f0alFBrdVi';
-//
-//        $fcmUrl = 'POST https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send';
-////        $token1 = $token;
-//        $token = 'c4LPkG0BQjKbPsyJ4R1ATM:APA91bHkXutuXJABVqHvik5LFp1LBsm8Lm4xM9N6Atv1XmchqcSIcvzleJrClBE4c1rCY_l51Nql3yEkjtG3gLxtu4zjjxhdLtll4mE4w-JGqooD2kKQVRlPGLF84Un5uh8BtASROxpN';
-//
-//        $notification = [
-//
-//                "title" => 'Cash delivery notification',
-//
-//                "body" => 'Vous avez une nouvelle assignation de livraison',
-//
-//                "sound"=> "default" // required for sound on ios
-//
-//            ];
-//        $extraNotificationData = [
-//            'message' => $notification, 'data'=>'dd'
-//
-//        ];
-//        $fcmNotification = [
-//            'to'=>$token,
-//            'notification'=> $notification,
-//            'data'=>$extraNotificationData
-//        ];
-//
-//
-//        $dataString = json_encode($fcmNotification);
-//
-//        $headers = [
-//
-//            'Authorization: key=' . $SERVER_API_KEY,
-//
-//            'Content-Type: application/json',
-//
-//        ];
-//
-//
-//
-//        $ch = curl_init();
-//
-//        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
-//
-//        curl_setopt($ch, CURLOPT_POST, true);
-//
-//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-//
-//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//
-//        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-//
-//        $response = curl_exec($ch);
-//        dd($response);
-//
-//
-//    }
 
 
 
@@ -284,34 +366,79 @@ class DemandeController extends Controller
     public function update(Request $request, int $id)
     {
 
-         $request->validate([
-          'livreur_id' => 'required|exists:livreurs,id',
-          'agent_id' => 'required|exists:agent_livreurs,id',
+        $request->validate([
+            'livreur_id' => 'required|exists:livreurs,id',
+            'agent_id' => 'required|exists:agent_livreurs,id',
         ]);
 
-        $livreurAgent = AgentLivreur::findOrFail($request->livreur_id);
-
-
+        $livreurAgent = AgentLivreur::findOrFail($request->agent_id);
         $demande_livraison = DemandeLivraison::findOrfail($id);
         $demande_livraison->livreur_id = $request->livreur_id;
         $demande_livraison->agent_livreur_id = $request->agent_id;
         $token = $livreurAgent->token;
-        $this->notification();
+        $numero_agt = $livreurAgent->telephoneAgent;
+        $numero_agt = "+241".substr($numero_agt, -8);
+        $message = "Vous avez une nouvelle livraison cash delivery à éffectuer";
+        $this->sendMessage($numero_agt, $message);
         $demande_livraison->statut_demande_id = DEMANDE_ASSIGNEE;
+        $assignueur = Auth::user();
+        $demande_livraison->user_id = $assignueur->id;
         $demande_livraison->save();
         return redirect()->route('demandes.index')->with('success','Livraison Assignée avec succès!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      */
+
+
+    //Annulation de la demande
     public function destroy($id)
     {
-        DemandeLivraison::whereId($id)->delete();
+
+
+        $demande = DemandeLivraison::whereId($id)->first();
+
+        $numero_clt = $demande->tel_client;
+        $numero_clt = "+241".substr($numero_clt,-8);;
+        $date = $demande->date_reception;
+        $ref = $demande->ref_operation;
+        $messageContent = "Nous vous informons que votre demande cash delivery numero $ref du $date a été annulée avec succès";
+
+        $demande->delete();
 
         return redirect()->route('demandes.index');
+    }
+
+    public function annule($id)
+    {
+
+
+        $demande = DemandeLivraison::whereId($id)->first();
+
+        $numero_clt = $demande->tel_client;
+        $numero_clt = "+241".substr($numero_clt,-8);
+        $nom_client = $demande->nom_client;
+        $date = $demande->date_reception;
+        $ref = $demande->ref_operation;
+        $messageContent = "Nous vous informons que votre demande cash delivery numero $ref du $date a été annulée avec succès";
+
+        $demande->statut_demande_id = DEMANDE_ANNULEE;
+       DemandeController::SendMessage($numero_clt, $messageContent);
+       if($demande->status == DEMANDE_ENCOURS || $demande->status == DEMANDE_ASSIGNEE){
+           $agent = AgentLivreur::findOrFail($demande->agent_id);
+           $num_agent = $agent->telephoneAgent;
+           $num_agent = "+241".substr($num_agent,-8);
+           $messageContentAgent = "Nous vous informons que la demande cash delivery de référence $ref du client $nom_client est annulée ";
+           DemandeController::SendMessage($num_agent, $messageContentAgent);
+       }
+       else{
+           print('la demande est donc initiée');
+       }
+        return redirect()->route('demandes.annule');
     }
 
 
@@ -320,7 +447,7 @@ class DemandeController extends Controller
 //        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
 
 
-        $SERVER_API_KEY = 'AAAAgr7iOR8:APA91bHySgh0RH9uZzaY5DQHIQTYNNMUO8ppUVa_lR-OtNDRjQo_B0FMH1f27p__RrFWK3TGzeQGouU7iVYr-LXfmz1_pdpq3BZSgpgziIc06rfAG1a39R2MZZ-J0sxdC2f0alFBrdVi';
+        $SERVER_API_KEY = 'BGh7IPpKiueL9Kk1TRGyhSeKQl_xKkUX0dgENVZ0tcboOZsCyj3GVaN9yQ5eaAagKsrf3sbvDZCLZXytcm0VZIQ';
         $token = '';
         $data = [
             "registration_ids" => $token,
@@ -437,6 +564,25 @@ class DemandeController extends Controller
         }
     }
 
+
+    public function commissionAgent($id, $date_bg, $date_end ){
+        $livraisonEffectuees = DemandeLivraison::where('agent_livreur_id', $id)->whereBetween('date_livraison', [$date_bg, $date_end])->where('statut_demande_id', DEMANDE_EFFECTUEE)->get();
+        $livreurAgent = AgentLivreur::findOrFail($id);
+        $livreur_id = $livreurAgent->livreur_id;
+
+
+        $livreur = Livreur::findOrFail($livreur_id);
+        if($livreur->modeCommission == "TAUX"){
+            $commission = 0.0;
+            foreach($livraisonEffectuees as $livraisonEffectuee){
+                $commission += ($livreur->valeurCommission/100) * $livraisonEffectuee->frais_livraison;
+            }
+            return self::prixMill($commission);
+        }else{
+            return self::prixMill($livreur->valeurCommission*($livraisonEffectuees->count()));
+        }
+    }
+
 // Determine les frais des livraisons éffectuées pour un livreur
     public function fraisLivraisonEffectuees($id, $date_bg, $date_end){
         return self::prixMill(DemandeLivraison::query()
@@ -488,9 +634,27 @@ class DemandeController extends Controller
                 return $livreur;
                 });
 
-
         return view('demandes.activite', compact('livreurs'));
 
         }
+
+
+    public function data_agents(Request $request){
+        $dateDebut = $request->dateDebut;
+        $dateFin = $request->dateFin;
+        $agents = AgentLivreur::query()
+            ->select(['id', 'nomAgent'])
+            ->get()
+            ->map(function ($agent) use ($dateDebut,$dateFin){
+                $agent->commission = $this->commissionAgent($agent->id, $dateDebut, $dateFin);
+                $agent->livraisonEffectuees = $this->nombreLivraisonEffectuees($agent->id, $dateDebut, $dateFin);
+                $agent->fraisLivraisons = $this->fraisLivraisonEffectuees($agent->id, $dateDebut, $dateFin);
+                $agent->montantLivrains = $this->montantLivraisonEffectuees($agent->id, $dateDebut, $dateFin);
+                return $agent;
+            });
+
+        return view('demandes.activite_agents', compact('agents'));
+
+    }
 
 }

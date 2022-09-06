@@ -64,10 +64,10 @@ class JetstreamServiceProvider extends ServiceProvider
             'update',
         ])->description('Editor users have the ability to read, create, and update.');
 
-        Jetstream::role('observer', 'Observer', [
+        Jetstream::role('sav', 'Sav', [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('Editor users have the ability to read, create, and update, delete');
     }
 }

@@ -3,6 +3,7 @@
 use App\Enums\StatutDemandeEnum;
 use App\Models\AgentLivreur;
 use App\Models\Livreur;
+use App\Models\MotifSuppression;
 use App\Models\StatutDemande;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -39,7 +40,9 @@ class CreateDemandeLivraisonsTable extends Migration
             $table->foreignIdFor(Livreur::class)->nullable();
             $table->foreignIdFor(AgentLivreur::class)->nullable();
             $table->foreignIdFor(StatutDemande::class)->default(1);
+            $table->foreignIdFor(MotifSuppression::class)->default(1);
             $table->foreignIdFor(User::class);
+            $table->String('desc_motif_annulation')->nullable();
             $table->timestamps();
         });
     }

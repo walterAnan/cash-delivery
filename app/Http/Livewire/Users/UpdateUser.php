@@ -22,4 +22,10 @@ class UpdateUser extends Component
 
         $this->emit('refresh-navigation-menu');
     }
+
+    public function destroy( $updater)
+    {
+        User::find($updater)->delete();
+        return redirect()->route('admin.users.index');
+    }
 }

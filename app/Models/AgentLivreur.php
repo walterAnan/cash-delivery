@@ -38,8 +38,7 @@ class AgentLivreur extends Model
 
     public function livraisons(): HasMany
     {
-        return $this->hasMany(Livraison::class, 'livraison_id', 'id');
-
+        return $this->hasMany(DemandeLivraison::class);
     }
 
     public function controlLivraison():HasOne

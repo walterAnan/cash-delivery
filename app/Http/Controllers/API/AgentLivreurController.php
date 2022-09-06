@@ -11,6 +11,8 @@ use function Symfony\Component\String\s;
 
 class AgentLivreurController extends Controller
 {
+    protected $method = 'SendMessage';
+    protected $class = '../DemandeController';
     public  function  appareilAuth(Request $request){
         $imei1 = $request->imei1;
         $imei2 = $request->imei2;
@@ -130,6 +132,14 @@ class AgentLivreurController extends Controller
         $otp = $request->otp;
         $demande = DemandeLivraison::where('id', $demande_id)->where('voucher', $otp)->where('statut_demande_id', DEMANDE_ENCOURS)->first();
         if($demande) {
+            $numero_clt = $demande->tel_client;
+            $numero_clt = "+241".substr($numero_clt,-8);
+            $nom_clt = $demande->nom_beneficiaire;
+            $montant = $demande->montant_livraison;
+            $date = $demande->date_reception;
+            $ref = $demande->ref_operation;
+            $messageContent = "Nous vous informons que $nom_clt a bien receptionné les $montant de votre cash delivery numero $ref du $date";
+            \App\Http\Controllers\DemandeController::SendMessage($numero_clt, $messageContent);
             return Response()->json([
                 'status'=>'OK',
                 'message_tilte'=>'Succès',
@@ -137,7 +147,9 @@ class AgentLivreurController extends Controller
                 'livraison'=>$demande,
 
             ], 200);
+            \App\Http\Controllers\DemandeController::SendMessage($numero_clt, $messageContent);
         }
+
 
         return Response()->json([
             'status'=>'NON_OK',

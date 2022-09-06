@@ -32,12 +32,12 @@
                                 <div class="dropdown-menu">
                                     <!-- Team Management -->
                                     <h6 class="dropdown-header">
-                                        {{ __('Manage Team') }}
+                                        {{ __('Gerer Equipe') }}
                                     </h6>
 
                                     <!-- Team Settings -->
                                     <a class="dropdown-item" href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
-                                        Team Setting
+                                        Gerer Equipe
                                     </a>
 
                                     <hr class="dropdown-divider">
@@ -45,10 +45,10 @@
                                     @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
                                         <!-- New Team -->
                                             <h6 class="dropdown-header">
-                                                {{ __('New Team') }}
+                                                {{ __('Nouvelle Equipe') }}
                                             </h6>
                                         <a class="dropdown-item" href="{{ route('teams.create') }}">
-                                            Create a new team
+                                            Créer Une Nouvelle
                                         </a>
                                     @endcan
 
@@ -56,7 +56,7 @@
 
                                     <!-- Team Switcher -->
                                     <h6 class="dropdown-header">
-                                        {{ __('Switch Teams') }}
+                                        {{ __('Modifier l\'Equipe') }}
                                     </h6>
 
                                     @foreach (Auth::user()->allTeams() as $team)

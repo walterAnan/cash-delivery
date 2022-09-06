@@ -56,10 +56,13 @@ class LivreurAgents extends Component
         $livreur= Livreur::findOrFail($livreur_id);
         $this->agents = $livreur->agentLivreurs
             ->filter(function ($agent) {
-            return $agent->localite?->id == $this->selectedLocalite;
-        })
+                return $agent->localite?->id == $this->selectedLocalite;
+            })
+            ->filter(function ($agent) {
+                return $agent->estDisponible;
+            })
         ;
-//        dd($this->agentsParLivreur->toArray());
+        //dd($this->agentsParLivreur->toArray());
     }
 
     public function updatedSelectedLocalite(int $localite_id)
@@ -70,15 +73,8 @@ class LivreurAgents extends Component
             ->when($this->selectedLivreur, function ($query) {
                 $query->where('livreur_id', $this->selectedLivreur);
             })
-            ->where('localite_id', $localite_id)
+            ->where('localite_id', $localite_id)->where('estDisponible', '=', true)
             ->get();
-//        dd([
-//           $this->selectedLivreur,
-//           $this->selectedLocalite,
-//           $this->agents->toarray(),
-//           $agents_tmp->toarray(),
-////           $this->agentsParLivreurEtLocalite->toarray(),
-//        ]);
     }
 
 

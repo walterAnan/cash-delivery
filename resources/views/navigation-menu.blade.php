@@ -32,17 +32,17 @@
                         <x-slot name="content">
                             <!-- Team Management -->
                             <h6 class="dropdown-header">
-                                {{ __('Manage Team') }}
+                                {{ __('Gerer Equipe) }}
                             </h6>
 
                             <!-- Team Settings -->
                             <x-jet-dropdown-link href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
-                                {{ __('Team Settings') }}
+                                {{ __('Gestion Equipe') }}
                             </x-jet-dropdown-link>
 
                             @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
                                 <x-jet-dropdown-link href="{{ route('teams.create') }}">
-                                    {{ __('Create New Team') }}
+                                    {{ __('Créer une nouvelle Equipe') }}
                                 </x-jet-dropdown-link>
                             @endcan
 
@@ -50,7 +50,7 @@
 
                             <!-- Team Switcher -->
                             <h6 class="dropdown-header">
-                                {{ __('Switch Teams') }}
+                                {{ __('Interompre une Equipe') }}
                             </h6>
 
                             @foreach (Auth::user()->allTeams() as $team)
@@ -78,7 +78,7 @@
                         <x-slot name="content">
                             <!-- Account Management -->
                             <h6 class="dropdown-header small text-muted">
-                                {{ __('Manage Account') }}
+                                {{ __('Gerer le Compte') }}
                             </h6>
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
@@ -97,7 +97,7 @@
                             <x-jet-dropdown-link href="{{ route('logout') }}"
                                                  onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
-                                {{ __('Log out') }}
+                                {{ __('Se Déconnecter') }}
                             </x-jet-dropdown-link>
                             <form method="POST" id="logout-form" action="{{ route('logout') }}">
                                 @csrf

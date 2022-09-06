@@ -53,9 +53,9 @@
                     Annuler
                 </a>
 
-                <button wire:click.prevent="resetPassword" class="btn ripple btn-light text-uppercase mx-3">
-                    Réinitialiser le mot de passe
-                </button>
+{{--                <button wire:click.prevent="resetPassword" class="btn ripple btn-light text-uppercase mx-3">--}}
+{{--                    Réinitialiser le mot de passe--}}
+{{--                </button>--}}
 
                 <x-jet-button>
                     {{ __('Valider') }}

@@ -19,12 +19,12 @@
             <x-jet-section-border />
         @endif
 
-        @livewire('profile.logout-other-browser-sessions-form')
+{{--        @livewire('profile.logout-other-browser-sessions-form')--}}
 
         @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
             <x-jet-section-border />
 
-            @livewire('profile.delete-user-form')
+{{--            @livewire('profile.delete-user-form')--}}
         @endif
     </div>
 @endsection

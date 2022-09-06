@@ -52,6 +52,44 @@
                                         <a href="{{ route('admin.users.edit', $user['id']) }}" title="Editer" type="button" class="px-2 flex-grow-1">
                                             <i class="fe fe-edit-3"></i>
                                         </a>
+                                        <a href="#" class="" data-toggle="modal" data-target="#deletedata{{$user['id']}}" title="Archiver" onclick="event.preventDefault()">
+                                            <i class="fas fa-archive"></i>
+                                        </a>
+
+                                        <!-- The Modal -->
+                                        <div class="modal" id="deletedata{{$user['id']}}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Suppression de données</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Voulez-vous supprimer cet utilisateur ?
+                                                    </div>
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <div class="justify-content-between">
+                                                            <a href="{{ route('admin.users.destroy', $user['id']) }}" class="btn badge-danger" id="swal-warning" style="margin-left: 0px"
+                                                               onclick="event.preventDefault();document.getElementById('delete-agent{{$user['id']}}').submit();">
+                                                                OUI
+                                                            </a>
+                                                            <form method="post" id="delete-agent{{$user['id']}}" action="{{ route('admin.users.destroy', $user['id']) }}">
+                                                                @csrf
+                                                                @method('get')
+                                                            </form>
+                                                        </div>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">NON</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

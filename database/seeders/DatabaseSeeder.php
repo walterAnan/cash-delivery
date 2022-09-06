@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DemandeLivraisonSeeder::class);
         $this->call(TypeLivreurSeeder::class);
         $this->call(LocaliteSeeder::class);
+        $this->call(MotifSeeder::class);
 
     }
 }
