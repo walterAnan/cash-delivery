@@ -26,7 +26,7 @@
         <div class="col-lg-12">
             <div class="card custom-card">
                 <div class="card-body">
-                    <form action="{{ route('agents.update', $agent) }}" method="post">
+                    <form action="{{ route('agents.update', $agent->id) }}" method="post">
                         @csrf
                         @method('PUT')
                         <div class="">

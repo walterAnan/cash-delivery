@@ -2,26 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatutDemandeEnum;
 use App\Models\AgentLivreur;
-use App\Models\Demande;
 use App\Models\DemandeLivraison;
-use App\Models\Livraison;
 use App\Models\Livreur;
-use http\Client\Curl\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
-use phpDocumentor\Reflection\Types\Static_;
 use PHPUnit\Util\Exception;
-use Ramsey\Uuid\Type\Integer;
 use StatutLivraison;
 use PDF;
-use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 
 
@@ -76,7 +67,6 @@ class DemandeController extends Controller
 
     public static function demandesAnnuler(){
         $demande_livraisons = DemandeLivraison::with('statutDemande:id,libelle')->where('statut_demande_id', DEMANDE_ANNULEE)->withTrashed()->get();
-//        dd($demande_livraisons->toArray());
         return view('demandes.annule', compact('demande_livraisons'));
 
     }
@@ -102,21 +92,8 @@ class DemandeController extends Controller
 
 
     public function demandesSav(){
-       $demande_livraisons = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->get();
-
-        return view('demandes.sav', compact('demande_livraisons'));
-
-    }
-
-
-    public function savDonnee(){
         $demande_livraisons = DemandeLivraison::where('statut_demande_id', DEMANDE_INITIEE)->get();
-        if (request('term')) {
-            $demande_livraisons->where('ref_operation', 'Like', '%' . request('term') . '%');
-        }
-
-        return view('demandes.sav_donnee', compact('demande_livraisons'));
-
+        return view('demandes.sav', compact('demande_livraisons'));
 
     }
 
@@ -128,7 +105,7 @@ class DemandeController extends Controller
 
     }
 
- // Fonction qui determine les 4 meilleurs livreurs en fonction des montants livrés
+    // Fonction qui determine les 4 meilleurs livreurs en fonction des montants livrés
 
     public static function livreursPro(){
         $livraisonsPro = DemandeLivraison::where('statut_demande_id', DEMANDE_EFFECTUEE)->whereMonth('created_at', Carbon::now()->month)
@@ -180,8 +157,8 @@ class DemandeController extends Controller
         $chiffre_affaires = 0;
         $demandes = DemandeLivraison::where('statut_demande_id', DEMANDE_ENCOURS)->where('created_at', now())->get();
         foreach ($demandes as $demande){
-           $montant = $demande->montant_livraison;
-           $chiffre_affaires +=$montant;
+            $montant = $demande->montant_livraison;
+            $chiffre_affaires +=$montant;
 
         }
 
@@ -344,7 +321,6 @@ class DemandeController extends Controller
      */
     public function edit($id)
     {
-
         $demande_livraisons = DemandeLivraison::findOrFail($id);
         return view('demandes.edit', compact('demande_livraisons', ));
 
@@ -371,11 +347,12 @@ class DemandeController extends Controller
             'agent_id' => 'required|exists:agent_livreurs,id',
         ]);
 
-        $livreurAgent = AgentLivreur::findOrFail($request->agent_id);
+        $livreurAgent = AgentLivreur::find($request->agent_id);
         $demande_livraison = DemandeLivraison::findOrfail($id);
         $demande_livraison->livreur_id = $request->livreur_id;
         $demande_livraison->agent_livreur_id = $request->agent_id;
         $token = $livreurAgent->token;
+//        $this->sendNotification($token);
         $numero_agt = $livreurAgent->telephoneAgent;
         $numero_agt = "+241".substr($numero_agt, -8);
         $message = "Vous avez une nouvelle livraison cash delivery à éffectuer";
@@ -393,9 +370,6 @@ class DemandeController extends Controller
      *
      * @param  int  $id
      */
-
-
-    //Annulation de la demande
     public function destroy($id)
     {
 
@@ -403,12 +377,15 @@ class DemandeController extends Controller
         $demande = DemandeLivraison::whereId($id)->first();
 
         $numero_clt = $demande->tel_client;
-        $numero_clt = "+241".substr($numero_clt,-8);;
+        $numero_clt = "+241".substr($numero_clt,-8);
+//        $nom_clt = $demande->nom_beneficiaire;
+//        $montant = $demande->montant_livraison;
         $date = $demande->date_reception;
         $ref = $demande->ref_operation;
         $messageContent = "Nous vous informons que votre demande cash delivery numero $ref du $date a été annulée avec succès";
 
         $demande->delete();
+//        \App\Http\Controllers\DemandeController::SendMessage($numero_clt, $messageContent);
 
         return redirect()->route('demandes.index');
     }
@@ -421,23 +398,15 @@ class DemandeController extends Controller
 
         $numero_clt = $demande->tel_client;
         $numero_clt = "+241".substr($numero_clt,-8);
-        $nom_client = $demande->nom_client;
+//        $nom_clt = $demande->nom_beneficiaire;
+//        $montant = $demande->montant_livraison;
         $date = $demande->date_reception;
         $ref = $demande->ref_operation;
         $messageContent = "Nous vous informons que votre demande cash delivery numero $ref du $date a été annulée avec succès";
 
-        $demande->statut_demande_id = DEMANDE_ANNULEE;
-       DemandeController::SendMessage($numero_clt, $messageContent);
-       if($demande->status == DEMANDE_ENCOURS || $demande->status == DEMANDE_ASSIGNEE){
-           $agent = AgentLivreur::findOrFail($demande->agent_id);
-           $num_agent = $agent->telephoneAgent;
-           $num_agent = "+241".substr($num_agent,-8);
-           $messageContentAgent = "Nous vous informons que la demande cash delivery de référence $ref du client $nom_client est annulée ";
-           DemandeController::SendMessage($num_agent, $messageContentAgent);
-       }
-       else{
-           print('la demande est donc initiée');
-       }
+        $demande->delete();
+//        \App\Http\Controllers\DemandeController::SendMessage($numero_clt, $messageContent);
+
         return redirect()->route('demandes.annule');
     }
 
@@ -480,7 +449,7 @@ class DemandeController extends Controller
 
 
     public function getLivraisonEnCoursLivreur(){
-            global $montantLivreur;
+        global $montantLivreur;
         $livraisons = DemandeLivraison::where('statut_demande_id', DEMANDE_ENCOURS);
         foreach ($livraisons as $livraison){
             $montant = $livraison->montant_livraison;
@@ -527,7 +496,7 @@ class DemandeController extends Controller
 
 
 
-  // Fonction pour effectuer le séparateur des milliers
+    // Fonction pour effectuer le séparateur des milliers
 
     public static function prixMill($prix)
     {
@@ -567,7 +536,7 @@ class DemandeController extends Controller
 
     public function commissionAgent($id, $date_bg, $date_end ){
         $livraisonEffectuees = DemandeLivraison::where('agent_livreur_id', $id)->whereBetween('date_livraison', [$date_bg, $date_end])->where('statut_demande_id', DEMANDE_EFFECTUEE)->get();
-        $livreurAgent = AgentLivreur::findOrFail($id);
+        $livreurAgent = AgentLivreur::find($id);
         $livreur_id = $livreurAgent->livreur_id;
 
 
@@ -632,17 +601,18 @@ class DemandeController extends Controller
                 $livreur->fraisLivraisons = $this->fraisLivraisonEffectuees($livreur->id, $dateDebut, $dateFin);
                 $livreur->montantLivrains = $this->montantLivraisonEffectuees($livreur->id, $dateDebut, $dateFin);
                 return $livreur;
-                });
+            });
+
 
         return view('demandes.activite', compact('livreurs'));
 
-        }
+    }
 
 
     public function data_agents(Request $request){
         $dateDebut = $request->dateDebut;
         $dateFin = $request->dateFin;
-        $agents = AgentLivreur::query()
+        $agents =AgentLivreur::query()
             ->select(['id', 'nomAgent'])
             ->get()
             ->map(function ($agent) use ($dateDebut,$dateFin){
@@ -652,6 +622,7 @@ class DemandeController extends Controller
                 $agent->montantLivrains = $this->montantLivraisonEffectuees($agent->id, $dateDebut, $dateFin);
                 return $agent;
             });
+
 
         return view('demandes.activite_agents', compact('agents'));
 

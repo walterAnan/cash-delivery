@@ -77,7 +77,7 @@ class AgentLivreurController extends Controller
      */
     public function show($id)
     {
-        $agent = AgentLivreur::findOrFail($id);
+        $agent = AgentLivreur::find($id);
         return view('agent_livreurs.show', compact('agent'));
     }
 
@@ -89,7 +89,7 @@ class AgentLivreurController extends Controller
      */
     public function edit($id)
     {
-        $agent = AgentLivreur::findOrFail($id);
+        $agent = AgentLivreur::find($id);
         $livreurs = $this->getAllLivreurs();
         $localites = $this->getAllLocalites();
         return view('agent_livreurs.edit', compact(['agent', 'livreurs', 'localites']));

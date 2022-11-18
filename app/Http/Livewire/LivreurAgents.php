@@ -48,7 +48,8 @@ class LivreurAgents extends Component
 
 //        $this->agentsParLiveur = collect();
 
-        $this->agents = collect();
+        $this->agents = AgentLivreur::all();
+
     }
 
     public function updatedSelectedLivreur(int $livreur_id)
@@ -109,7 +110,7 @@ class LivreurAgents extends Component
 
     public function render()
     {
-//        dd($this->livreurs);
+
         return view('livewire.livreur-agents');
     }
 }

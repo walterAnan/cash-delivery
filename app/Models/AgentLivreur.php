@@ -26,6 +26,10 @@ class AgentLivreur extends Model
         'moyensdedeplacement_id',
     ];
 
+    public static function findOrFail($id)
+    {
+    }
+
     public function localite(): BelongsTo
     {
         return $this->belongsTo(Localite::class);

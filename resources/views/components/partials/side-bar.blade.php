@@ -12,7 +12,7 @@
     </div>
     <div class="main-sidebar-body" style="font-family: 'Times New Roman'; font-size: large">
         <ul class="nav">
-            <li class="nav-label" style="font-family: 'Times New Roman'; font-size: large; color: #4a9e04">Dashboard</li>
+            <li class="nav-label" style="font-family: 'Times New Roman'; font-size: large; color: #4a9e04">Tableau de bord</li>
             <x-nav-link href="{{ route('dashboard') }}" libelle="Tableau de bord" icon="fe-airplay" />
 
             <li class="nav-label" style="font-family: 'Times New Roman'; font-size: large; color:#4a9e04">Référentiel</li>
@@ -78,7 +78,7 @@
                     </x-slot>
 
                     <x-slot name="contenu">
-                        <x-sub-link href="{{route('statistiques.num')}}" libelle="Numériques" />
+{{--                        <x-sub-link href="{{route('statistiques.annule')}}" libelle="Numériques" />--}}
                         <x-sub-link href="{{route('statistiques.graphique')}}" libelle="Graphiques" />
                     </x-slot>
                 </x-dropdown>
